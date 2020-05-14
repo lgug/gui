@@ -1,3 +1,5 @@
+package objects;
+
 public enum Categoria {
     FRUTTA_VERDURA,
     CARNE,

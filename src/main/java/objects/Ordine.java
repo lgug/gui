@@ -1,3 +1,5 @@
+package objects;
+
 public class Ordine {
     private long data;
     private Prodotto prodotti;

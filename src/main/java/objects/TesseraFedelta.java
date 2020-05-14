@@ -1,7 +1,12 @@
+package objects;
+
 public class TesseraFedelta {
     private String id;
     private long dataEmissione;
     private int saldoPunti;
+
+    public TesseraFedelta() {
+    }
 
     public TesseraFedelta(String id, long dataEmissione, int saldoPunti) {
         this.id = id;

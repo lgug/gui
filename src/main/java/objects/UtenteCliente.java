@@ -1,11 +1,27 @@
-public class UtenteCliente extends Utente{
+package objects;
+
+public class UtenteCliente extends Utente {
+
+    private String datiDelPagamento;
     private FormaDiPagamento pagamento;
     private TesseraFedelta tesseraFedelta;
 
-    public UtenteCliente(String nome, String cognome, Indirizzo indirizzo, String telefono, String email, String password, FormaDiPagamento pagamento, TesseraFedelta tesseraFedelta) {
+    public UtenteCliente() {
+    }
+
+    public UtenteCliente(String nome, String cognome, Indirizzo indirizzo, String telefono, String email, String password, String datiDelPagamento, FormaDiPagamento pagamento, TesseraFedelta tesseraFedelta) {
         super(nome, cognome, indirizzo, telefono, email, password);
+        this.datiDelPagamento = datiDelPagamento;
         this.pagamento = pagamento;
         this.tesseraFedelta = tesseraFedelta;
+    }
+
+    public String getDatiDelPagamento() {
+        return datiDelPagamento;
+    }
+
+    public void setDatiDelPagamento(String datiDelPagamento) {
+        this.datiDelPagamento = datiDelPagamento;
     }
 
     public FormaDiPagamento getPagamento() {

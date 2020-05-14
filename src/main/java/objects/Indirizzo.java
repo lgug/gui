@@ -1,3 +1,5 @@
+package objects;
+
 public class Indirizzo {
     private String via;
     private String civico;
@@ -5,6 +7,9 @@ public class Indirizzo {
     private String localita;
     private String provincia;
     private String paese;
+
+    public Indirizzo() {
+    }
 
     public Indirizzo(String via, String civico, String cap, String localita, String provincia, String paese) {
         this.via = via;

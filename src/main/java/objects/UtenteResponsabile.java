@@ -1,6 +1,11 @@
+package objects;
+
 public class UtenteResponsabile extends Utente {
     private String matricola;
     private RuoloResponsabile ruolo;
+
+    public UtenteResponsabile() {
+    }
 
     public UtenteResponsabile(String nome, String cognome, Indirizzo indirizzo, String telefono, String email, String password, String matricola, RuoloResponsabile ruolo) {
         super(nome, cognome, indirizzo, telefono, email, password);

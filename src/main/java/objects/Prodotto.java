@@ -1,3 +1,8 @@
+package objects;
+
+import objects.CaratteristicheProdotto;
+import objects.Categoria;
+
 public class Prodotto {
     private String nome;
     private String marca;

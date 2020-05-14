@@ -1,3 +1,7 @@
+package objects;
+
+import objects.Indirizzo;
+
 public abstract class Utente {
     private String nome;
     private String cognome;
@@ -5,6 +9,9 @@ public abstract class Utente {
     private String telefono;
     private String email;
     private String password;
+
+    public Utente() {
+    }
 
     public Utente(String nome, String cognome, Indirizzo indirizzo, String telefono, String email, String password) {
         this.nome = nome;
