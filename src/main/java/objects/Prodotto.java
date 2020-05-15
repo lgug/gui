@@ -11,6 +11,9 @@ public class Prodotto {
     private float prezzo;
     private String immagine;
 
+    public Prodotto() {
+    }
+
     public Prodotto(String nome, String marca, CaratteristicheProdotto caratteristiche, Categoria categoria, float prezzo, String immagine) {
         this.nome = nome;
         this.marca = marca;

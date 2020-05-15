@@ -1,7 +1,5 @@
 package objects;
 
-import objects.Indirizzo;
-
 public abstract class Utente {
 
     private String id;
