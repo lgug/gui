@@ -9,8 +9,8 @@ public class UtenteCliente extends Utente {
     public UtenteCliente() {
     }
 
-    public UtenteCliente(String nome, String cognome, Indirizzo indirizzo, String telefono, String email, String password, String datiDelPagamento, FormaDiPagamento pagamento, TesseraFedelta tesseraFedelta) {
-        super(nome, cognome, indirizzo, telefono, email, password);
+    public UtenteCliente(String id, String nome, String cognome, Indirizzo indirizzo, String telefono, String email, String password, String datiDelPagamento, FormaDiPagamento pagamento, TesseraFedelta tesseraFedelta) {
+        super(id, nome, cognome, indirizzo, telefono, email, password);
         this.datiDelPagamento = datiDelPagamento;
         this.pagamento = pagamento;
         this.tesseraFedelta = tesseraFedelta;

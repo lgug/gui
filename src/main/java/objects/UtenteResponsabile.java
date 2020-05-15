@@ -7,8 +7,8 @@ public class UtenteResponsabile extends Utente {
     public UtenteResponsabile() {
     }
 
-    public UtenteResponsabile(String nome, String cognome, Indirizzo indirizzo, String telefono, String email, String password, String matricola, RuoloResponsabile ruolo) {
-        super(nome, cognome, indirizzo, telefono, email, password);
+    public UtenteResponsabile(String id, String nome, String cognome, Indirizzo indirizzo, String telefono, String email, String password, String matricola, RuoloResponsabile ruolo) {
+        super(id, nome, cognome, indirizzo, telefono, email, password);
         this.matricola = matricola;
         this.ruolo = ruolo;
     }

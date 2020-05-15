@@ -3,6 +3,8 @@ package objects;
 import objects.Indirizzo;
 
 public abstract class Utente {
+
+    private String id;
     private String nome;
     private String cognome;
     private Indirizzo indirizzo;
@@ -13,13 +15,22 @@ public abstract class Utente {
     public Utente() {
     }
 
-    public Utente(String nome, String cognome, Indirizzo indirizzo, String telefono, String email, String password) {
+    public Utente(String id, String nome, String cognome, Indirizzo indirizzo, String telefono, String email, String password) {
+        this.id = id;
         this.nome = nome;
         this.cognome = cognome;
         this.indirizzo = indirizzo;
         this.telefono = telefono;
         this.email = email;
         this.password = password;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNome() {

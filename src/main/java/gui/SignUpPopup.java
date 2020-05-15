@@ -415,16 +415,18 @@ public class SignUpPopup extends Application {
         createUserButton = new Button("Crea nuovo utente");
         createUserButton.setDisable(true);
         createUserButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            Random random = new Random();
+            String id = String.valueOf(random.nextLong());
             if (clientToggleButton.isSelected()) {
                 TesseraFedelta tesseraFedelta = null;
                 if (yesFCRadioButton.isSelected()) {
-                    Random random = new Random();
                     tesseraFedelta = new TesseraFedelta();
                     tesseraFedelta.setId(String.valueOf(random.nextLong()));
                     tesseraFedelta.setDataEmissione(System.currentTimeMillis());
                     tesseraFedelta.setSaldoPunti(0);
                 }
                 UtenteCliente utenteCliente = new UtenteCliente();
+                utenteCliente.setId(id);
                 utenteCliente.setNome(nome);
                 utenteCliente.setCognome(cognome);
                 utenteCliente.setIndirizzo(indirizzo);
@@ -439,6 +441,7 @@ public class SignUpPopup extends Application {
                 matricola = matricolaTextField.getText();
                 ruoloResponsabile = roleChoiceBox.getValue();
                 UtenteResponsabile utenteResponsabile = new UtenteResponsabile();
+                utenteResponsabile.setId(id);
                 utenteResponsabile.setNome(nome);
                 utenteResponsabile.setCognome(cognome);
                 utenteResponsabile.setIndirizzo(indirizzo);
