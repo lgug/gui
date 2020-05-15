@@ -18,7 +18,10 @@ public class TestExample {
     @Test
     public void test() throws IOException {
         HttpWrapper http = new HttpWrapper();
-        http.getProductsPerName("pollo");
+        http.login("Pippo","Franco");
+        http.availability();
+        http.tag("vegan");
+        http.remove("mela bella");
     }
 
 }
