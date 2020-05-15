@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 public class Manager {
 
 
-    public String objectToJson(Object obj){
+    public static String objectToJson(Object obj){
             Gson gson = new Gson();
             return gson.toJson(obj);
     }
