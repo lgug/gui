@@ -83,7 +83,7 @@ public class HttpWrapper {
     public String remove(String name) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpPost request = new HttpPost(uri+"/remove"+name);
+            HttpPost request = new HttpPost(uri+"/remov"+name);
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
