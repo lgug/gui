@@ -1,6 +1,7 @@
 package gui;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -36,6 +37,7 @@ public class LoginPopup extends Application {
         text.setTextAlignment(TextAlignment.CENTER);
 
         // Stack pane's nodes
+
         Text usernameText = new Text("Username:");
         usernameText.setTextAlignment(TextAlignment.LEFT);
 
