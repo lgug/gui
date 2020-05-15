@@ -56,6 +56,24 @@ public class HttpWrapper {
     }
 
     //TODO get products per name
+    public String getProductsPerName(String prodName) throws IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try{
+            HttpGet request = new HttpGet(uri+"/getProdByName/"+prodName);
+            request.addHeader(HttpHeaders.USER_AGENT,"JAVACLIENT");
+            CloseableHttpResponse response = httpClient.execute(request);
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                String result = EntityUtils.toString(entity);
+                System.out.println(result);
+                return result;
+            }
+        }
+        finally{
+            httpClient.close();
+        }
+        return "Error";
+    }
 
     //TODO get products per category
 
