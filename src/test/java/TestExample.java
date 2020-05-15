@@ -18,10 +18,10 @@ public class TestExample {
     @Test
     public void test() throws IOException {
         HttpWrapper http = new HttpWrapper();
-        /*http.login("Pippo","Franco");
-        http.availability();
-        http.tag("vegan");*/
-        http.remove("Gugole","4");
+        http.login("Pippo","Franco");
+        http.availability("123");
+        http.tag("vegan","123");
+        http.remove("mela bella", "123");
     }
 
 }

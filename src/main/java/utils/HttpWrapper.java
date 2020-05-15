@@ -35,13 +35,11 @@ public class HttpWrapper {
     public String login(String username, String password) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-
             HttpGet request = new HttpGet(uri + "/login?" + username + "&" + password);
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                // return it as a String
                 String result = EntityUtils.toString(entity);
                 System.out.println(result);
             }
@@ -69,18 +67,21 @@ public class HttpWrapper {
 
     //TODO get products per availability
 
-    public String availability() throws IOException {
+    public String availability(String id) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpGet request = new HttpGet(uri + "/getFirstProducts");
+            HttpGet request = new HttpGet(uri + "/getFirstProducts/"+"?uid="+id);
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
-            String result = EntityUtils.toString(entity);
-            return result;
+            if (entity != null) {
+                String result = EntityUtils.toString(entity);
+                return result;
+            }
         } finally {
             httpClient.close();
         }
+        return "Error";
     }
 
     //TODO get products per name
@@ -136,18 +137,21 @@ public class HttpWrapper {
 
     //TODO get products per tag
 
-    public String tag(String tag) throws IOException {
+    public String tag(String tag, String id) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             HttpGet request = new HttpGet(uri + "/getProdByTag/"+tag);
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
-            String result = EntityUtils.toString(entity);
-            return result;
+            if (entity != null) {
+                String result = EntityUtils.toString(entity);
+                return result;
+            }
         } finally {
             httpClient.close();
         }
+        return "error";
     }
 
     //TODO order sending, return boolean, parameters Ordine
@@ -175,11 +179,14 @@ public class HttpWrapper {
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
-            String result = EntityUtils.toString(entity);
-            return result;
+            if (entity != null) {
+                String result = EntityUtils.toString(entity);
+                return result;
+            }
         } finally {
             httpClient.close();
         }
+        return "Error";
     }
 
     //TODO request all user's orders
