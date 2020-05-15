@@ -16,46 +16,82 @@ public class HttpWrapper {
     private String uri = "http://127.0.0.1:5000";
     private String r = "";
 
-    public String login(String username,String password) throws IOException {
+    public String login(String username, String password) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        try{
-            HttpGet request = new HttpGet(uri+"/login?"+"username="+username+"&"+"password="+password);
-            request.addHeader(HttpHeaders.USER_AGENT,"JAVACLIENT");
+        try {
+
+            HttpGet request = new HttpGet(uri + "/login?" + username + "&" + password);
+            request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
+                // return it as a String
                 String result = EntityUtils.toString(entity);
-                return(result);
+                System.out.println(result);
             }
-        }
-        finally{
+        } finally {
             httpClient.close();
         }
-        return "Error";
+        return r;
     }
+
+    //TODO user access method. return string, parameters email, password
 
     //TODO user creation. return boolean, parameters Utente
 
     //TODO get products per availability
 
-    //TODO get products per name
-    public String getProductsPerName(String prodName) throws IOException {
+    public String availability() throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        try{
-            HttpGet request = new HttpGet(uri+"/getProdByName/"+prodName);
-            request.addHeader(HttpHeaders.USER_AGENT,"JAVACLIENT");
+        try {
+            HttpGet request = new HttpGet(uri + "/getFirstProducts");
+            request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                String result = EntityUtils.toString(entity);
-                System.out.println(result);
-                return result;
-            }
-        }
-        finally{
+            String result = EntityUtils.toString(entity);
+            return result;
+        } finally {
             httpClient.close();
         }
-        return "Error";
+    }
+
+    //TODO get products per name
+
+    //TODO get products per category
+
+    //TODO get products per tag
+
+    public String tag(String tag) throws IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try {
+            HttpGet request = new HttpGet(uri + "/getTag"+tag);
+            request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
+            CloseableHttpResponse response = httpClient.execute(request);
+            HttpEntity entity = response.getEntity();
+            String result = EntityUtils.toString(entity);
+            return result;
+        } finally {
+            httpClient.close();
+        }
+    }
+
+    //TODO order sending, return boolean, parameters Ordine
+
+    //TODO products adding
+
+    //TODO products removing
+    public String remove(String name) throws IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try {
+            HttpPost request = new HttpPost(uri+"/remov"+name);
+            request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
+            CloseableHttpResponse response = httpClient.execute(request);
+            HttpEntity entity = response.getEntity();
+            String result = EntityUtils.toString(entity);
+            return result;
+        } finally {
+            httpClient.close();
+        }
     }
 
     //TODO request all user's orders
