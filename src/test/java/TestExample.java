@@ -19,6 +19,7 @@ public class TestExample {
     public void test() throws IOException {
         HttpWrapper http = new HttpWrapper();
         http.login("Pippo","Franco");
+        http.availability("2");
     }
 
 }
