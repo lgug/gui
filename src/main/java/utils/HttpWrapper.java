@@ -84,10 +84,10 @@ public class HttpWrapper {
     }
 
     //TODO get products per name
-    public String getProductsPerName(String prodName) throws IOException {
+    public String getProductsPerName(String prodName,String id) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try{
-            HttpGet request = new HttpGet(uri+"/getProdByName/"+prodName);
+            HttpGet request = new HttpGet(uri+"/getProdByName/"+prodName+"?uid="+id);
             request.addHeader(HttpHeaders.USER_AGENT,"JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
@@ -139,7 +139,7 @@ public class HttpWrapper {
     public String tag(String tag) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpGet request = new HttpGet(uri + "/getTag"+tag);
+            HttpGet request = new HttpGet(uri + "/getProdByTag/"+tag);
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
@@ -168,10 +168,10 @@ public class HttpWrapper {
     }
 
     //TODO products removing
-    public String remove(String name) throws IOException {
+    public String remove(String name,String uid) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpPost request = new HttpPost(uri+"/remov"+name);
+            HttpPost request = new HttpPost(uri+"/removeProdByName/"+name+"?uid="+uid);
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
