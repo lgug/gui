@@ -20,7 +20,12 @@ public class HttpWrapper {
             HttpGet request = new HttpGet(uri+"/login?"+username+"&"+password);
             request.addHeader(HttpHeaders.USER_AGENT,"JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
-            System.out.println(response.getStatusLine().toString());
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                // return it as a String
+                String result = EntityUtils.toString(entity);
+                System.out.println(result);
+            }
         }
         finally{
             httpClient.close();
