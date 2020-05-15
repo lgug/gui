@@ -41,7 +41,7 @@ public class HttpWrapper {
 
     //TODO get products per availability
 
-    public String availability(String availability) throws IOException {
+    public String availability() throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             HttpGet request = new HttpGet(uri + "/getFirstProducts");
@@ -64,7 +64,7 @@ public class HttpWrapper {
     public String tag(String tag) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpGet request = new HttpGet(uri + "/getTag");
+            HttpGet request = new HttpGet(uri + "/getTag"+tag);
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
@@ -83,7 +83,7 @@ public class HttpWrapper {
     public String remove(String name) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpPost request = new HttpPost(uri+"/remove");
+            HttpPost request = new HttpPost(uri+"/remove"+name);
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
