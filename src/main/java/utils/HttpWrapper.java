@@ -56,6 +56,7 @@ public class HttpWrapper {
         HttpPost httpPost = new HttpPost(uri + "/register/" + utente.getId());
         try {
             HttpEntity httpEntity = new StringEntity(Manager.objectToJson(utente));
+            httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpPost.setEntity(httpEntity);
             CloseableHttpResponse response = httpClient.execute(httpPost);
             return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
@@ -162,6 +163,7 @@ public class HttpWrapper {
         HttpPost httpPost = new HttpPost(uri + "/add?uid=" + userId);
         try {
             HttpEntity httpEntity = new StringEntity(Manager.objectToJson(prodotto));
+            httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpPost.setEntity(httpEntity);
             CloseableHttpResponse response = httpClient.execute(httpPost);
             return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
