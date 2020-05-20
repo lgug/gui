@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="476.0" prefWidth="772.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AllOrderController">
+   <children>
+      <TilePane fx:id="tilePane1" hgap="200.0" layoutX="17.0" layoutY="13.0" nodeOrientation="LEFT_TO_RIGHT" prefColumns="3" prefHeight="450.0" prefRows="10" prefWidth="400.0" vgap="100.0">
+      </TilePane>
+   </children>
+</AnchorPane>

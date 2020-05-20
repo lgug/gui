@@ -23,10 +23,7 @@ import java.io.IOException;
 import objects.Utente;
 import org.apache.http.entity.StringEntity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class HttpWrapper {
     private String uri = "http://127.0.0.1:5000";
@@ -115,11 +112,11 @@ public class HttpWrapper {
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
-
             List<Prodotto> prodottoList = new ArrayList<>();
             JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-            while (list.iterator().hasNext()) {
-                JsonArray prodottoElement = list.iterator().next().getAsJsonArray();
+            Iterator<JsonElement> it = list.iterator();
+            while (it.hasNext()) {
+                JsonArray prodottoElement = it.next().getAsJsonArray();
                 Prodotto prodotto = new Prodotto();
                 prodotto.setNome(prodottoElement.get(0).getAsString());
                 prodotto.setMarca(prodottoElement.get(1).getAsString());
@@ -127,6 +124,7 @@ public class HttpWrapper {
                 prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(3).getAsString()));
                 prodotto.setPrezzo(prodottoElement.get(4).getAsFloat());
                 prodotto.setImmagine(prodottoElement.get(5).getAsString());
+                prodotto.setDisponibilita(prodottoElement.get(6).getAsInt());
                 prodottoList.add(prodotto);
             }
             return prodottoList;
@@ -192,5 +190,33 @@ public class HttpWrapper {
     }
 
     //TODO request all user's orders
-
+    public List<Prodotto> getAllOrders(String userId) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(uri + "/getAllOrders/"+userId);
+        try {
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+            String jsonResponse = EntityUtils.toString(responseEntity);
+            List<Prodotto> prodottoList = new ArrayList<>();
+            JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
+            Iterator<JsonElement> it = list.iterator();
+            while (it.hasNext()) {
+                JsonArray prodottoElement = it.next().getAsJsonArray();
+                System.out.println(prodottoElement.get(1).getAsString());
+                Prodotto prodotto = new Prodotto();
+                prodotto.setId(prodottoElement.get(0).getAsInt());
+                prodotto.setNome(prodottoElement.get(1).getAsString());
+                //prodotto.setMarca(prodottoElement.get(1).getAsString());
+                //prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(2).getAsString()));
+                //prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(3).getAsString()));
+                //prodotto.setPrezzo(prodottoElement.get(4).getAsFloat());
+                //prodotto.setImmagine(prodottoElement.get(5).getAsString());
+                prodottoList.add(prodotto);
+            }
+            return prodottoList;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

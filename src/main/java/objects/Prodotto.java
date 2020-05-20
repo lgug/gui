@@ -4,6 +4,7 @@ import objects.CaratteristicheProdotto;
 import objects.Categoria;
 
 public class Prodotto {
+    private int id;
 
     private String nome;
     private String marca;
@@ -13,10 +14,8 @@ public class Prodotto {
     private int disponibilita;
     private String immagine;
 
-    public Prodotto() {
-    }
-
-    public Prodotto(String nome, String marca, CaratteristicheProdotto caratteristiche, Categoria categoria, float prezzo, int disponibilita, String immagine) {
+    public Prodotto(int id,String nome, String marca, CaratteristicheProdotto caratteristiche, Categoria categoria, float prezzo, String immagine) {
+        this.id = id;
         this.nome = nome;
         this.marca = marca;
         this.caratteristiche = caratteristiche;
@@ -24,7 +23,13 @@ public class Prodotto {
         this.prezzo = prezzo;
         this.disponibilita = disponibilita;
         this.immagine = immagine;
+        }
+    public Prodotto(){
+
     }
+    public int getId() {return id;}
+
+    public void setId(int id) { this.id = id; }
 
     public String getNome() {
         return nome;

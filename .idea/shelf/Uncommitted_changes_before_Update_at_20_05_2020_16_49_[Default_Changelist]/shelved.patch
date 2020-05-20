@@ -1,0 +1,282 @@
+Index: src/main/java/objects/Prodotto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package objects;\r\n\r\nimport objects.CaratteristicheProdotto;\r\nimport objects.Categoria;\r\n\r\npublic class Prodotto {\r\n    private String nome;\r\n    private String marca;\r\n    private CaratteristicheProdotto caratteristiche;\r\n    private Categoria categoria;\r\n    private float prezzo;\r\n    private String immagine;\r\n\r\n    public Prodotto() {\r\n    }\r\n\r\n    public Prodotto(String nome, String marca, CaratteristicheProdotto caratteristiche, Categoria categoria, float prezzo, String immagine) {\r\n        this.nome = nome;\r\n        this.marca = marca;\r\n        this.caratteristiche = caratteristiche;\r\n        this.categoria = categoria;\r\n        this.prezzo = prezzo;\r\n        this.immagine = immagine;\r\n    }\r\n\r\n    public String getNome() {\r\n        return nome;\r\n    }\r\n\r\n    public void setNome(String nome) {\r\n        this.nome = nome;\r\n    }\r\n\r\n    public String getMarca() {\r\n        return marca;\r\n    }\r\n\r\n    public void setMarca(String marca) {\r\n        this.marca = marca;\r\n    }\r\n\r\n    public CaratteristicheProdotto getCaratteristiche() {\r\n        return caratteristiche;\r\n    }\r\n\r\n    public void setCaratteristiche(CaratteristicheProdotto caratteristiche) {\r\n        this.caratteristiche = caratteristiche;\r\n    }\r\n\r\n    public Categoria getCategoria() {\r\n        return categoria;\r\n    }\r\n\r\n    public void setCategoria(Categoria categoria) {\r\n        this.categoria = categoria;\r\n    }\r\n\r\n    public float getPrezzo() {\r\n        return prezzo;\r\n    }\r\n\r\n    public void setPrezzo(float prezzo) {\r\n        this.prezzo = prezzo;\r\n    }\r\n\r\n    public String getImmagine() {\r\n        return immagine;\r\n    }\r\n\r\n    public void setImmagine(String immagine) {\r\n        this.immagine = immagine;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/objects/Prodotto.java	(revision e845b2ab4eb197dd24f3fec4b7e00827beef4336)
++++ src/main/java/objects/Prodotto.java	(date 1589986137503)
+@@ -4,6 +4,7 @@
+ import objects.Categoria;
+ 
+ public class Prodotto {
++    private String id;
+     private String nome;
+     private String marca;
+     private CaratteristicheProdotto caratteristiche;
+@@ -14,7 +15,8 @@
+     public Prodotto() {
+     }
+ 
+-    public Prodotto(String nome, String marca, CaratteristicheProdotto caratteristiche, Categoria categoria, float prezzo, String immagine) {
++    public Prodotto(String id,String nome, String marca, CaratteristicheProdotto caratteristiche, Categoria categoria, float prezzo, String immagine) {
++        this.id = id;
+         this.nome = nome;
+         this.marca = marca;
+         this.caratteristiche = caratteristiche;
+@@ -22,6 +24,9 @@
+         this.prezzo = prezzo;
+         this.immagine = immagine;
+     }
++    public String getId() {return id;}
++
++    public void setId(String id) { this.id = id; }
+ 
+     public String getNome() {
+         return nome;
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"delegatedBuild\" value=\"true\" />\r\n        <option name=\"testRunner\" value=\"GRADLE\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n          </set>\r\n        </option>\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision e845b2ab4eb197dd24f3fec4b7e00827beef4336)
++++ .idea/gradle.xml	(date 1589981508121)
+@@ -1,5 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="GradleMigrationSettings" migrationVersion="1" />
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
+Index: src/main/java/utils/HttpWrapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package utils;\r\n\r\nimport com.google.gson.JsonArray;\r\nimport com.google.gson.JsonElement;\r\nimport com.google.gson.JsonParser;\r\nimport com.google.gson.stream.JsonReader;\r\nimport objects.CaratteristicheProdotto;\r\nimport objects.Categoria;\r\nimport objects.Prodotto;\r\nimport org.apache.http.HttpEntity;\r\nimport org.apache.http.HttpHeaders;\r\nimport org.apache.http.client.HttpClient;\r\nimport org.apache.http.client.methods.CloseableHttpResponse;\r\nimport org.apache.http.client.methods.HttpGet;\r\nimport org.apache.http.client.methods.HttpPost;\r\nimport org.apache.http.impl.client.CloseableHttpClient;\r\nimport org.apache.http.impl.client.HttpClients;\r\nimport org.apache.http.util.EntityUtils;\r\n\r\nimport java.io.BufferedInputStream;\r\nimport java.io.IOException;\r\n\r\nimport objects.Utente;\r\nimport org.apache.http.entity.StringEntity;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.Arrays;\r\nimport java.util.List;\r\nimport java.util.Scanner;\r\n\r\npublic class HttpWrapper {\r\n    private String uri = \"http://127.0.0.1:5000\";\r\n    private String r = \"\";\r\n\r\n    public String login(String username, String password) throws IOException {\r\n        CloseableHttpClient httpClient = HttpClients.createDefault();\r\n        try {\r\n            HttpGet request = new HttpGet(uri + \"/login?\" + username + \"&\" + password);\r\n            request.addHeader(HttpHeaders.USER_AGENT, \"JAVACLIENT\");\r\n            CloseableHttpResponse response = httpClient.execute(request);\r\n            HttpEntity entity = response.getEntity();\r\n            if (entity != null) {\r\n                String result = EntityUtils.toString(entity);\r\n                System.out.println(result);\r\n            }\r\n        } finally {\r\n            httpClient.close();\r\n        }\r\n        return r;\r\n    }\r\n\r\n    //TODO user access method. return string, parameters email, password\r\n\r\n    public boolean sendNewUser(Utente utente) {\r\n        CloseableHttpClient httpClient = HttpClients.createDefault();\r\n        HttpPost httpPost = new HttpPost(uri + \"/register/\" + utente.getId());\r\n        try {\r\n            HttpEntity httpEntity = new StringEntity(Manager.objectToJson(utente));\r\n            httpPost.setHeader(HttpHeaders.CONTENT_TYPE, \"application/json\");\r\n            httpPost.setEntity(httpEntity);\r\n            CloseableHttpResponse response = httpClient.execute(httpPost);\r\n            return response.getStatusLine().getReasonPhrase().equalsIgnoreCase(\"OK\");\r\n        } catch (IOException e) {\r\n            e.printStackTrace();\r\n        }\r\n        return false;\r\n    }\r\n\r\n    //TODO get products per availability\r\n\r\n    public String availability(String id) throws IOException {\r\n        CloseableHttpClient httpClient = HttpClients.createDefault();\r\n        try {\r\n            HttpGet request = new HttpGet(uri + \"/getFirstProducts/\"+\"?uid=\"+id);\r\n            request.addHeader(HttpHeaders.USER_AGENT, \"JAVACLIENT\");\r\n            CloseableHttpResponse response = httpClient.execute(request);\r\n            HttpEntity entity = response.getEntity();\r\n            if (entity != null) {\r\n                String result = EntityUtils.toString(entity);\r\n                return result;\r\n            }\r\n        } finally {\r\n            httpClient.close();\r\n        }\r\n        return \"Error\";\r\n    }\r\n\r\n    //TODO get products per name\r\n    public String getProductsPerName(String prodName,String id) throws IOException {\r\n        CloseableHttpClient httpClient = HttpClients.createDefault();\r\n        try{\r\n            HttpGet request = new HttpGet(uri+\"/getProdByName/\"+prodName+\"?uid=\"+id);\r\n            request.addHeader(HttpHeaders.USER_AGENT,\"JAVACLIENT\");\r\n            CloseableHttpResponse response = httpClient.execute(request);\r\n            HttpEntity entity = response.getEntity();\r\n            if (entity != null) {\r\n                String result = EntityUtils.toString(entity);\r\n                System.out.println(result);\r\n                return result;\r\n            }\r\n        }\r\n        finally{\r\n            httpClient.close();\r\n        }\r\n        return \"Error\";\r\n    }\r\n\r\n    //TODO get products per category\r\n    public List<Prodotto> getProductByCategory(String userId, Categoria... categories) {\r\n        StringBuilder categoriesString = new StringBuilder();\r\n        Arrays.asList(categories).forEach(categoria -> categoriesString.append(categoria.toString()).append(\";\"));\r\n        CloseableHttpClient httpClient = HttpClients.createDefault();\r\n        HttpGet httpGet = new HttpGet(uri + \"/getProdByCat/\" + categoriesString.toString() + \"?uid=\" + userId);\r\n        try {\r\n            CloseableHttpResponse response = httpClient.execute(httpGet);\r\n            HttpEntity responseEntity = response.getEntity();\r\n            String jsonResponse = EntityUtils.toString(responseEntity);\r\n\r\n            List<Prodotto> prodottoList = new ArrayList<>();\r\n            JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();\r\n            while (list.iterator().hasNext()) {\r\n                JsonArray prodottoElement = list.iterator().next().getAsJsonArray();\r\n                Prodotto prodotto = new Prodotto();\r\n                prodotto.setNome(prodottoElement.get(0).getAsString());\r\n                prodotto.setMarca(prodottoElement.get(1).getAsString());\r\n                prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(2).getAsString()));\r\n                prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(3).getAsString()));\r\n                prodotto.setPrezzo(prodottoElement.get(4).getAsFloat());\r\n                prodotto.setImmagine(prodottoElement.get(5).getAsString());\r\n                prodottoList.add(prodotto);\r\n            }\r\n            return prodottoList;\r\n        } catch (IOException e) {\r\n            e.printStackTrace();\r\n        }\r\n        return null;\r\n    }\r\n\r\n    //TODO get products per tag\r\n\r\n    public String tag(String tag, String id) throws IOException {\r\n        CloseableHttpClient httpClient = HttpClients.createDefault();\r\n        try {\r\n            HttpGet request = new HttpGet(uri + \"/getProdByTag/\"+tag);\r\n            request.addHeader(HttpHeaders.USER_AGENT, \"JAVACLIENT\");\r\n            CloseableHttpResponse response = httpClient.execute(request);\r\n            HttpEntity entity = response.getEntity();\r\n            if (entity != null) {\r\n                String result = EntityUtils.toString(entity);\r\n                return result;\r\n            }\r\n        } finally {\r\n            httpClient.close();\r\n        }\r\n        return \"error\";\r\n    }\r\n\r\n    //TODO order sending, return boolean, parameters Ordine\r\n\r\n    //TODO products adding\r\n    public boolean addProdotto(String userId, Prodotto prodotto) {\r\n        CloseableHttpClient httpClient = HttpClients.createDefault();\r\n        HttpPost httpPost = new HttpPost(uri + \"/add?uid=\" + userId);\r\n        try {\r\n            HttpEntity httpEntity = new StringEntity(Manager.objectToJson(prodotto));\r\n            httpPost.setHeader(HttpHeaders.CONTENT_TYPE, \"application/json\");\r\n            httpPost.setEntity(httpEntity);\r\n            CloseableHttpResponse response = httpClient.execute(httpPost);\r\n            return response.getStatusLine().getReasonPhrase().equalsIgnoreCase(\"OK\");\r\n        } catch (IOException e) {\r\n            e.printStackTrace();\r\n        }\r\n        return false;\r\n    }\r\n\r\n    //TODO products removing\r\n    public String remove(String name,String uid) throws IOException {\r\n        CloseableHttpClient httpClient = HttpClients.createDefault();\r\n        try {\r\n            HttpPost request = new HttpPost(uri+\"/removeProdByName/\"+name+\"?uid=\"+uid);\r\n            request.addHeader(HttpHeaders.USER_AGENT, \"JAVACLIENT\");\r\n            CloseableHttpResponse response = httpClient.execute(request);\r\n            HttpEntity entity = response.getEntity();\r\n            if (entity != null) {\r\n                String result = EntityUtils.toString(entity);\r\n                return result;\r\n            }\r\n        } finally {\r\n            httpClient.close();\r\n        }\r\n        return \"Error\";\r\n    }\r\n\r\n    //TODO request all user's orders\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/utils/HttpWrapper.java	(revision e845b2ab4eb197dd24f3fec4b7e00827beef4336)
++++ src/main/java/utils/HttpWrapper.java	(date 1589985878868)
+@@ -192,5 +192,31 @@
+     }
+ 
+     //TODO request all user's orders
++    public List<Prodotto> getAllOrders(String userId) {
++        CloseableHttpClient httpClient = HttpClients.createDefault();
++        HttpGet httpGet = new HttpGet(uri + "/getAllOrders/"+userId);
++        try {
++            CloseableHttpResponse response = httpClient.execute(httpGet);
++            HttpEntity responseEntity = response.getEntity();
++            String jsonResponse = EntityUtils.toString(responseEntity);
+ 
++            List<Prodotto> prodottoList = new ArrayList<>();
++            JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
++            while (list.iterator().hasNext()) {
++                JsonArray prodottoElement = list.iterator().next().getAsJsonArray();
++                Prodotto prodotto = new Prodotto();
++                prodotto.setNome(prodottoElement.get(1).getAsString());
++                //prodotto.setMarca(prodottoElement.get(1).getAsString());
++                //prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(2).getAsString()));
++                //prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(3).getAsString()));
++                //prodotto.setPrezzo(prodottoElement.get(4).getAsFloat());
++                //prodotto.setImmagine(prodottoElement.get(5).getAsString());
++                prodottoList.add(prodotto);
++            }
++            return prodottoList;
++        } catch (IOException e) {
++            e.printStackTrace();
++        }
++        return null;
++    }
+ }
+Index: .idea/libraries/Gradle__com_google_code_gson_gson_2_8_6.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/libraries/Gradle__com_google_code_gson_gson_2_8_6.xml	(date 1589981517191)
++++ .idea/libraries/Gradle__com_google_code_gson_gson_2_8_6.xml	(date 1589981517191)
+@@ -0,0 +1,11 @@
++<component name="libraryTable">
++  <library name="Gradle: com.google.code.gson:gson:2.8.6">
++    <CLASSES>
++      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.6/9180733b7df8542621dc12e21e87557e8c99b8cb/gson-2.8.6.jar!/" />
++    </CLASSES>
++    <JAVADOC />
++    <SOURCES>
++      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.6/1b9adea7bbe0b251818f42fde0bd2988d7e5f20a/gson-2.8.6-sources.jar!/" />
++    </SOURCES>
++  </library>
++</component>
+\ No newline at end of file
+Index: .idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/jarRepositories.xml	(date 1589981517144)
++++ .idea/jarRepositories.xml	(date 1589981517144)
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RemoteRepositoriesConfiguration">
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Maven Central repository" />
++      <option name="url" value="https://repo1.maven.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="jboss.community" />
++      <option name="name" value="JBoss Community repository" />
++      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="MavenRepo" />
++      <option name="name" value="MavenRepo" />
++      <option name="url" value="https://repo.maven.apache.org/maven2/" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="Google" />
++      <option name="name" value="Google" />
++      <option name="url" value="https://dl.google.com/dl/android/maven2/" />
++    </remote-repository>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml	(date 1589981517277)
++++ .idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml	(date 1589981517277)
+@@ -0,0 +1,11 @@
++<component name="libraryTable">
++  <library name="Gradle: org.hamcrest:hamcrest-core:1.3">
++    <CLASSES>
++      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar!/" />
++    </CLASSES>
++    <JAVADOC />
++    <SOURCES>
++      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b/hamcrest-core-1.3-sources.jar!/" />
++    </SOURCES>
++  </library>
++</component>
+\ No newline at end of file
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectModuleManager\">\r\n    <modules>\r\n      <module fileurl=\"file://$PROJECT_DIR$/.idea/modules/ProgettoUniING-gui_main.iml\" filepath=\"$PROJECT_DIR$/.idea/modules/ProgettoUniING-gui_main.iml\" group=\"gui\" />\r\n      <module fileurl=\"file://$PROJECT_DIR$/.idea/modules/ProgettoUniING-gui_test.iml\" filepath=\"$PROJECT_DIR$/.idea/modules/ProgettoUniING-gui_test.iml\" group=\"gui\" />\r\n      <module fileurl=\"file://$PROJECT_DIR$/.idea/modules/gui.iml\" filepath=\"$PROJECT_DIR$/.idea/modules/gui.iml\" />\r\n      <module fileurl=\"file://$PROJECT_DIR$/.idea/modules/gui_main.iml\" filepath=\"$PROJECT_DIR$/.idea/modules/gui_main.iml\" group=\"gui\" />\r\n      <module fileurl=\"file://$PROJECT_DIR$/.idea/modules/gui_test.iml\" filepath=\"$PROJECT_DIR$/.idea/modules/gui_test.iml\" group=\"gui\" />\r\n      <module fileurl=\"file://$PROJECT_DIR$/.idea/modules/ingdelsoftware-gui.iml\" filepath=\"$PROJECT_DIR$/.idea/modules/ingdelsoftware-gui.iml\" group=\"gui\" />\r\n      <module fileurl=\"file://$PROJECT_DIR$/.idea/modules/ingdelsoftware-gui_main.iml\" filepath=\"$PROJECT_DIR$/.idea/modules/ingdelsoftware-gui_main.iml\" group=\"gui\" />\r\n      <module fileurl=\"file://$PROJECT_DIR$/.idea/modules/ingdelsoftware-gui_test.iml\" filepath=\"$PROJECT_DIR$/.idea/modules/ingdelsoftware-gui_test.iml\" group=\"gui\" />\r\n    </modules>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/modules.xml	(revision e845b2ab4eb197dd24f3fec4b7e00827beef4336)
++++ .idea/modules.xml	(date 1589981517131)
+@@ -4,7 +4,7 @@
+     <modules>
+       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ProgettoUniING-gui_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ProgettoUniING-gui_main.iml" group="gui" />
+       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ProgettoUniING-gui_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ProgettoUniING-gui_test.iml" group="gui" />
+-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gui.iml" filepath="$PROJECT_DIR$/.idea/modules/gui.iml" />
++      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gui.iml" filepath="$PROJECT_DIR$/.idea/modules/gui.iml" group="gui" />
+       <module fileurl="file://$PROJECT_DIR$/.idea/modules/gui_main.iml" filepath="$PROJECT_DIR$/.idea/modules/gui_main.iml" group="gui" />
+       <module fileurl="file://$PROJECT_DIR$/.idea/modules/gui_test.iml" filepath="$PROJECT_DIR$/.idea/modules/gui_test.iml" group="gui" />
+       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ingdelsoftware-gui.iml" filepath="$PROJECT_DIR$/.idea/modules/ingdelsoftware-gui.iml" group="gui" />
+Index: .idea/libraries/Gradle__junit_junit_4_12.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/libraries/Gradle__junit_junit_4_12.xml	(date 1589981517238)
++++ .idea/libraries/Gradle__junit_junit_4_12.xml	(date 1589981517238)
+@@ -0,0 +1,11 @@
++<component name="libraryTable">
++  <library name="Gradle: junit:junit:4.12">
++    <CLASSES>
++      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar!/" />
++    </CLASSES>
++    <JAVADOC />
++    <SOURCES>
++      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/a6c32b40bf3d76eca54e3c601e5d1470c86fcdfa/junit-4.12-sources.jar!/" />
++    </SOURCES>
++  </library>
++</component>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_8\" default=\"true\" project-jdk-name=\"corretto-1.8\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision e845b2ab4eb197dd24f3fec4b7e00827beef4336)
++++ .idea/misc.xml	(date 1589981517122)
+@@ -1,5 +1,8 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="FrameworkDetectionExcludesConfiguration">
++    <file type="web" url="file://$PROJECT_DIR$" />
++  </component>
+   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="corretto-1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+Index: .idea/modules/ProgettoUniING-gui_main.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module external.linked.project.id=\"gui:main\" external.linked.project.path=\"$MODULE_DIR$/../..\" external.root.project.path=\"$MODULE_DIR$/../..\" external.system.id=\"GRADLE\" external.system.module.group=\"ingdelsoftware\" external.system.module.type=\"sourceSet\" external.system.module.version=\"1.0-SNAPSHOT\" type=\"JAVA_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\" LANGUAGE_LEVEL=\"JDK_1_8\">\r\n    <output url=\"file://$MODULE_DIR$/../../out/production/classes\" />\r\n    <exclude-output />\r\n    <content url=\"file://$MODULE_DIR$/../../src/main\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$/../../src/main/java\" isTestSource=\"false\" />\r\n      <sourceFolder url=\"file://$MODULE_DIR$/../../src/main/resources\" type=\"java-resource\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.apache.httpcomponents:httpclient:4.5.12\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: com.google.code.gson:gson:2.8.6\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.apache.httpcomponents:httpcore:4.4.13\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: commons-logging:commons-logging:1.2\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: commons-codec:commons-codec:1.11\" level=\"project\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/modules/ProgettoUniING-gui_main.iml	(revision e845b2ab4eb197dd24f3fec4b7e00827beef4336)
++++ .idea/modules/ProgettoUniING-gui_main.iml	(date 1589981517049)
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <module external.linked.project.id="gui:main" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="ingdelsoftware" external.system.module.type="sourceSet" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+-    <output url="file://$MODULE_DIR$/../../out/production/classes" />
++  <component name="NewModuleRootManager">
++    <output url="file://$MODULE_DIR$/../../build/classes/java/main" />
+     <exclude-output />
+     <content url="file://$MODULE_DIR$/../../src/main">
+       <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
+@@ -9,8 +9,8 @@
+     </content>
+     <orderEntry type="inheritedJdk" />
+     <orderEntry type="sourceFolder" forTests="false" />
+-    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpclient:4.5.12" level="project" />
+     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.6" level="project" />
++    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpclient:4.5.12" level="project" />
+     <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpcore:4.4.13" level="project" />
+     <orderEntry type="library" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
+     <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.11" level="project" />
+Index: .idea/modules/ProgettoUniING-gui_test.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module external.linked.project.id=\"gui:test\" external.linked.project.path=\"$MODULE_DIR$/../..\" external.root.project.path=\"$MODULE_DIR$/../..\" external.system.id=\"GRADLE\" external.system.module.group=\"ingdelsoftware\" external.system.module.type=\"sourceSet\" external.system.module.version=\"1.0-SNAPSHOT\" type=\"JAVA_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\" LANGUAGE_LEVEL=\"JDK_1_8\">\r\n    <output-test url=\"file://$MODULE_DIR$/../../out/test/classes\" />\r\n    <exclude-output />\r\n    <content url=\"file://$MODULE_DIR$/../../src/test\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$/../../src/test/java\" isTestSource=\"true\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n    <orderEntry type=\"module\" module-name=\"ProgettoUniING-gui_main\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.apache.httpcomponents:httpclient:4.5.12\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: com.google.code.gson:gson:2.8.6\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: junit:junit:4.12\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.apache.httpcomponents:httpcore:4.4.13\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: commons-logging:commons-logging:1.2\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: commons-codec:commons-codec:1.11\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.hamcrest:hamcrest-core:1.3\" level=\"project\" />\r\n  </component>\r\n  <component name=\"TestModuleProperties\" production-module=\"gui_main\" />\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/modules/ProgettoUniING-gui_test.iml	(revision e845b2ab4eb197dd24f3fec4b7e00827beef4336)
++++ .idea/modules/ProgettoUniING-gui_test.iml	(date 1589981517056)
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <module external.linked.project.id="gui:test" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="ingdelsoftware" external.system.module.type="sourceSet" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+-    <output-test url="file://$MODULE_DIR$/../../out/test/classes" />
++  <component name="NewModuleRootManager">
++    <output-test url="file://$MODULE_DIR$/../../build/classes/java/test" />
+     <exclude-output />
+     <content url="file://$MODULE_DIR$/../../src/test">
+       <sourceFolder url="file://$MODULE_DIR$/../../src/test/java" isTestSource="true" />
+@@ -9,8 +9,8 @@
+     <orderEntry type="inheritedJdk" />
+     <orderEntry type="sourceFolder" forTests="false" />
+     <orderEntry type="module" module-name="ProgettoUniING-gui_main" />
+-    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpclient:4.5.12" level="project" />
+     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.6" level="project" />
++    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpclient:4.5.12" level="project" />
+     <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />
+     <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpcore:4.4.13" level="project" />
+     <orderEntry type="library" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
