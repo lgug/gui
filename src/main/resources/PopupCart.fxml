@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="476.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PopupCartController">
+    <children>
+        <Button fx:id="Continua" layoutX="381.0" layoutY="341.0" mnemonicParsing="false" text="Continua" />
+        <ListView fx:id="ProductList" layoutX="19.0" layoutY="25.0" onMouseClicked="#displaySelected" prefHeight="341.0" prefWidth="237.0" />
+        <Label layoutX="271.0" layoutY="307.0" text="Totale: " />
+        <DatePicker layoutX="271.0" layoutY="52.0" />
+        <Label layoutX="271.0" layoutY="25.0" text="Scegliere la data di consegna:" />
+        <ChoiceBox layoutX="271.0" layoutY="278.0" prefHeight="25.0" prefWidth="174.0" />
+        <Label layoutX="271.0" layoutY="257.0" text="Metodo di pagamento" />
+        <Button fx:id="Indetro" layoutX="271.0" layoutY="341.0" mnemonicParsing="false" text="Indietro" />
+      <Label fx:id="tot" layoutX="309.0" layoutY="308.0" prefHeight="17.0" prefWidth="80.0" text="0" />
+      <Label layoutX="271.0" layoutY="89.0" text="Nome:" />
+      <Label layoutX="271.0" layoutY="106.0" text="Marca:" />
+      <Label layoutX="271.0" layoutY="123.0" text="Caratteristiche:" />
+      <Label layoutX="272.0" layoutY="157.0" text="Categoria:" />
+      <Label fx:id="caratteristiche" layoutX="271.0" layoutY="140.0" prefHeight="17.0" prefWidth="174.0" />
+      <Label layoutX="273.0" layoutY="174.0" text="Prezzo:" />
+      <ImageView fitHeight="61.0" fitWidth="64.0" layoutX="381.0" layoutY="192.0" pickOnBounds="true" preserveRatio="true" />
+      <Spinner layoutX="272.0" layoutY="222.0" prefHeight="10.0" prefWidth="64.0" />
+      <Label layoutX="272.0" layoutY="200.0" text="Numero:" />
+      <Label fx:id="nome" layoutX="312.0" layoutY="89.0" prefHeight="17.0" prefWidth="87.0" />
+      <Label fx:id="marca" layoutX="312.0" layoutY="106.0" prefHeight="17.0" prefWidth="87.0" />
+      <Label fx:id="categoria" layoutX="333.0" layoutY="157.0" prefHeight="17.0" prefWidth="112.0" />
+      <Label fx:id="prezzo" layoutX="315.0" layoutY="174.0" prefHeight="17.0" prefWidth="120.0" />
+    </children>
+</AnchorPane>
