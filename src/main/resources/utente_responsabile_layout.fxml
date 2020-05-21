@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SignUpPopup">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="600.0" spacing="20.0">
+         <children>
+            <VBox prefHeight="11.0" prefWidth="600.0">
+               <children>
+                  <Label text="Matricola:">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="matricolaField" prefHeight="60.0" prefWidth="600.0" promptText="Inserisci il tuo numero di matricola" />
+               </children>
+            </VBox>
+            <VBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Label text="Ruolo:">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="600.0" spacing="10.0">
+                     <children>
+                        <Label text="Seleziona il tuo ruolo in questo servizio:" />
+                        <ChoiceBox fx:id="ruoloResponsabileBox" prefWidth="150.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

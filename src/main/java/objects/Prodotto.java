@@ -1,11 +1,8 @@
 package objects;
 
-import objects.CaratteristicheProdotto;
-import objects.Categoria;
-
 public class Prodotto {
-    private int id;
 
+    private int id;
     private String nome;
     private String marca;
     private CaratteristicheProdotto caratteristiche;
@@ -14,7 +11,7 @@ public class Prodotto {
     private int disponibilita;
     private String immagine;
 
-    public Prodotto(int id,String nome, String marca, CaratteristicheProdotto caratteristiche, Categoria categoria, float prezzo, String immagine) {
+    public Prodotto(int id, String nome, String marca, CaratteristicheProdotto caratteristiche, Categoria categoria, float prezzo, int disponibilita, String immagine) {
         this.id = id;
         this.nome = nome;
         this.marca = marca;
@@ -23,10 +20,11 @@ public class Prodotto {
         this.prezzo = prezzo;
         this.disponibilita = disponibilita;
         this.immagine = immagine;
-        }
-    public Prodotto(){
-
     }
+
+    public Prodotto(){
+    }
+
     public int getId() {return id;}
 
     public void setId(int id) { this.id = id; }

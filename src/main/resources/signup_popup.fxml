@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SignUpPopup">
+   <children>
+      <BorderPane prefHeight="400.0" prefWidth="600.0">
+         <top>
+            <Label text="REGISTRATI" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets top="20.0" />
+               </BorderPane.margin>
+            </Label>
+         </top>
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Nome:">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <TextField fx:id="nomeField" promptText="Inserisci il tuo nome" text="Mario" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Cognome:">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <TextField fx:id="cognomeField" promptText="Inserisci il tuo cognome" text="Rossi" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Telefono:">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <TextField fx:id="telefonoField" promptText="Inserisci il tuo numero di telefono" text="1234567890" />
+                     </children>
+                  </VBox>
+                  <HBox prefHeight="42.0" prefWidth="0.0" spacing="10.0">
+                     <children>
+                        <VBox prefHeight="42.0" prefWidth="456.0">
+                           <children>
+                              <Label text="Via:">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font></Label>
+                              <TextField fx:id="viaField" prefHeight="26.0" prefWidth="371.0" promptText="Inserisci la tua via" text="Verdi" />
+                           </children></VBox>
+                        <VBox prefHeight="42.0" prefWidth="242.0">
+                           <children>
+                              <Label text="N. civico:">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font></Label>
+                              <TextField fx:id="civicoField" prefHeight="26.0" prefWidth="228.0" promptText="N. civico" text="345" />
+                           </children></VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <VBox prefHeight="42.0" prefWidth="158.0">
+                           <children>
+                              <Label text="CAP:">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font></Label>
+                              <TextField fx:id="capField" promptText="Inserisci il CAP" text="345678" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="42.0" prefWidth="236.0">
+                           <children>
+                              <Label text="Città:">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font></Label>
+                              <TextField fx:id="cittaField" promptText="Inserisci la tua città" text="Verona" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="42.0" prefWidth="221.0">
+                           <children>
+                              <Label text="Provincia:">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font></Label>
+                              <TextField fx:id="provinciaField" prefHeight="26.0" prefWidth="193.0" promptText="Inserisci la provincia" text="Verona" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Email:">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <TextField fx:id="emailField" promptText="Inserisci la tua mail" text="mariorossi@gmai.com" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Password:">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <PasswordField fx:id="passwordField" promptText="Scegli una password" text="PassWord1234" />
+                     </children>
+                  </VBox>
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </BorderPane.margin>
+            </VBox>
+         </center>
+         <bottom>
+            <Button fx:id="continuaButton" mnemonicParsing="false" onMouseClicked="#handleContinuaButtonAction" text="Continua" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="20.0" />
+               </BorderPane.margin>
+            </Button>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>
