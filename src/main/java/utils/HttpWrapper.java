@@ -202,15 +202,15 @@ public class HttpWrapper {
             Iterator<JsonElement> it = list.iterator();
             while (it.hasNext()) {
                 JsonArray prodottoElement = it.next().getAsJsonArray();
-                System.out.println(prodottoElement.get(1).getAsString());
                 Prodotto prodotto = new Prodotto();
                 prodotto.setId(prodottoElement.get(0).getAsInt());
                 prodotto.setNome(prodottoElement.get(1).getAsString());
-                //prodotto.setMarca(prodottoElement.get(1).getAsString());
-                //prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(2).getAsString()));
-                //prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(3).getAsString()));
-                //prodotto.setPrezzo(prodottoElement.get(4).getAsFloat());
-                //prodotto.setImmagine(prodottoElement.get(5).getAsString());
+                prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
+                //prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(4).getAsString()));
+                prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
+                prodotto.setImmagine(prodottoElement.get(4).getAsString());
+                prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
+                prodotto.setMarca(prodottoElement.get(7).getAsString());
                 prodottoList.add(prodotto);
             }
             return prodottoList;
