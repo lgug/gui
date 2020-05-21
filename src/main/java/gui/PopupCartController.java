@@ -3,51 +3,76 @@ package gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import objects.CaratteristicheProdotto;
+import objects.Categoria;
 import objects.Prodotto;
+import utils.HttpWrapper;
 
-import java.util.ArrayList;
+import java.net.URL;
+import java.util.*;
 
-public class PopupCartController {
+
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+
+
+public class PopupCartController implements Initializable {
     @FXML public Label tot;
     public Button Continua;
     public Button Indetro;
-   @FXML private ListView<String> ProductList;
+
+    @FXML public TableView<Prodotto> table;
+    @FXML public TableColumn<Prodotto,String> col1;
+    @FXML public TableColumn<Prodotto,String> col2;
+    @FXML public TableColumn<Prodotto,String> col3;
+
     public Label caratteristiche;
     public Label nome;
     public Label marca;
     public Label categoria;
     public Label prezzo;
 
-    ObservableList list= FXCollections.observableArrayList();
-    ArrayList<Prodotto> prodotti = new ArrayList<Prodotto>();
+    private ObservableList<Prodotto> list = FXCollections.observableArrayList(
+            new Prodotto(1,"mela", "Chepchieng", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,null,10,1),
+            new Prodotto(2,"pera", "Chepchieng",CaratteristicheProdotto.VEGAN,Categoria.FRUTTA_VERDURA,10,null,4,1),
+            new Prodotto(1,"mela", "Chepchieng", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,null,10,1)
+            );
+    TreeSet<Prodotto> ts1 = new TreeSet<Prodotto>();
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        int sum=0;
+        for(Prodotto prodotto:list){
+            sum+= prodotto.getPrezzo();
+            if(ts1==null)
+                ts1.add(prodotto);
+            if(ts1.contains(prodotto))
+                ts1.floor(prodotto).setQuantita(prodotto.getQuantita()+1);
 
-    @FXML
-    private void initialize(/*ArrayList<Prodotto> prodotti*/) {
-        int totale= 10+2;
-        tot.setText(String.valueOf(totale));
-        loadProduct(/*prodotti*/);
-    }
-    private void loadProduct(/*ArrayList<Prodotto> prodotti*/ ){
-        list.removeAll(list);
-        /*
-        for(int i=0; i<prodotti.size();i++){
-            list.add(prodotti.get(i).getNome());
+            else
+                ts1.add(prodotto);
         }
-         */
-        String a = "pane";
-        String b = "marmellata";
-        list.addAll(a,b);
-        ProductList.getItems().addAll(list);
+        System.out.println(ts1);
+        tot.setText(String.valueOf(sum));
+        col1.setCellValueFactory(new PropertyValueFactory<>("id"));
+        col2.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        col3.setCellValueFactory(new PropertyValueFactory<>("prezzo"));
+        table.setItems(list);
+    }
+
+    public void Action(MouseEvent mouseEvent) {
+        ObservableList<Prodotto> prodotto = table.getSelectionModel().getSelectedItems();
+
+        nome.setText(prodotto.get(0).getNome());
+        marca.setText(prodotto.get(0).getMarca());
+        caratteristiche.setText(prodotto.get(0).getCaratteristiche().toString());
+        categoria.setText(prodotto.get(0).getCategoria().toString());
+        prezzo.setText(String.valueOf(prodotto.get(0).getPrezzo()));
 
     }
 
-    public void displaySelected(MouseEvent mouseEvent) {
-        ObservableList<String> prodotto = ProductList.getSelectionModel().getSelectedItems();
-        nome.setText(prodotto.toString());
 
-    }
 }

@@ -7,7 +7,6 @@
 <AnchorPane prefHeight="400.0" prefWidth="476.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PopupCartController">
     <children>
         <Button fx:id="Continua" layoutX="381.0" layoutY="341.0" mnemonicParsing="false" text="Continua" />
-        <ListView fx:id="ProductList" layoutX="19.0" layoutY="25.0" onMouseClicked="#displaySelected" prefHeight="341.0" prefWidth="237.0" />
         <Label layoutX="271.0" layoutY="307.0" text="Totale: " />
         <DatePicker layoutX="271.0" layoutY="52.0" />
         <Label layoutX="271.0" layoutY="25.0" text="Scegliere la data di consegna:" />
@@ -28,5 +27,12 @@
       <Label fx:id="marca" layoutX="312.0" layoutY="106.0" prefHeight="17.0" prefWidth="87.0" />
       <Label fx:id="categoria" layoutX="333.0" layoutY="157.0" prefHeight="17.0" prefWidth="112.0" />
       <Label fx:id="prezzo" layoutX="315.0" layoutY="174.0" prefHeight="17.0" prefWidth="120.0" />
+      <TableView fx:id="table" layoutX="21.0" layoutY="30.0" onMouseClicked="#Action" prefHeight="337.0" prefWidth="229.0">
+        <columns>
+          <TableColumn fx:id="col1" prefWidth="33.0" text="ID" />
+          <TableColumn fx:id="col2" prefWidth="134.0" text="NOME" />
+            <TableColumn fx:id="col3" prefWidth="61.0" text="Prezzo" />
+        </columns>
+      </TableView>
     </children>
 </AnchorPane>

@@ -1,30 +1,34 @@
 package objects;
 
-public class Prodotto {
+import objects.CaratteristicheProdotto;
+import objects.Categoria;
 
+public class Prodotto implements Comparable<Prodotto> {
     private int id;
+
     private String nome;
     private String marca;
     private CaratteristicheProdotto caratteristiche;
     private Categoria categoria;
     private float prezzo;
     private int disponibilita;
+    private int quantita;
     private String immagine;
 
-    public Prodotto(int id, String nome, String marca, CaratteristicheProdotto caratteristiche, Categoria categoria, float prezzo, int disponibilita, String immagine) {
+    public Prodotto(int id,String nome, String marca, CaratteristicheProdotto caratteristiche, Categoria categoria, float prezzo, String immagine,int disponibilita, int quantita) {
         this.id = id;
         this.nome = nome;
         this.marca = marca;
         this.caratteristiche = caratteristiche;
         this.categoria = categoria;
         this.prezzo = prezzo;
+        this.quantita=quantita;
         this.disponibilita = disponibilita;
         this.immagine = immagine;
-    }
-
+        }
     public Prodotto(){
-    }
 
+    }
     public int getId() {return id;}
 
     public void setId(int id) { this.id = id; }
@@ -83,5 +87,13 @@ public class Prodotto {
 
     public void setImmagine(String immagine) {
         this.immagine = immagine;
+    }
+
+    public int getQuantita() { return quantita; }
+
+    public void setQuantita(int quantita) { this.quantita = quantita; }
+
+    public int compareTo(Prodotto o) {
+        return id - o.id;
     }
 }
