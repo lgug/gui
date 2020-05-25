@@ -20,8 +20,8 @@
       <Label layoutX="272.0" layoutY="157.0" text="Categoria:" />
       <Label fx:id="caratteristiche" layoutX="271.0" layoutY="140.0" prefHeight="17.0" prefWidth="174.0" />
       <Label layoutX="273.0" layoutY="174.0" text="Prezzo:" />
-      <ImageView fitHeight="61.0" fitWidth="64.0" layoutX="381.0" layoutY="192.0" pickOnBounds="true" preserveRatio="true" />
-      <Spinner layoutX="272.0" layoutY="222.0" prefHeight="10.0" prefWidth="64.0" />
+      <ImageView fx:id="image" fitHeight="61.0" fitWidth="64.0" layoutX="381.0" layoutY="192.0" pickOnBounds="true" preserveRatio="true" />
+      <Spinner fx:id="spinner" layoutX="272.0" layoutY="222.0" prefHeight="10.0" prefWidth="64.0" />
       <Label layoutX="272.0" layoutY="200.0" text="Numero:" />
       <Label fx:id="nome" layoutX="312.0" layoutY="89.0" prefHeight="17.0" prefWidth="87.0" />
       <Label fx:id="marca" layoutX="312.0" layoutY="106.0" prefHeight="17.0" prefWidth="87.0" />

@@ -96,4 +96,8 @@ public class Prodotto implements Comparable<Prodotto> {
     public int compareTo(Prodotto o) {
         return id - o.id;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master
