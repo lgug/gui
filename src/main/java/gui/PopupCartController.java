@@ -45,10 +45,10 @@ public class PopupCartController<TextView> implements Initializable {
     public Spinner spinner;
 
     private ObservableList<Prodotto> list = FXCollections.observableArrayList(
-            new Prodotto(1,"banana", "chiquita", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,10,1,"bananas.png"),
-            new Prodotto(2,"cherry", "fruttissima",CaratteristicheProdotto.VEGAN,Categoria.FRUTTA_VERDURA,10,4,1,"cherries.png"),
-            new Prodotto(3,"sushi", "china express", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,7,1,"sushi.png"),
-            new Prodotto(1,"banana", "chiquita", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,10,1,"bananas.png")
+            new Prodotto(8984,"banana", "chiquita", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,10,1,"bananas.png"),
+            new Prodotto(989,"cherry", "fruttissima",CaratteristicheProdotto.VEGAN,Categoria.FRUTTA_VERDURA,10,4,1,"cherries.png"),
+            new Prodotto(4454,"sushi", "china express", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,7,1,"sushi.png"),
+            new Prodotto(8984,"banana", "chiquita", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,10,1,"bananas.png")
             );
     TreeSet<Prodotto> ts1 = new TreeSet<Prodotto>();
     @Override
@@ -84,18 +84,20 @@ public class PopupCartController<TextView> implements Initializable {
         categoria.setText(prodotto.get(0).getCategoria().toString());
         prezzo.setText(String.valueOf(prodotto.get(0).getPrezzo()));
         image.setImage(new Image (prodotto.get(0).getImmagine()));
-        new SpinnerValueFactory<Integer>() {
+        SpinnerValueFactory<Integer> spinnerQuantity = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, prodotto.get(0).getDisponibilita(), prodotto.get(0).getQuantita()){
             @Override
-            public void decrement(int steps) { prodotto.get(0).setQuantita(this.getValue()); }
+            public void decrement(int steps) {
+                this.setValue(this.getValue()-1);
+                prodotto.get(0).setQuantita(this.getValue());
+            }
 
             @Override
-            public void increment(int steps) { prodotto.get(0).setQuantita(this.getValue()); }
+            public void increment(int steps) {
+                this.setValue(this.getValue()+1);
+                prodotto.get(0).setQuantita(this.getValue());
+            }
         };
-        SpinnerValueFactory<Integer> spinnerQuantity = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, prodotto.get(0).getDisponibilita(), prodotto.get(0).getQuantita());
         spinner.setValueFactory(spinnerQuantity);
-
-
-
     }
 
     public void buy(MouseEvent mouseEvent) {
@@ -106,9 +108,10 @@ public class PopupCartController<TextView> implements Initializable {
             listprodsempl.add(new ProdottoSemplificato(prodotto.getId(),prodotto.getQuantita()));
         }
         ord.setProdotti(listprodsempl);
-        ord.setID("22");
+        Random rand = new Random();
+        ord.setID("23");
         HttpWrapper http = new HttpWrapper();
-        http.addOrdine(ord.getID(), ord);
+        http.addOrdine("1", ord);
 
     }
 }
