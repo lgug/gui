@@ -252,9 +252,9 @@ public class HttpWrapper {
             JsonArray list2 = JsonParser.parseString(jsonResponse2).getAsJsonArray();
             Ordine ordine = new Ordine();
             ordine.setData(date);
-            ordine.setProdotti(prodottoList);
+            ordine.setProdotto(prodottoList);
             JsonArray listina = list2.get(0).getAsJsonArray();
-            ordine.setID(listina.get(0).getAsInt());
+            ordine.setID(listina.get(0).getAsString());
             return ordine;
         } catch (IOException e) {
             e.printStackTrace();

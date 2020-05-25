@@ -1,18 +1,20 @@
 package objects;
 
+import utils.ProdottoSemplificato;
+
 import java.util.List;
 
 public class Ordine {
-    private int id;
+    private List<Prodotto> prodotto;
     private String data;
-    private List<Prodotto> prodotti;
-    private UtenteCliente utente;
+    private List<ProdottoSemplificato> prodotti;
+    private String ID;
 
-    public Ordine(String data, List<Prodotto> prodotti, UtenteCliente utente,int id) {
-        this.id = id;
+    public Ordine(String data, List<ProdottoSemplificato> prodotti, String idu) {
         this.data = data;
         this.prodotti = prodotti;
-        this.utente = utente;
+        this.ID = ID;
+
     }
     public Ordine(){ }
     public String getData() {
@@ -23,23 +25,28 @@ public class Ordine {
         this.data = data;
     }
 
-    public List<Prodotto> getProdotti() {
+    public List<ProdottoSemplificato> getProdotti() {
         return prodotti;
     }
 
-    public void setProdotti(List<Prodotto> prodotti) {
+    public void setProdotti(List<ProdottoSemplificato> prodotti) {
         this.prodotti = prodotti;
     }
 
-    public UtenteCliente getUtente() {
-        return utente;
+    public List<Prodotto> getProdotto() {
+        return prodotto;
     }
 
-    public void setUtente(UtenteCliente utente) {
-        this.utente = utente;
+    public String getID() {
+        return ID;
     }
 
-    public void setID(int id){this.id=id;}
+    public void setID(String ID) {
+        this.ID = ID;
+    }
 
-    public int getID(){return id;}
+
+    public void setProdotto(List<Prodotto> prodotto) {
+        this.prodotto = prodotto;
+    }
 }

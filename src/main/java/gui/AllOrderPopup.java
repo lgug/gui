@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.SplitMenuButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -18,14 +17,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
-import objects.CaratteristicheProdotto;
-import objects.Categoria;
 import objects.Ordine;
 import objects.Prodotto;
 import utils.HttpWrapper;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,7 +44,7 @@ public class AllOrderPopup extends Application {
             String date = (String) choiceBox.getValue();
             HttpWrapper http = new HttpWrapper();
             Ordine ordine = http.getAllProductsByOrder("1",date);
-            List<Prodotto> prodottoList = ordine.getProdotti();
+            List<Prodotto> prodottoList = ordine.getProdotto();
             int i = 0;
             Iterator it = prodottoList.iterator();
             int totale = 0;
