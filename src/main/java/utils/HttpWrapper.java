@@ -3,13 +3,9 @@ package utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
-import objects.CaratteristicheProdotto;
-import objects.Categoria;
-import objects.Prodotto;
+import objects.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -17,10 +13,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 
-import objects.Utente;
 import org.apache.http.entity.StringEntity;
 
 import java.util.*;
@@ -190,9 +184,30 @@ public class HttpWrapper {
     }
 
     //TODO request all user's orders
-    public List<Prodotto> getAllOrders(String userId) {
+    public List<String> getAllOrdersDate(String userId) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/getAllOrders/"+userId);
+        HttpGet httpGet = new HttpGet(uri + "/getAllOrdersDate/"+userId);
+        try {
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+            String jsonResponse = EntityUtils.toString(responseEntity);
+            List<String> orderDate = new ArrayList<>();
+            JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
+            Iterator<JsonElement> it = list.iterator();
+            while (it.hasNext()) {
+                JsonArray orderElement = it.next().getAsJsonArray();
+                orderDate.add(orderElement.get(0).getAsString());
+            }
+            return orderDate;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Ordine getAllProductsByOrder(String userId, String date){
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(uri + "/getAllProdByOrder/"+userId+"?date="+date);
         try {
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
@@ -213,7 +228,10 @@ public class HttpWrapper {
                 prodotto.setMarca(prodottoElement.get(7).getAsString());
                 prodottoList.add(prodotto);
             }
-            return prodottoList;
+            Ordine ordine = new Ordine();
+            ordine.setData(date);
+            ordine.setProdotti(prodottoList);
+            return ordine;
         } catch (IOException e) {
             e.printStackTrace();
         }

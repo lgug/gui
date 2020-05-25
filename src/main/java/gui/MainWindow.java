@@ -4,28 +4,15 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Reflection;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import objects.CaratteristicheProdotto;
 import objects.Categoria;
 import objects.Prodotto;
-import org.apache.http.impl.client.CloseableHttpClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -81,7 +68,7 @@ public class MainWindow extends Application {
         stage = primaryStage;
         FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("main_window.fxml"));
         AnchorPane pane = loader.load();
-        loader.load();
+        //loader.load();
         Scene scene = new Scene(pane);
         primaryStage.setTitle("ShopOnline");
         primaryStage.setScene(scene);
@@ -206,16 +193,16 @@ public class MainWindow extends Application {
         //TODO Call to Flask
 
         //TODO only for test: TO REMOVE!!!
-        Prodotto prodotto1 = new Prodotto(41, "Sushi", "Xi-Sushi", CaratteristicheProdotto.BIOLOGICO, Categoria.PESCE, 15.99f, 20, "sushi.png");
-        Prodotto prodotto2 = new Prodotto(42, "Ciliege", "FruttaFresca", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA, 6.49f, 20, "cherries.png");
-        Prodotto prodotto3 = new Prodotto(43, "Banane", "FruttaFresca", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA, 5.99f, 20, "bananas.png");
-        Prodotto prodotto4 = new Prodotto(44, "Cioccolatini", "ChocoLove", CaratteristicheProdotto.BIOLOGICO, Categoria.DOLCI, 2.99f, 20, "chocolate_box.png");
-        Prodotto prodotto5 = new Prodotto(45, "Costolette", "MuccaPazza S.r.l", CaratteristicheProdotto.BIOLOGICO, Categoria.CARNE, 13.99f, 20, "spare_ribs.png");
-        Prodotto prodotto6 = new Prodotto(46, "Formaggio svizzero", "Cheddar", CaratteristicheProdotto.BIOLOGICO, Categoria.LATTICINI, 21.99f, 20, "swiss_cheese.png");
-        Prodotto prodotto7 = new Prodotto(47, "Tonno fresco", "Il pescatore allegro", CaratteristicheProdotto.BIOLOGICO, Categoria.PESCE, 7.99f, 20, "tuna.png");
-        Prodotto prodotto8 = new Prodotto(48, "Honey", "Apindustria", CaratteristicheProdotto.BIOLOGICO, Categoria.DOLCI, 3.99f, 20, "honey.png");
-        Prodotto prodotto9 = new Prodotto(49, "Sushi", "Xi-Sushi", CaratteristicheProdotto.BIOLOGICO, Categoria.PESCE, 15.99f, 20, "sushi.png");
-        Prodotto prodotto10 = new Prodotto(50, "Sushi", "Xi-Sushi", CaratteristicheProdotto.BIOLOGICO, Categoria.PESCE, 15.99f, 20, "sushi.png");
+        Prodotto prodotto1 = new Prodotto(41, "Sushi", "Xi-Sushi", CaratteristicheProdotto.BIOLOGICO, Categoria.PESCE, 15.99f, 20,10, "sushi.png");
+        Prodotto prodotto2 = new Prodotto(42, "Ciliege", "FruttaFresca", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA, 6.49f, 20,10, "cherries.png");
+        Prodotto prodotto3 = new Prodotto(43, "Banane", "FruttaFresca", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA, 5.99f, 20,10, "bananas.png");
+        Prodotto prodotto4 = new Prodotto(44, "Cioccolatini", "ChocoLove", CaratteristicheProdotto.BIOLOGICO, Categoria.DOLCI, 2.99f, 20,10, "chocolate_box.png");
+        Prodotto prodotto5 = new Prodotto(45, "Costolette", "MuccaPazza S.r.l", CaratteristicheProdotto.BIOLOGICO, Categoria.CARNE, 13.99f, 20,10, "spare_ribs.png");
+        Prodotto prodotto6 = new Prodotto(46, "Formaggio svizzero", "Cheddar", CaratteristicheProdotto.BIOLOGICO, Categoria.LATTICINI, 21.99f, 20,10, "swiss_cheese.png");
+        Prodotto prodotto7 = new Prodotto(47, "Tonno fresco", "Il pescatore allegro", CaratteristicheProdotto.BIOLOGICO, Categoria.PESCE, 7.99f, 20,10, "tuna.png");
+        Prodotto prodotto8 = new Prodotto(48, "Honey", "Apindustria", CaratteristicheProdotto.BIOLOGICO, Categoria.DOLCI, 3.99f, 20,10, "honey.png");
+        Prodotto prodotto9 = new Prodotto(49, "Sushi", "Xi-Sushi", CaratteristicheProdotto.BIOLOGICO, Categoria.PESCE, 15.99f, 20,10, "sushi.png");
+        Prodotto prodotto10 = new Prodotto(50, "Sushi", "Xi-Sushi", CaratteristicheProdotto.BIOLOGICO, Categoria.PESCE, 15.99f, 20,10, "sushi.png");
         List<Prodotto> prodottoList = new ArrayList<>();
         prodottoList.add(prodotto1);
         prodottoList.add(prodotto2);

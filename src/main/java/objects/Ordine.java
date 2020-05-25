@@ -1,29 +1,31 @@
 package objects;
 
+import java.util.List;
+
 public class Ordine {
-    private long data;
-    private Prodotto prodotti;
+    private String data;
+    private List<Prodotto> prodotti;
     private UtenteCliente utente;
 
-    public Ordine(long data, Prodotto prodotti, UtenteCliente utente) {
+    public Ordine(String data, List<Prodotto> prodotti, UtenteCliente utente) {
         this.data = data;
         this.prodotti = prodotti;
         this.utente = utente;
     }
-
-    public long getData() {
+    public Ordine(){ }
+    public String getData() {
         return data;
     }
 
-    public void setData(long data) {
+    public void setData(String data) {
         this.data = data;
     }
 
-    public Prodotto getProdotti() {
+    public List<Prodotto> getProdotti() {
         return prodotti;
     }
 
-    public void setProdotti(Prodotto prodotti) {
+    public void setProdotti(List<Prodotto> prodotti) {
         this.prodotti = prodotti;
     }
 

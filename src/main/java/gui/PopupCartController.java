@@ -9,8 +9,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import objects.CaratteristicheProdotto;
 import objects.Categoria;
-import objects.Prodotto;
-import utils.HttpWrapper;
 
 import java.net.URL;
 import java.util.*;
@@ -18,6 +16,7 @@ import java.util.*;
 
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import objects.Prodotto;
 
 
 public class PopupCartController implements Initializable {
@@ -37,9 +36,9 @@ public class PopupCartController implements Initializable {
     public Label prezzo;
 
     private ObservableList<Prodotto> list = FXCollections.observableArrayList(
-            new Prodotto(1,"mela", "Chepchieng", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,null,10,1),
-            new Prodotto(2,"pera", "Chepchieng",CaratteristicheProdotto.VEGAN,Categoria.FRUTTA_VERDURA,10,null,4,1),
-            new Prodotto(1,"mela", "Chepchieng", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,null,10,1)
+            new Prodotto(1,"mela", "Chepchieng", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,10,10,"bananas.png"),
+            new Prodotto(2,"pera", "Chepchieng",CaratteristicheProdotto.VEGAN,Categoria.FRUTTA_VERDURA,10,10,4,"bananas.png"),
+            new Prodotto(1,"mela", "Chepchieng", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,10,10,"bananas.png")
             );
     TreeSet<Prodotto> ts1 = new TreeSet<Prodotto>();
     @Override
