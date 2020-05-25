@@ -148,6 +148,21 @@ public class HttpWrapper {
     }
 
     //TODO order sending, return boolean, parameters Ordine
+    public boolean addOrdine(String userId, Ordine ordine) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(uri + "/buyOrder/"+userId);
+        try {
+            HttpEntity httpEntity = new StringEntity(Manager.objectToJson(ordine));
+            httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+            httpPost.setEntity(httpEntity);
+            CloseableHttpResponse response = httpClient.execute(httpPost);
+            return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     //TODO products adding
     public boolean addProdotto(String userId, Prodotto prodotto) {
