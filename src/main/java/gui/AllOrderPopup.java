@@ -36,6 +36,10 @@ public class AllOrderPopup extends Application {
     private ChoiceBox choiceBox;
     @FXML
     private Button okButton;
+    @FXML
+    private Label totaleLabel;
+    @FXML
+    private Label orderID;
 
     @FXML
     private void handleOkButtonAction(ActionEvent Event){
@@ -45,32 +49,9 @@ public class AllOrderPopup extends Application {
             HttpWrapper http = new HttpWrapper();
             Ordine ordine = http.getAllProductsByOrder("1",date);
             List<Prodotto> prodottoList = ordine.getProdotti();
-
-            /*Prodotto prodotto1 = new Prodotto(41, "Sushi", "Xi-Sushi", CaratteristicheProdotto.BIOLOGICO, Categoria.PESCE, 15.99f, 20, 10, "sushi.png");
-            Prodotto prodotto2 = new Prodotto(42, "Ciliege", "FruttaFresca", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA, 6.49f, 20, 10, "cherries.png");
-            Prodotto prodotto3 = new Prodotto(43, "Banane", "FruttaFresca", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA, 5.99f, 20, 10, "bananas.png");
-            Prodotto prodotto4 = new Prodotto(44, "Cioccolatini", "ChocoLove", CaratteristicheProdotto.BIOLOGICO, Categoria.DOLCI, 2.99f, 20, 10, "chocolate_box.png");
-            Prodotto prodotto5 = new Prodotto(45, "Costolette", "MuccaPazza S.r.l", CaratteristicheProdotto.BIOLOGICO, Categoria.CARNE, 13.99f, 20, 10, "spare_ribs.png");
-            Prodotto prodotto6 = new Prodotto(46, "Formaggio svizzero", "Cheddar", CaratteristicheProdotto.BIOLOGICO, Categoria.LATTICINI, 21.99f, 20, 10, "swiss_cheese.png");
-            Prodotto prodotto7 = new Prodotto(47, "Tonno fresco", "Il pescatore allegro", CaratteristicheProdotto.BIOLOGICO, Categoria.PESCE, 7.99f, 20, 10, "tuna.png");
-            Prodotto prodotto8 = new Prodotto(48, "Honey", "Apindustria", CaratteristicheProdotto.BIOLOGICO, Categoria.DOLCI, 3.99f, 20, 10, "honey.png");
-            Prodotto prodotto9 = new Prodotto(49, "Sushi", "Xi-Sushi", CaratteristicheProdotto.BIOLOGICO, Categoria.PESCE, 15.99f, 20, 10, "sushi.png");
-            Prodotto prodotto10 = new Prodotto(50, "Sushi", "Xi-Sushi", CaratteristicheProdotto.BIOLOGICO, Categoria.PESCE, 15.99f, 20, 10, "sushi.png");
-            List<Prodotto> prodottoList = new ArrayList<>();
-            prodottoList.add(prodotto1);
-            prodottoList.add(prodotto2);
-            prodottoList.add(prodotto3);
-            prodottoList.add(prodotto4);
-            prodottoList.add(prodotto5);
-            prodottoList.add(prodotto6);
-            prodottoList.add(prodotto7);
-            prodottoList.add(prodotto8);
-            prodottoList.add(prodotto9);
-            prodottoList.add(prodotto10);*/
-
-
             int i = 0;
             Iterator it = prodottoList.iterator();
+            int totale = 0;
             while (it.hasNext()) {
                 Label lab1 = new Label(prodottoList.get(i).getNome());
                 lab1.setFont(Font.font(17));
@@ -91,9 +72,13 @@ public class AllOrderPopup extends Application {
                 HBox hbox = new HBox(20, img, vbox);
                 tilePane1.getChildren().add(hbox);
 
+                totale+= prodottoList.get(i).getPrezzo();
+
                 it.next();
                 i++;
             }
+            orderID.setText("ID ORDINE: " + ordine.getID());
+            totaleLabel.setText("Totale: " + String.valueOf(totale) + "$");
         }
     }
 

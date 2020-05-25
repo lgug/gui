@@ -15,23 +15,29 @@ public class Prodotto implements Comparable<Prodotto> {
     private int quantita;
     private String immagine;
 
-    public Prodotto(int id,String nome, String marca, CaratteristicheProdotto caratteristiche, Categoria categoria, float prezzo,int disponibilita, int quantita, String immagine) {
+    public Prodotto(int id, String nome, String marca, CaratteristicheProdotto caratteristiche, Categoria categoria, float prezzo, int disponibilita, int quantita, String immagine) {
         this.id = id;
         this.nome = nome;
         this.marca = marca;
         this.caratteristiche = caratteristiche;
         this.categoria = categoria;
         this.prezzo = prezzo;
-        this.quantita=quantita;
+        this.quantita = quantita;
         this.disponibilita = disponibilita;
         this.immagine = immagine;
     }
-    public Prodotto(){
+
+    public Prodotto() {
 
     }
-    public int getId() {return id;}
 
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -89,15 +95,15 @@ public class Prodotto implements Comparable<Prodotto> {
         this.immagine = immagine;
     }
 
-    public int getQuantita() { return quantita; }
+    public int getQuantita() {
+        return quantita;
+    }
 
-    public void setQuantita(int quantita) { this.quantita = quantita; }
+    public void setQuantita(int quantita) {
+        this.quantita = quantita;
+    }
 
     public int compareTo(Prodotto o) {
         return id - o.id;
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/master

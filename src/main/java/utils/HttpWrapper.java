@@ -187,6 +187,7 @@ public class HttpWrapper {
     public List<String> getAllOrdersDate(String userId) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(uri + "/getAllOrdersDate/"+userId);
+
         try {
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
@@ -208,6 +209,7 @@ public class HttpWrapper {
     public Ordine getAllProductsByOrder(String userId, String date){
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(uri + "/getAllProdByOrder/"+userId+"?date="+date);
+        HttpGet httpGet2 = new HttpGet(uri+"/getOrderID/"+userId+"?date="+date);
         try {
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
@@ -228,9 +230,16 @@ public class HttpWrapper {
                 prodotto.setMarca(prodottoElement.get(7).getAsString());
                 prodottoList.add(prodotto);
             }
+            response.close();
+            CloseableHttpResponse resp = httpClient.execute(httpGet2);
+            HttpEntity respEntity = resp.getEntity();
+            String jsonResponse2 = EntityUtils.toString(respEntity);
+            JsonArray list2 = JsonParser.parseString(jsonResponse2).getAsJsonArray();
             Ordine ordine = new Ordine();
             ordine.setData(date);
             ordine.setProdotti(prodottoList);
+            JsonArray listina = list2.get(0).getAsJsonArray();
+            ordine.setID(listina.get(0).getAsInt());
             return ordine;
         } catch (IOException e) {
             e.printStackTrace();
