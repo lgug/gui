@@ -22,6 +22,7 @@ public class Manager {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(ClassLoader.getSystemClassLoader().getResource("id.txt").getFile()));
             writer.write(uid);
+            writer.flush();
             writer.close();
 
         } catch (IOException e) {

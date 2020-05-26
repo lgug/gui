@@ -272,6 +272,7 @@ public class HttpWrapper {
                 prodotto.setImmagine(prodottoElement.get(4).getAsString());
                 prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
                 prodotto.setMarca(prodottoElement.get(7).getAsString());
+                prodotto.setQuantita(prodottoElement.get(8).getAsInt());
                 prodottoList.add(prodotto);
             }
             response.close();
