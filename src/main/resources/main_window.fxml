@@ -21,7 +21,7 @@
                   <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="479.0" spacing="10.0">
                      <children>
                         <Button fx:id="accediButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#handleAccediButtonAction" text="Accedi" textAlignment="CENTER" />
-                        <Button fx:id="cartButton" mnemonicParsing="false">
+                        <Button fx:id="cartButton" mnemonicParsing="false" onMouseClicked="#handleCartButtonAction">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
