@@ -5,6 +5,8 @@
       <module name="gui" target="1.8" />
       <module name="gui.main" target="1.8" />
       <module name="gui.test" target="1.8" />
+      <module name="IdeaProjects-gui_main" target="1.8" />
+      <module name="IdeaProjects-gui_test" target="1.8" />
       <module name="ingdelsoftware-gui" target="1.8" />
       <module name="ingdelsoftware-gui_main" target="1.8" />
       <module name="ingdelsoftware-gui_test" target="1.8" />

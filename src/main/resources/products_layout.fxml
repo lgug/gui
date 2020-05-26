@@ -6,37 +6,37 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainWindow">
+<HBox fx:id="productWrapper" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="93.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProductLayoutController">
    <children>
-      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="93.0" prefWidth="373.0">
+      <ImageView fx:id="prodottoImage" fitHeight="110.0" fitWidth="140.0" pickOnBounds="true">
+         <HBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </HBox.margin></ImageView>
+      <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="190.0">
          <children>
-            <ImageView id="product_image" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
-            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="161.0">
-               <children>
-                  <Label id="product_title" text="Nome prodotto">
-                     <font>
-                        <Font name="System Bold" size="17.0" />
-                     </font></Label>
-                  <Label id="product_brand" text="Marca" />
-                  <Label id="product_category" text="Descrizione" />
-                  <Label id="product_price" text="€60,99">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-               </children>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </VBox>
-            <Button id="product_add_button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="59.0" text="ADD" />
+            <Label fx:id="titoloProdotto" text="Nome prodotto">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Label>
+            <Label fx:id="marcaProdotto" text="Marca" />
+            <Label fx:id="categoriaProdotto" text="Categoria" />
+            <Label fx:id="disponibilitaProdotto" text="Disponibilità" />
+            <Label fx:id="prezzoProdotto" text="€60,99">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
          </children>
+         <HBox.margin>
+            <Insets />
+         </HBox.margin>
          <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
-      </HBox>
+      </VBox>
+      <Button fx:id="product_add_button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="47.0" prefWidth="61.0" text="ADD" />
    </children>
-</AnchorPane>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</HBox>

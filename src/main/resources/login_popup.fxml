@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="350.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginPopupController">
+   <children>
+      <BorderPane prefHeight="350.0" prefWidth="400.0">
+         <top>
+            <Label text="Accedi" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+               <padding>
+                  <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
+               </padding>
+            </Label>
+         </top>
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="400.0" spacing="7.0">
+                     <children>
+                        <Label text="Username:">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <TextField fx:id="usernameField" promptText="Inserisci la tua email" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="7.0">
+                     <children>
+                        <Label text="Password:">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <PasswordField fx:id="passwordField" promptText="Inserisci la tua password" />
+                     </children>
+                  </VBox>
+                  <Label fx:id="forgotPassword" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#handleForgotPasswordLabelEvent" prefHeight="16.0" prefWidth="525.0" text="Ho dimenticato la password" textAlignment="CENTER" textFill="#0015ff" underline="true" />
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+               </BorderPane.margin>
+            </VBox>
+         </center>
+         <bottom>
+            <HBox alignment="CENTER" prefHeight="81.0" prefWidth="400.0" spacing="30.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="accediButton" mnemonicParsing="false" onMouseClicked="#handleAccediButtonEvent" text="ACCEDI" />
+                  <Button mnemonicParsing="false" onMouseClicked="#handleRegistratiButtonEvent" text="REGISTRATI" />
+               </children>
+            </HBox>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>

@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ProgettoUniING-gui_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ProgettoUniING-gui_main.iml" group="gui" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ProgettoUniING-gui_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ProgettoUniING-gui_test.iml" group="gui" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gui.iml" filepath="$PROJECT_DIR$/.idea/modules/gui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects-gui_main.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects-gui_main.iml" group="gui" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects-gui_test.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects-gui_test.iml" group="gui" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gui.iml" filepath="$PROJECT_DIR$/.idea/modules/gui.iml" group="gui" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/gui_main.iml" filepath="$PROJECT_DIR$/.idea/modules/gui_main.iml" group="gui" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/gui_test.iml" filepath="$PROJECT_DIR$/.idea/modules/gui_test.iml" group="gui" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ingdelsoftware-gui.iml" filepath="$PROJECT_DIR$/.idea/modules/ingdelsoftware-gui.iml" group="gui" />

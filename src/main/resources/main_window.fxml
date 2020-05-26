@@ -8,22 +8,22 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainWindow">
    <children>
-      <BorderPane prefHeight="500.0" prefWidth="700.0">
+      <BorderPane prefHeight="600.0" prefWidth="900.0">
          <top>
             <HBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="403.0" spacing="10.0">
                      <children>
-                        <TextField id="searchField" prefHeight="26.0" prefWidth="279.0" promptText="Cerca qui i tuoi prodotti" />
-                        <Button id="searchButton" mnemonicParsing="false" onAction="#handleCercaButtonAction" text="Cerca" textAlignment="CENTER" />
+                        <TextField fx:id="searchField" prefHeight="26.0" prefWidth="312.0" promptText="Cerca qui i tuoi prodotti" />
+                        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleCercaButtonAction" text="Cerca" textAlignment="CENTER" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="374.0" spacing="10.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="479.0" spacing="10.0">
                      <children>
-                        <Button id="accediButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#handleAccediButtonAction" text="Accedi" textAlignment="CENTER" />
-                        <Button mnemonicParsing="false">
+                        <Button fx:id="accediButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#handleAccediButtonAction" text="Accedi" textAlignment="CENTER" />
+                        <Button fx:id="cartButton" mnemonicParsing="false">
                            <graphic>
-                              <ImageView id="cartButton" fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@shopping_basket.png" />
                                  </image>
@@ -41,10 +41,24 @@
          <center>
             <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <center>
-                  <TilePane id="productsTilePane" hgap="20.0" prefHeight="200.0" prefWidth="200.0" vgap="20.0" BorderPane.alignment="CENTER" />
+                  <ScrollPane prefHeight="-Infinity" prefWidth="-Infinity">
+                     <content>
+                        <GridPane fx:id="productsGridPane" alignment="CENTER" hgap="5" prefWidth="900.0" vgap="5">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                          </rowConstraints>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </GridPane>
+                     </content>
+                  </ScrollPane>
                </center>
                <top>
-                  <Label id="productsListTitle" text="Lista dei prodotti" BorderPane.alignment="CENTER">
+                  <Label fx:id="productsListTitle" text="Lista dei prodotti" BorderPane.alignment="CENTER">
                      <font>
                         <Font name="System Bold" size="21.0" />
                      </font>

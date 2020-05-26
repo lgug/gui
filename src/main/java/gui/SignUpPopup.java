@@ -1,54 +1,44 @@
 package gui;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.NodeOrientation;
-import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.Modality;
-import javafx.stage.Popup;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import objects.*;
 import utils.FieldChecker;
+import utils.HttpWrapper;
+import utils.KeyGenerator;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
-import java.util.Random;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class SignUpPopup extends Application {
+public class SignUpPopup extends Application implements Initializable {
 
     private static Stage primaryStage;
     private static Stage paymentStage;
+    private Parent root;
+    private Pane utenteClientePane;
+    private Pane utenteResponsabilePane;
+    private UtenteClienteController utenteClienteController;
+    private UtenteResponsabileController utenteResponsabileController;
+    private PaymentDataController paymentDataController;
 
-    private String nome;
-    private String cognome;
-    private Indirizzo indirizzo;
-    private String telefono;
-    private String email;
-    private String password;
-    private FormaDiPagamento formaDiPagamento;
-    private TesseraFedelta tesseraFedelta;
-    private String datiDiPagamento;
-    private RuoloResponsabile ruoloResponsabile;
-    private String matricola;
+    private static String nome;
+    private static String cognome;
+    private static Indirizzo indirizzo;
+    private static String telefono;
+    private static String email;
+    private static String password;
 
     @FXML
     private TextField nomeField;
@@ -80,32 +70,6 @@ public class SignUpPopup extends Application {
     private BorderPane tipoUtentePane;
     @FXML
     private Button confermaButton;
-    @FXML
-    private RadioButton siCartaFedelta;
-    @FXML
-    private RadioButton noCartaFedelta;
-    @FXML
-    private ChoiceBox<FormaDiPagamento> formaDiPagamentoBox;
-    @FXML
-    private Button datiPagamentoButton;
-    @FXML
-    private TextField matricolaField;
-    @FXML
-    private ChoiceBox<RuoloResponsabile> ruoloResponsabileBox;
-    @FXML
-    private Label label1;
-    @FXML
-    private Label label2;
-    @FXML
-    private TextField textField1;
-    @FXML
-    private TextField textField2;
-    @FXML
-    private Button confermaDatiButton;
-    @FXML
-    private Button annullaDatiButton;
-    @FXML
-    private ImageView iconDatiPagamento;
 
     @FXML
     protected void handleContinuaButtonAction(MouseEvent event) {
@@ -175,10 +139,8 @@ public class SignUpPopup extends Application {
         }
         FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("signup_popup_2.fxml"));
         try {
-            AnchorPane anchorPane = fxmlLoader.load();
-            Scene secondScene = new Scene(anchorPane);
-            primaryStage.setScene(secondScene);
-            primaryStage.show();
+            root = fxmlLoader.load();
+            primaryStage.getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -186,118 +148,66 @@ public class SignUpPopup extends Application {
 
     @FXML
     protected void handleUtenteClienteToggleButtonEvent(MouseEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("utente_cliente_layout.fxml"));
-        tipoUtentePane.setCenter(fxmlLoader.<VBox>load());
-        formaDiPagamentoBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            confermaButton.setDisable((newValue != FormaDiPagamento.CONSEGNA));
-            datiPagamentoButton.setDisable(newValue != FormaDiPagamento.CARTA_CREDITO && newValue != FormaDiPagamento.PAYPAL);
-            formaDiPagamento = newValue;
-            datiDiPagamento = null;
-        });
+        tipoUtentePane.setCenter(utenteClientePane);
+        confermaButton.setDisable(utenteClienteController.getFormaDiPagamento() == null ||
+                (!utenteClienteController.getFormaDiPagamento().equals(FormaDiPagamento.CONSEGNA) &&
+                paymentDataController.getPaymentString() == null));
     }
 
     @FXML
     protected void handleUtenteResponsabileToggleButtonEvent(MouseEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("utente_responsabile_layout.fxml"));
-        tipoUtentePane.setCenter(fxmlLoader.<VBox>load());
+        tipoUtentePane.setCenter(utenteResponsabilePane);
         confermaButton.setDisable(false);
-        ruoloResponsabileBox.getItems().addAll(RuoloResponsabile.values());
-        ruoloResponsabileBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
-                ruoloResponsabile = newValue);
-    }
-
-    @FXML
-    protected void handleInserisciDatiPagamentoButtonEvent(MouseEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("dati_pagamento_popup.fxml"));
-        try {
-            AnchorPane anchorPane = fxmlLoader.load();
-            InputStream is = null;
-            switch (formaDiPagamento) {
-                case PAYPAL:
-                    is = ClassLoader.getSystemClassLoader().getResourceAsStream("paypal_logo.jpg");
-                    label1.setText("Username:");
-                    label2.setText("Password:");
-                    break;
-                case CARTA_CREDITO:
-                    is = ClassLoader.getSystemClassLoader().getResourceAsStream("credit_card.jpg");
-                    label1.setText("N. della carta:");
-                    label2.setText("Data di scadenza:");
-                    break;
-            }
-            if (is != null) {
-                iconDatiPagamento.setImage(new Image(is));
-            }
-            Scene paymentScene = new Scene(anchorPane);
-            paymentStage = new Stage();
-            paymentStage.setTitle("Forma di pagamento");
-            paymentStage.setScene(paymentScene);
-            paymentStage.initModality(Modality.WINDOW_MODAL);
-            paymentStage.initOwner(primaryStage);
-            paymentStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    protected void handleConfermaDatiButtonEvent(MouseEvent event) {
-        //TODO to verify data
-        datiDiPagamento = textField1.getText() + ";" + textField2.getText();
-        confermaButton.setDisable(false);
-        if (paymentStage != null) paymentStage.close();
-    }
-
-    @FXML
-    protected void handleAnnullaDatiButtonEvent(MouseEvent event) {
-        if (paymentStage != null) paymentStage.close();
     }
 
     @FXML protected void handleConfermaButtonAction(MouseEvent event) {
-        Random random = new Random();
-        String id = String.valueOf(random.nextLong());
+        Utente utente;
         if (utenteClienteButton.isSelected()) {
             TesseraFedelta tesseraFedelta = null;
-            if (siCartaFedelta != null && siCartaFedelta.isSelected()) {
+            if (utenteClienteController.isCartaFedelta() != null && utenteClienteController.isCartaFedelta()) {
                 tesseraFedelta = new TesseraFedelta();
-                tesseraFedelta.setId(String.valueOf(random.nextLong()));
+                tesseraFedelta.setId(KeyGenerator.generateFidelityCardKey());
                 tesseraFedelta.setDataEmissione(System.currentTimeMillis());
                 tesseraFedelta.setSaldoPunti(0);
             }
             UtenteCliente utenteCliente = new UtenteCliente();
-            utenteCliente.setId(id);
+            utenteCliente.setId(KeyGenerator.generateUserKey(UtenteCliente.class));
             utenteCliente.setNome(nome);
             utenteCliente.setCognome(cognome);
             utenteCliente.setIndirizzo(indirizzo);
             utenteCliente.setTelefono(telefono);
             utenteCliente.setEmail(email);
             utenteCliente.setPassword(password);
-            utenteCliente.setDatiDelPagamento(datiDiPagamento);
-            utenteCliente.setPagamento(formaDiPagamento);
+            utenteCliente.setDatiDelPagamento(paymentDataController.getPaymentString());
+            utenteCliente.setPagamento(utenteClienteController.getFormaDiPagamento());
             utenteCliente.setTesseraFedelta(tesseraFedelta);
-            //TODO to send to Flask
+            utente = utenteCliente;
         } else if (utenteResponsabileButton.isSelected()) {
-            matricola = matricolaField.getText();
-            ruoloResponsabile = ruoloResponsabileBox.getValue();
             UtenteResponsabile utenteResponsabile = new UtenteResponsabile();
-            utenteResponsabile.setId(id);
+            utenteResponsabile.setId(KeyGenerator.generateUserKey(UtenteResponsabile.class));
             utenteResponsabile.setNome(nome);
             utenteResponsabile.setCognome(cognome);
             utenteResponsabile.setIndirizzo(indirizzo);
             utenteResponsabile.setTelefono(telefono);
             utenteResponsabile.setEmail(email);
             utenteResponsabile.setPassword(password);
-            utenteResponsabile.setRuolo(ruoloResponsabile);
-            utenteResponsabile.setMatricola(matricola);
-            //TODO to send to Flask
-        }
+            utenteResponsabile.setRuolo(utenteResponsabileController.getRuoloResponsabile());
+            utenteResponsabile.setMatricola(utenteResponsabileController.getMatricola());
+            utente = utenteResponsabile;
+        } else return;
+
+        HttpWrapper httpWrapper = new HttpWrapper();
+        boolean operationResult = httpWrapper.sendNewUser(utente);
+        if (operationResult)
+            primaryStage.close();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         SignUpPopup.primaryStage = primaryStage;
         FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("signup_popup.fxml"));
-        AnchorPane anchorPane = fxmlLoader.load();
-        Scene mainScene = new Scene(anchorPane);
+        root = fxmlLoader.load();
+        Scene mainScene = new Scene(root);
         SignUpPopup.primaryStage.setTitle("Registrati");
         SignUpPopup.primaryStage.setScene(mainScene);
         SignUpPopup.primaryStage.show();
@@ -307,4 +217,27 @@ public class SignUpPopup extends Application {
         launch(args);
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        FXMLLoader fxmlLoader1 = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("utente_cliente_layout.fxml"));
+        FXMLLoader fxmlLoader2 = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("utente_responsabile_layout.fxml"));
+        FXMLLoader fxmlLoader3 = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("dati_pagamento_popup.fxml"));
+        try {
+            utenteClientePane = fxmlLoader1.load();
+            utenteResponsabilePane = fxmlLoader2.load();
+            utenteClienteController = fxmlLoader1.getController();
+            utenteResponsabileController = fxmlLoader2.getController();
+
+            utenteClienteController.setConfermaButton(confermaButton);
+            utenteClienteController.setPrimaryStage(primaryStage);
+
+            utenteClienteController.setPaymentDataPane(fxmlLoader3.load());
+            paymentDataController = fxmlLoader3.getController();
+            paymentDataController.setConfermaButton(confermaButton);
+            utenteClienteController.setPaymentDataController(paymentDataController);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
