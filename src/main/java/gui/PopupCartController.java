@@ -9,8 +9,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import objects.CaratteristicheProdotto;
-import objects.Categoria;
+import javafx.stage.Stage;
+import objects.*;
 
 import java.io.File;
 import java.net.URL;
@@ -20,22 +20,20 @@ import java.util.*;
 
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import objects.Ordine;
-import objects.Prodotto;
 import utils.HttpWrapper;
 import utils.ProdottoSemplificato;
 
 
-public class PopupCartController<TextView> implements Initializable {
+public class PopupCartController<TextView> {
     public Label tot;
     public Button Continua;
-    public Button Indetro;
 
     public TableView<Prodotto> table;
     public TableColumn<Prodotto,String> col1;
     public TableColumn<Prodotto,String> col2;
     public TableColumn<Prodotto,String> col3;
 
+    public ObservableList<String> st =FXCollections.observableArrayList( "PayPal", "Alla consegna", "Carta di credito" );
     public Label caratteristiche;
     public Label nome;
     public Label marca;
@@ -43,16 +41,21 @@ public class PopupCartController<TextView> implements Initializable {
     public Label prezzo;
     public ImageView image;
     public Spinner spinner;
-
+    public ChoiceBox<String> choicePagamento;
+    private UtenteCliente utenteCliente;
     private ObservableList<Prodotto> list = FXCollections.observableArrayList(
             new Prodotto(8984,"banana", "chiquita", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,10,1,"bananas.png"),
-            new Prodotto(989889,"cherry", "fruttissima",CaratteristicheProdotto.VEGAN,Categoria.FRUTTA_VERDURA,10,4,1,"cherries.png"),
-            new Prodotto(989,"sushi", "china express", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,7,1,"sushi.png"),
+            new Prodotto(989,"cherry", "fruttissima",CaratteristicheProdotto.VEGAN,Categoria.FRUTTA_VERDURA,10,4,1,"cherries.png"),
+            new Prodotto(4454,"sushi", "china express", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,7,1,"sushi.png"),
             new Prodotto(8984,"banana", "chiquita", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,10,1,"bananas.png")
             );
     TreeSet<Prodotto> ts1 = new TreeSet<Prodotto>();
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+
+    public void initialize() {
+
+        choicePagamento.setItems(st);
+        if(utenteCliente!= null)
+            choicePagamento.setValue(utenteCliente.getPagamento().toString());
 
         int sum=0;
         for(Prodotto prodotto:list){
@@ -68,6 +71,7 @@ public class PopupCartController<TextView> implements Initializable {
         }
         list.removeAll(list);
         list.addAll(ts1);
+        ts1.removeAll(ts1);
         System.out.println(ts1);
         tot.setText(String.valueOf(sum));
         col1.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -76,7 +80,7 @@ public class PopupCartController<TextView> implements Initializable {
         table.setItems(list);
     }
 
-    public void Action(MouseEvent mouseEvent) {
+    public void handleSelectProductButtonAction(MouseEvent mouseEvent) {
         ObservableList<Prodotto> prodotto = table.getSelectionModel().getSelectedItems();
         nome.setText(prodotto.get(0).getNome());
         marca.setText(prodotto.get(0).getMarca());
@@ -84,15 +88,24 @@ public class PopupCartController<TextView> implements Initializable {
         categoria.setText(prodotto.get(0).getCategoria().toString());
         prezzo.setText(String.valueOf(prodotto.get(0).getPrezzo()));
         image.setImage(new Image (prodotto.get(0).getImmagine()));
-        SpinnerValueFactory<Integer> spinnerQuantity = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, prodotto.get(0).getDisponibilita(), prodotto.get(0).getQuantita()){
+
+        SpinnerValueFactory<Integer> spinnerQuantity = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, prodotto.get(0).getDisponibilita(), prodotto.get(0).getQuantita()){
             @Override
             public void decrement(int steps) {
+                if(prodotto.get(0).getQuantita()>0) {
+                    int totale = Integer.parseInt(tot.getText());
+                    totale -= prodotto.get(0).getPrezzo();
+                    tot.setText(String.valueOf(totale));
+                }
                 this.setValue(this.getValue()-1);
                 prodotto.get(0).setQuantita(this.getValue());
             }
 
             @Override
             public void increment(int steps) {
+                int totale = Integer.parseInt(tot.getText());
+                totale += prodotto.get(0).getPrezzo();
+                tot.setText(String.valueOf(totale));
                 this.setValue(this.getValue()+1);
                 prodotto.get(0).setQuantita(this.getValue());
             }
@@ -100,7 +113,16 @@ public class PopupCartController<TextView> implements Initializable {
         spinner.setValueFactory(spinnerQuantity);
     }
 
-    public void buy(MouseEvent mouseEvent) {
+    public void handleBuyButtonAction(MouseEvent mouseEvent) throws Exception {
+        for(Prodotto prodotto: list)
+            if(prodotto.getQuantita()> prodotto.getDisponibilita()){
+                ErrorPageQuantita errorPageQuantita = new ErrorPageQuantita();
+                errorPageQuantita.start(new Stage());
+                list.remove(prodotto);
+                initialize();
+                break;
+            }
+
         Ordine ord = new Ordine();
         ord.setData(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
         List<ProdottoSemplificato> listprodsempl = new ArrayList<ProdottoSemplificato>();
@@ -109,9 +131,9 @@ public class PopupCartController<TextView> implements Initializable {
         }
         ord.setProdotti(listprodsempl);
         Random rand = new Random();
-        ord.setID("23");
+        ord.setID(String.valueOf(rand.nextInt()));
         HttpWrapper http = new HttpWrapper();
-        String r = http.addOrdine("1", ord);
-        System.out.println(r);
+        http.addOrdine("1", ord);
     }
+
 }

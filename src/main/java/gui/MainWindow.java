@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import objects.CaratteristicheProdotto;
@@ -104,5 +105,14 @@ public class MainWindow extends Application implements Initializable {
         HttpWrapper http = new HttpWrapper();
         List<Prodotto> prodottoList = http.getFirst10Prod();
         return prodottoList;
+    }
+
+    public void handleCartButtonAction(MouseEvent mouseEvent) {
+        PopupCart popupCart = new PopupCart();
+        try {
+            popupCart.start(new Stage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

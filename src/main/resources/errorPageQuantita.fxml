@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="112.0" prefWidth="288.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ErrorPageQuantita">
+   <children>
+      <Button fx:id="button" layoutX="214.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#handleOkButtonAction" prefHeight="25.0" prefWidth="60.0" text="OK" />
+      <ImageView fx:id="warning" fitHeight="60.0" fitWidth="60.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="89.0" layoutY="14.0" prefHeight="60.0" prefWidth="183.0" text="Errore: Quantita' non disponibile" />
+   </children>
+</AnchorPane>
