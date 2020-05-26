@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import objects.Ordine;
 import objects.Prodotto;
 import utils.HttpWrapper;
+import utils.Manager;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -43,7 +44,7 @@ public class AllOrderPopup extends Application {
         if (choiceBox.getValue() != null) {
             String date = (String) choiceBox.getValue();
             HttpWrapper http = new HttpWrapper();
-            Ordine ordine = http.getAllProductsByOrder("1",date);
+            Ordine ordine = http.getAllProductsByOrder(Manager.getUIDFromFile(),date);
             List<Prodotto> prodottoList = ordine.getProdotto();
             int i = 0;
             Iterator it = prodottoList.iterator();
@@ -81,7 +82,7 @@ public class AllOrderPopup extends Application {
     @FXML
     private void initialize() throws IOException {
         HttpWrapper http = new HttpWrapper();
-        List<String> date = http.getAllOrdersDate("1");
+        List<String> date = http.getAllOrdersDate(Manager.getUIDFromFile());
         if (date.isEmpty()){
             choiceBox.setDisable(true);
         }

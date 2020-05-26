@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import utils.HttpWrapper;
+import utils.Manager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,8 +29,10 @@ public class LoginPopupController implements Initializable {
             if (!(result.startsWith("UC") || result.startsWith("UR"))) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, result, ButtonType.OK);
                 alert.show();
+
             } else {
                 primaryStage.close();
+                Manager.createIDFile(result);
             }
         } catch (IOException e) {
             e.printStackTrace();
