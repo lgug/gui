@@ -134,7 +134,7 @@ public class PopupCartController<TextView> {
             Random rand = new Random();
             ord.setID(String.valueOf(rand.nextInt()));
             HttpWrapper http = new HttpWrapper();
-            http.addOrdine("1", ord);
+            http.addOrdine("2", ord);
         }
     }
 }
