@@ -25,7 +25,7 @@ public class LoginPopupController implements Initializable {
         HttpWrapper httpWrapper = new HttpWrapper();
         try {
             String result = httpWrapper.login(usernameField.getText(), passwordField.getText());
-            if (!result.equalsIgnoreCase("OK")) {
+            if (!(result.startsWith("UC") || result.startsWith("UR"))) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, result, ButtonType.OK);
                 alert.show();
             } else {
