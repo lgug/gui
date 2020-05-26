@@ -21,23 +21,23 @@ import java.util.*;
 
 public class HttpWrapper {
     private String uri = "http://127.0.0.1:5000";
-    private String r = "";
 
-    public String login(String username, String password) throws IOException {
+    public String login(String email, String password) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpGet request = new HttpGet(uri + "/login?" + username + "&" + password);
+            HttpGet request = new HttpGet(uri + "/login?"+"email=" + email + "&"+"password=" + password);
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 String result = EntityUtils.toString(entity);
                 System.out.println(result);
+                return result;
             }
         } finally {
             httpClient.close();
         }
-        return r;
+        return "Error";
     }
 
     //TODO user access method. return string, parameters email, password
@@ -62,7 +62,7 @@ public class HttpWrapper {
     public String availability(String id) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpGet request = new HttpGet(uri + "/getFirstProducts/"+"?uid="+id);
+            HttpGet request = new HttpGet(uri + "/getFirstProducts/"+id);
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
@@ -74,6 +74,35 @@ public class HttpWrapper {
             httpClient.close();
         }
         return "Error";
+    }
+    public List<Prodotto> getFirst10Prod() throws IOException{
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(uri + "/getFirstProducts");
+        try {
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+            String jsonResponse = EntityUtils.toString(responseEntity);
+            List<Prodotto> prodottoList = new ArrayList<>();
+            JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
+            Iterator<JsonElement> it = list.iterator();
+            while (it.hasNext()) {
+                JsonArray prodottoElement = it.next().getAsJsonArray();
+                Prodotto prodotto = new Prodotto();
+                prodotto.setId(prodottoElement.get(0).getAsInt());
+                prodotto.setNome(prodottoElement.get(1).getAsString());
+                prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
+                //prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(4).getAsString()));
+                prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
+                prodotto.setImmagine(prodottoElement.get(4).getAsString());
+                prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
+                prodotto.setMarca(prodottoElement.get(7).getAsString());
+                prodottoList.add(prodotto);
+            }
+            return prodottoList;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     //TODO get products per name
@@ -148,7 +177,7 @@ public class HttpWrapper {
     }
 
     //TODO order sending, return boolean, parameters Ordine
-    public boolean addOrdine(String userId, Ordine ordine) {
+    public String addOrdine(String userId, Ordine ordine) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(uri + "/buyOrder/"+userId);
         try {
@@ -156,11 +185,11 @@ public class HttpWrapper {
             httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpPost.setEntity(httpEntity);
             CloseableHttpResponse response = httpClient.execute(httpPost);
-            return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
+            return EntityUtils.toString(response.getEntity());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
+        return "false";
     }
 
 
