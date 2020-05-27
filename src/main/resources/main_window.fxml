@@ -30,13 +30,13 @@
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <RadioButton mnemonicParsing="false" selected="true" text="Nome">
+                              <RadioButton fx:id="nomeButton" mnemonicParsing="false" selected="true" text="Nome">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="searchByToggleGroup" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton mnemonicParsing="false" text="Categoria" toggleGroup="$searchByToggleGroup" />
-                              <RadioButton mnemonicParsing="false" text="Caratteristica" toggleGroup="$searchByToggleGroup" />
+                              <RadioButton fx:id="categoriaButton" mnemonicParsing="false" text="Categoria" toggleGroup="$searchByToggleGroup" />
+                              <RadioButton fx:id="caratteristicaButton" mnemonicParsing="false" text="Caratteristica" toggleGroup="$searchByToggleGroup" />
                            </children>
                         </HBox>
                      </children></VBox>
