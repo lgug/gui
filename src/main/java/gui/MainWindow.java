@@ -11,12 +11,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import objects.Prodotto;
 import utils.HttpWrapper;
+import utils.Manager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -42,6 +44,12 @@ public class MainWindow extends Application implements Initializable {
     private Label productsListTitle;
     @FXML
     private GridPane productsGridPane;
+    @FXML
+    private RadioButton nomeButton;
+    @FXML
+    private RadioButton categoriaButton;
+    @FXML
+    private RadioButton caratteristicaButton;
 
 
     @FXML
@@ -56,6 +64,60 @@ public class MainWindow extends Application implements Initializable {
 
     @FXML
     protected void handleCercaButtonAction(ActionEvent event) throws IOException {
+        List<Prodotto> prodottoList = new ArrayList<>();
+        clearPanel();
+        productLayoutControllerMap = new HashMap<>();
+        if(nomeButton.isSelected()){
+             prodottoList = getProdByName(searchField.getText());
+        }
+        else if (categoriaButton.isSelected()){
+            Categoria cat = null;
+            if(searchField.getText().equalsIgnoreCase("frutta")){
+                cat = Categoria.valueOf("FRUTTA_VERDURA");
+            }
+            else if(searchField.getText().equalsIgnoreCase("verdura")){
+                cat = Categoria.valueOf("FRUTTA_VERDURA");
+            }
+            else{
+                cat = Categoria.valueOf(searchField.getText().toUpperCase());
+            }
+
+            prodottoList = getProdByCat(cat);
+        }
+        else if(caratteristicaButton.isSelected()){
+            prodottoList = getProdByName(searchField.getText());
+        }
+
+        for (int i = 0; i < prodottoList.size(); i++) {
+            FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("products_layout.fxml"));
+            HBox hBox;
+            try {
+                hBox = fxmlLoader.<HBox>load();
+                ProductLayoutController productLayoutController = fxmlLoader.getController();
+                productLayoutControllerMap.put(productLayoutController, hBox);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int pos = 0;
+        int row = 0;
+        int col = 0;
+        for (ProductLayoutController plc: productLayoutControllerMap.keySet()) {
+            plc.createOneProductLayout(prodottoList.get(pos));
+            pos++;
+            productsGridPane.add(productLayoutControllerMap.get(plc), col, row);
+            if (col == 1) {
+                col = 0;
+                row++;
+            } else {
+                col++;
+            }
+        }
+    }
+
+    @FXML
+    private void start10Prod() throws IOException {
         productLayoutControllerMap = new HashMap<>();
         List<Prodotto> prodottoList = get10mostAvailableProducts();
 
@@ -87,6 +149,10 @@ public class MainWindow extends Application implements Initializable {
         }
     }
 
+    private void clearPanel(){
+        productsGridPane.getChildren().clear();
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -104,12 +170,31 @@ public class MainWindow extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            start10Prod();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Prodotto> get10mostAvailableProducts() throws IOException {
         HttpWrapper http = new HttpWrapper();
         List<Prodotto> prodottoList = http.getFirst10Prod();
         return prodottoList;
+    }
+
+    private List<Prodotto> getProdByName(String prodName) throws IOException {
+        HttpWrapper http = new HttpWrapper();
+        return http.getProductsPerName(prodName, Manager.getUIDFromFile());
+    }
+    private List<Prodotto> getProdByCat(Categoria... category) throws IOException {
+        HttpWrapper http = new HttpWrapper();
+        return http.getProductByCategory(Manager.getUIDFromFile(),category);
+    }
+
+    private List<Prodotto> getProdByTag(String tag) throws IOException {
+        HttpWrapper http = new HttpWrapper();
+        return http.getProductsPerName(tag, Manager.getUIDFromFile());
     }
 
     public void handleCartButtonAction(MouseEvent mouseEvent) {

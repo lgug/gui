@@ -18,4 +18,6 @@ public enum Categoria {
     public String toString() {
         return enumString;
     }
+
+    public String toRealString(){return super.toString();}
 }
