@@ -3,9 +3,16 @@ package utils;
 import com.google.gson.Gson;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Manager {
+
+    public static String getDateFormat(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+        return simpleDateFormat.format(date);
+    }
 
 
     public static String objectToJson(Object obj){
@@ -20,7 +27,8 @@ public class Manager {
 
     public static void createIDFile(String uid) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(ClassLoader.getSystemClassLoader().getResource("id.txt").getFile()));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(
+                    new File(ClassLoader.getSystemClassLoader().getResource("id.txt").getFile())));
             writer.write(uid);
             writer.flush();
             writer.close();

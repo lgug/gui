@@ -12,18 +12,40 @@
          <top>
             <HBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="403.0" spacing="10.0">
+                  <VBox prefHeight="0.0" prefWidth="443.0" spacing="10.0">
                      <children>
-                        <TextField fx:id="searchField" prefHeight="26.0" prefWidth="312.0" promptText="Cerca qui i tuoi prodotti" />
-                        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleCercaButtonAction" text="Cerca" textAlignment="CENTER" />
-                     </children>
-                  </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="403.0" spacing="10.0">
+                           <children>
+                              <TextField fx:id="searchField" prefHeight="26.0" prefWidth="312.0" promptText="Cerca qui i tuoi prodotti" />
+                              <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleCercaButtonAction" text="Cerca" textAlignment="CENTER" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="20.0" prefWidth="200.0" spacing="10.0">
+                           <children>
+                              <Label text="Cerca per:">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <RadioButton mnemonicParsing="false" selected="true" text="Nome">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="searchByToggleGroup" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton mnemonicParsing="false" text="Categoria" toggleGroup="$searchByToggleGroup" />
+                              <RadioButton mnemonicParsing="false" text="Caratteristica" toggleGroup="$searchByToggleGroup" />
+                           </children>
+                        </HBox>
+                     </children></VBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="479.0" spacing="10.0">
                      <children>
                         <Button fx:id="accediButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#handleAccediButtonAction" text="Accedi" textAlignment="CENTER" />
                         <Button fx:id="cartButton" mnemonicParsing="false" onMouseClicked="#handleCartButtonAction">
                            <graphic>
-                              <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="150.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@shopping_basket.png" />
                                  </image>
@@ -49,6 +71,7 @@
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
+                             <RowConstraints vgrow="SOMETIMES" />
                           </rowConstraints>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
