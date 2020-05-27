@@ -5,6 +5,7 @@ public enum CaratteristicheProdotto {
     VEGAN("vegano"),
     NO_LATTE("no latte"),
     BIOLOGICO("biologico"),
+    NEUTRO("neutro"),
     VEGETARIANO("vegetariano");
 
     private String enumString;
@@ -17,4 +18,6 @@ public enum CaratteristicheProdotto {
     public String toString() {
         return enumString;
     }
+
+    public String realToString(){return super.toString();}
 }

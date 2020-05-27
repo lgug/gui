@@ -108,9 +108,9 @@ public class HttpWrapper {
     }
 
     //TODO get products per name
-    public List<Prodotto> getProductsPerName(String prodName,String id) throws IOException {
+    public List<Prodotto> getProductsPerName(String prodName) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/getProdByName/"+prodName+"?uid="+id);
+        HttpGet httpGet = new HttpGet(uri + "/getProdByName/"+prodName);
         try {
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
@@ -124,9 +124,9 @@ public class HttpWrapper {
                 prodotto.setId(prodottoElement.get(0).getAsInt());
                 prodotto.setNome(prodottoElement.get(1).getAsString());
                 prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
-                //prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(4).getAsString()));
                 prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
                 prodotto.setImmagine(prodottoElement.get(4).getAsString());
+                prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
                 prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
                 prodotto.setMarca(prodottoElement.get(7).getAsString());
                 prodottoList.add(prodotto);
@@ -157,9 +157,9 @@ public class HttpWrapper {
                 prodotto.setId(prodottoElement.get(0).getAsInt());
                 prodotto.setNome(prodottoElement.get(1).getAsString());
                 prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
-                //prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(4).getAsString()));
                 prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
                 prodotto.setImmagine(prodottoElement.get(4).getAsString());
+                prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
                 prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
                 prodotto.setMarca(prodottoElement.get(7).getAsString());
                 prodottoList.add(prodotto);
@@ -173,21 +173,36 @@ public class HttpWrapper {
 
     //TODO get products per tag
 
-    public String tag(String tag, String id) throws IOException {
+    public List<Prodotto> tag(String id, CaratteristicheProdotto... tag) throws IOException {
+        StringBuilder categoriesString = new StringBuilder();
+        Arrays.asList(tag).forEach(tags -> categoriesString.append(tags.realToString()).append(";"));
         CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(uri + "/getProdByTag/" + categoriesString.toString() + "?uid=" + id);
         try {
-            HttpGet request = new HttpGet(uri + "/getProdByTag/"+tag);
-            request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
-            CloseableHttpResponse response = httpClient.execute(request);
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                String result = EntityUtils.toString(entity);
-                return result;
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+            String jsonResponse = EntityUtils.toString(responseEntity);
+            List<Prodotto> prodottoList = new ArrayList<>();
+            JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
+            Iterator<JsonElement> it = list.iterator();
+            while (it.hasNext()) {
+                JsonArray prodottoElement = it.next().getAsJsonArray();
+                Prodotto prodotto = new Prodotto();
+                prodotto.setId(prodottoElement.get(0).getAsInt());
+                prodotto.setNome(prodottoElement.get(1).getAsString());
+                prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
+                prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
+                prodotto.setImmagine(prodottoElement.get(4).getAsString());
+                prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
+                prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
+                prodotto.setMarca(prodottoElement.get(7).getAsString());
+                prodottoList.add(prodotto);
             }
-        } finally {
-            httpClient.close();
+            return prodottoList;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return "error";
+        return null;
     }
 
     //TODO order sending, return boolean, parameters Ordine
@@ -281,9 +296,9 @@ public class HttpWrapper {
                 prodotto.setId(prodottoElement.get(0).getAsInt());
                 prodotto.setNome(prodottoElement.get(1).getAsString());
                 prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
-                //prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(4).getAsString()));
                 prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
                 prodotto.setImmagine(prodottoElement.get(4).getAsString());
+                prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
                 prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
                 prodotto.setMarca(prodottoElement.get(7).getAsString());
                 prodotto.setQuantita(prodottoElement.get(8).getAsInt());

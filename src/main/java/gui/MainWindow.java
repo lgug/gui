@@ -16,6 +16,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import objects.CaratteristicheProdotto;
+import objects.Categoria;
 import objects.Prodotto;
 import utils.HttpWrapper;
 import utils.Manager;
@@ -85,7 +87,9 @@ public class MainWindow extends Application implements Initializable {
             prodottoList = getProdByCat(cat);
         }
         else if(caratteristicaButton.isSelected()){
-            prodottoList = getProdByName(searchField.getText());
+            CaratteristicheProdotto tag = null;
+            tag = CaratteristicheProdotto.valueOf(searchField.getText().toUpperCase());
+            prodottoList = getProdByTag(tag);
         }
 
         for (int i = 0; i < prodottoList.size(); i++) {
@@ -185,16 +189,16 @@ public class MainWindow extends Application implements Initializable {
 
     private List<Prodotto> getProdByName(String prodName) throws IOException {
         HttpWrapper http = new HttpWrapper();
-        return http.getProductsPerName(prodName, Manager.getUIDFromFile());
+        return http.getProductsPerName(prodName);
     }
     private List<Prodotto> getProdByCat(Categoria... category) throws IOException {
         HttpWrapper http = new HttpWrapper();
         return http.getProductByCategory(Manager.getUIDFromFile(),category);
     }
 
-    private List<Prodotto> getProdByTag(String tag) throws IOException {
+    private List<Prodotto> getProdByTag(CaratteristicheProdotto... tag) throws IOException {
         HttpWrapper http = new HttpWrapper();
-        return http.getProductsPerName(tag, Manager.getUIDFromFile());
+        return http.tag(Manager.getUIDFromFile(),tag);
     }
 
     public void handleCartButtonAction(MouseEvent mouseEvent) {
