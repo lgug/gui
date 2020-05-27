@@ -7,13 +7,13 @@
 <AnchorPane prefHeight="400.0" prefWidth="476.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PopupCartController">
     <children>
         <Button fx:id="Continua" layoutX="381.0" layoutY="341.0" mnemonicParsing="false" onMouseClicked="#handleBuyButtonAction" text="Continua" />
-        <Label layoutX="271.0" layoutY="307.0" text="Totale: " />
-        <DatePicker layoutX="271.0" layoutY="52.0" />
-        <Label layoutX="271.0" layoutY="25.0" text="Scegliere la data di consegna:" />
-        <ChoiceBox fx:id="choicePagamento" layoutX="271.0" layoutY="278.0" prefHeight="25.0" prefWidth="174.0" />
-        <Label layoutX="271.0" layoutY="257.0" text="Metodo di pagamento" />
-      <Label fx:id="tot" layoutX="309.0" layoutY="308.0" prefHeight="17.0" prefWidth="80.0" text="0" />
-      <VBox layoutX="271.0" layoutY="90.0" prefHeight="150.0" prefWidth="200.0">
+      <VBox layoutX="271.0" layoutY="30.0" prefHeight="25.0" prefWidth="200.0">
+         <children>
+              <Label text="Scegliere la data di consegna:" />
+              <DatePicker prefHeight="25.0" prefWidth="173.0" />
+         </children>
+      </VBox>
+      <VBox layoutX="271.0" layoutY="90.0" prefHeight="158.0" prefWidth="200.0">
          <children>
             <HBox prefHeight="17.0" prefWidth="196.0">
                <children>
@@ -48,9 +48,21 @@
             <VBox prefHeight="47.0" prefWidth="100.0">
                <children>
                   <Label text="Quantita:" />
-                  <Spinner fx:id="spinner" prefHeight="10.0" prefWidth="64.0" />
+                  <Spinner fx:id="spinner" prefHeight="18.0" prefWidth="64.0" />
                </children>
             </VBox>
+         </children>
+      </VBox>
+      <HBox layoutX="271.0" layoutY="313.0" prefHeight="17.0" prefWidth="186.0">
+         <children>
+              <Label text="Totale: " />
+            <Label fx:id="tot" prefHeight="17.0" prefWidth="80.0" text="0" />
+         </children>
+      </HBox>
+      <VBox layoutX="271.0" layoutY="263.0" prefHeight="61.0" prefWidth="200.0">
+         <children>
+              <Label text="Metodo di pagamento" />
+              <ChoiceBox fx:id="choicePagamento" prefHeight="25.0" prefWidth="173.0" />
          </children>
       </VBox>
       <ImageView fx:id="image" fitHeight="61.0" fitWidth="64.0" layoutX="374.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true" />
