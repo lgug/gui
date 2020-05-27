@@ -1,5 +1,6 @@
 package objects;
 
+import com.sun.javafx.collections.ElementObservableListDecorator;
 import utils.ProdottoSemplificato;
 
 import java.util.List;

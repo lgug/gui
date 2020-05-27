@@ -90,12 +90,14 @@ public class HttpWrapper {
                 Prodotto prodotto = new Prodotto();
                 prodotto.setId(prodottoElement.get(0).getAsInt());
                 prodotto.setNome(prodottoElement.get(1).getAsString());
-                prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
-                //prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(4).getAsString()));
+                prodotto.setQuantita(prodottoElement.get(2).getAsInt());
                 prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
                 prodotto.setImmagine(prodottoElement.get(4).getAsString());
+                prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
                 prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
                 prodotto.setMarca(prodottoElement.get(7).getAsString());
+                prodotto.setDisponibilita(prodottoElement.get(8).getAsInt());
+
                 prodottoList.add(prodotto);
             }
             return prodottoList;

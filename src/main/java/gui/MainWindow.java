@@ -1,6 +1,9 @@
 package gui;
 
+import com.sun.javafx.collections.ElementObservableListDecorator;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,8 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import objects.CaratteristicheProdotto;
-import objects.Categoria;
 import objects.Prodotto;
 import utils.HttpWrapper;
 
@@ -23,6 +24,9 @@ import java.util.*;
 
 public class MainWindow extends Application implements Initializable {
 
+
+    public static ArrayList<Prodotto> array = new ArrayList<>();
+    public static  ObservableList<Prodotto> list = FXCollections.observableArrayList();
     private Stage stage;
     private Map<ProductLayoutController, Pane> productLayoutControllerMap;
 
@@ -38,6 +42,7 @@ public class MainWindow extends Application implements Initializable {
     private Label productsListTitle;
     @FXML
     private GridPane productsGridPane;
+
 
     @FXML
     protected void handleAccediButtonAction(ActionEvent event) {
@@ -108,11 +113,28 @@ public class MainWindow extends Application implements Initializable {
     }
 
     public void handleCartButtonAction(MouseEvent mouseEvent) {
+        list= FXCollections.observableArrayList(array);
         PopupCart popupCart = new PopupCart();
         try {
             popupCart.start(new Stage());
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static ArrayList<Prodotto> getArray() {
+        return array;
+    }
+
+    public static void setArray(ArrayList<Prodotto> array) {
+        MainWindow.array = array;
+    }
+
+    public static ObservableList<Prodotto> getList() {
+        return list;
+    }
+
+    public static void setList(ObservableList<Prodotto> list) {
+        MainWindow.list = list;
     }
 }

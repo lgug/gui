@@ -10,7 +10,7 @@
         <Label layoutX="271.0" layoutY="307.0" text="Totale: " />
         <DatePicker layoutX="271.0" layoutY="52.0" />
         <Label layoutX="271.0" layoutY="25.0" text="Scegliere la data di consegna:" />
-        <ChoiceBox fx:id="choicePagamento" layoutX="271.0" layoutY="278.0"  prefHeight="25.0" prefWidth="174.0" />
+        <ChoiceBox fx:id="choicePagamento" layoutX="271.0" layoutY="278.0" prefHeight="25.0" prefWidth="174.0" />
         <Label layoutX="271.0" layoutY="257.0" text="Metodo di pagamento" />
       <Label fx:id="tot" layoutX="309.0" layoutY="308.0" prefHeight="17.0" prefWidth="80.0" text="0" />
       <Label layoutX="271.0" layoutY="89.0" text="Nome:" />

@@ -43,12 +43,18 @@ public class PopupCartController<TextView> {
     public Spinner spinner;
     public ChoiceBox<String> choicePagamento;
     private UtenteCliente utenteCliente;
-    private ObservableList<Prodotto> list = FXCollections.observableArrayList(
+
+    private ObservableList<Prodotto> list = MainWindow.getList();
+    /*private ObservableList<Prodotto> list = FXCollections.observableArrayList(
             new Prodotto(8984,"banana", "chiquita", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,0,1,"bananas.png"),
             new Prodotto(989,"cherry", "fruttissima",CaratteristicheProdotto.VEGAN,Categoria.FRUTTA_VERDURA,10,4,1,"cherries.png"),
             new Prodotto(4454,"sushi", "china express", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,7,1,"sushi.png"),
             new Prodotto(8984,"banana", "chiquita", CaratteristicheProdotto.BIOLOGICO, Categoria.FRUTTA_VERDURA,2,10,1,"bananas.png")
             );
+
+
+     */
+
     TreeSet<Prodotto> ts1 = new TreeSet<Prodotto>();
 
     public void initialize() {
@@ -92,7 +98,7 @@ public class PopupCartController<TextView> {
         SpinnerValueFactory<Integer> spinnerQuantity = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, prodotto.get(0).getDisponibilita(), prodotto.get(0).getQuantita()){
             @Override
             public void decrement(int steps) {
-                if(prodotto.get(0).getQuantita()>0) {
+                if((prodotto.get(0).getQuantita() > 0) && (this.getValue() != 0)) {
                     int totale = Integer.parseInt(tot.getText());
                     totale -= prodotto.get(0).getPrezzo();
                     tot.setText(String.valueOf(totale));
@@ -103,9 +109,11 @@ public class PopupCartController<TextView> {
 
             @Override
             public void increment(int steps) {
-                int totale = Integer.parseInt(tot.getText());
-                totale += prodotto.get(0).getPrezzo();
-                tot.setText(String.valueOf(totale));
+                if(prodotto.get(0).getQuantita()< prodotto.get(0).getDisponibilita()) {
+                    int totale = Integer.parseInt(tot.getText());
+                    totale += prodotto.get(0).getPrezzo();
+                    tot.setText(String.valueOf(totale));
+                }
                 this.setValue(this.getValue()+1);
                 prodotto.get(0).setQuantita(this.getValue());
             }

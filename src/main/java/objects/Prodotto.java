@@ -5,7 +5,7 @@ public class Prodotto implements Comparable<Prodotto> {
 
     private String nome;
     private String marca;
-    private CaratteristicheProdotto caratteristiche;
+    private CaratteristicheProdotto tag;
     private Categoria categoria;
     private float prezzo;
     private int disponibilita;
@@ -15,11 +15,11 @@ public class Prodotto implements Comparable<Prodotto> {
     public Prodotto() {
     }
 
-    public Prodotto(int id, String nome, String marca, CaratteristicheProdotto caratteristiche, Categoria categoria, float prezzo, int disponibilita, int quantita, String immagine) {
+    public Prodotto(int id, String nome, String marca, CaratteristicheProdotto tag,Categoria categoria, float prezzo, int disponibilita, int quantita, String immagine) {
         this.id = id;
         this.nome = nome;
         this.marca = marca;
-        this.caratteristiche = caratteristiche;
+        this.tag=tag;
         this.categoria = categoria;
         this.prezzo = prezzo;
         this.disponibilita = disponibilita;
@@ -48,11 +48,11 @@ public class Prodotto implements Comparable<Prodotto> {
     }
 
     public CaratteristicheProdotto getCaratteristiche() {
-        return caratteristiche;
+        return tag;
     }
 
     public void setCaratteristiche(CaratteristicheProdotto caratteristiche) {
-        this.caratteristiche = caratteristiche;
+        this.tag = caratteristiche;
     }
 
     public Categoria getCategoria() {
