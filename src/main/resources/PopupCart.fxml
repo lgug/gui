@@ -13,19 +13,47 @@
         <ChoiceBox fx:id="choicePagamento" layoutX="271.0" layoutY="278.0" prefHeight="25.0" prefWidth="174.0" />
         <Label layoutX="271.0" layoutY="257.0" text="Metodo di pagamento" />
       <Label fx:id="tot" layoutX="309.0" layoutY="308.0" prefHeight="17.0" prefWidth="80.0" text="0" />
-      <Label layoutX="271.0" layoutY="89.0" text="Nome:" />
-      <Label layoutX="271.0" layoutY="106.0" text="Marca:" />
-      <Label layoutX="271.0" layoutY="123.0" text="Caratteristiche:" />
-      <Label layoutX="272.0" layoutY="157.0" text="Categoria:" />
-      <Label fx:id="caratteristiche" layoutX="271.0" layoutY="140.0" prefHeight="17.0" prefWidth="174.0" />
-      <Label layoutX="273.0" layoutY="174.0" text="Prezzo:" />
-      <ImageView fx:id="image" fitHeight="61.0" fitWidth="64.0" layoutX="381.0" layoutY="192.0" pickOnBounds="true" preserveRatio="true" />
-      <Spinner fx:id="spinner" layoutX="272.0" layoutY="222.0" prefHeight="10.0" prefWidth="64.0" />
-      <Label layoutX="272.0" layoutY="200.0" text="Numero:" />
-      <Label fx:id="nome" layoutX="312.0" layoutY="89.0" prefHeight="17.0" prefWidth="87.0" />
-      <Label fx:id="marca" layoutX="312.0" layoutY="106.0" prefHeight="17.0" prefWidth="87.0" />
-      <Label fx:id="categoria" layoutX="333.0" layoutY="157.0" prefHeight="17.0" prefWidth="112.0" />
-      <Label fx:id="prezzo" layoutX="315.0" layoutY="174.0" prefHeight="17.0" prefWidth="120.0" />
+      <VBox layoutX="271.0" layoutY="90.0" prefHeight="150.0" prefWidth="200.0">
+         <children>
+            <HBox prefHeight="17.0" prefWidth="196.0">
+               <children>
+                  <Label text="Nome:" />
+                  <Label fx:id="nome" prefHeight="17.0" prefWidth="107.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="17.0" prefWidth="174.0">
+               <children>
+                  <Label text="Marca:" />
+                  <Label fx:id="marca" prefHeight="17.0" prefWidth="87.0" />
+               </children>
+            </HBox>
+            <VBox prefHeight="17.0" prefWidth="174.0">
+               <children>
+                  <Label text="Caratteristiche:" />
+                  <Label fx:id="caratteristiche" prefHeight="17.0" prefWidth="174.0" />
+               </children>
+            </VBox>
+            <HBox prefHeight="17.0" prefWidth="200.0">
+               <children>
+                  <Label text="Categoria:" />
+                  <Label fx:id="categoria" prefHeight="17.0" prefWidth="109.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="17.0" prefWidth="200.0">
+               <children>
+                  <Label text="Prezzo:" />
+                  <Label fx:id="prezzo" prefHeight="17.0" prefWidth="120.0" />
+               </children>
+            </HBox>
+            <VBox prefHeight="47.0" prefWidth="100.0">
+               <children>
+                  <Label text="Quantita:" />
+                  <Spinner fx:id="spinner" prefHeight="10.0" prefWidth="64.0" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <ImageView fx:id="image" fitHeight="61.0" fitWidth="64.0" layoutX="374.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true" />
       <TableView fx:id="table" layoutX="21.0" layoutY="30.0" onMouseClicked="#handleSelectProductButtonAction" prefHeight="337.0" prefWidth="229.0">
         <columns>
           <TableColumn fx:id="col1" prefWidth="33.0" text="ID" />
