@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UtenteClienteDetails">
+<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UtenteClienteDetailsController">
    <children>
-      <BorderPane prefHeight="400.0" prefWidth="400.0">
+      <BorderPane prefHeight="500.0" prefWidth="500.0">
          <top>
             <VBox alignment="CENTER" prefHeight="81.0" prefWidth="400.0" BorderPane.alignment="CENTER">
                <children>
@@ -44,10 +44,10 @@
                </children></VBox>
          </top>
          <center>
-            <GridPane prefHeight="240.0" prefWidth="338.0" BorderPane.alignment="CENTER_LEFT">
+            <GridPane prefHeight="240.0" prefWidth="500.0" BorderPane.alignment="CENTER_LEFT">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="163.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="206.0" minWidth="10.0" prefWidth="197.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="258.0" minWidth="10.0" prefWidth="193.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="267.0" />
               </columnConstraints>
               <rowConstraints>
                   <RowConstraints prefHeight="15.0" vgrow="SOMETIMES" />
@@ -64,7 +64,7 @@
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font></Label>
-                  <Label fx:id="indirizzoLabel" text="Label" GridPane.columnIndex="1" />
+                  <Label fx:id="indirizzoLabel" text="Label" wrapText="true" GridPane.columnIndex="1" />
                   <Label text="Telefono:" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="13.0" />
@@ -93,9 +93,13 @@
                               <Font size="26.0" />
                            </font>
                         </Label>
+                        <Button fx:id="newTesseraButton" mnemonicParsing="false" text="Inserisci una tessera">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></Button>
                      </children>
                   </VBox>
-                  <ImageView fitHeight="70.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" rotate="-14.4" GridPane.rowIndex="7">
+                  <ImageView fitHeight="90.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" rotate="-14.4" GridPane.rowIndex="7">
                      <image>
                         <Image url="@fidelity_card.png" />
                      </image>
@@ -115,7 +119,7 @@
                   <Label fx:id="datiPagamentoLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
                <BorderPane.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" />
+                  <Insets bottom="20.0" left="40.0" right="40.0" />
                </BorderPane.margin>
             </GridPane>
          </center></BorderPane>

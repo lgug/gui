@@ -44,7 +44,7 @@ public class AllOrderPopup extends Application {
         if (choiceBox.getValue() != null) {
             String date = (String) choiceBox.getValue();
             HttpWrapper http = new HttpWrapper();
-            Ordine ordine = http.getAllProductsByOrder(Manager.getUIDFromFile(),date);
+            Ordine ordine = http.getAllProductsByOrder("1",date);
             List<Prodotto> prodottoList = ordine.getProdotto();
             int i = 0;
             Iterator it = prodottoList.iterator();
@@ -60,12 +60,14 @@ public class AllOrderPopup extends Application {
                 Label prezzo = new Label("$" + String.valueOf(prodottoList.get(i).getPrezzo()));
                 prezzo.setFont(Font.font(20));
 
+                Label quantita = new Label(String.valueOf(prodottoList.get(i).getQuantita()));
+
                 Image image = new Image(ClassLoader.getSystemClassLoader().getResourceAsStream(prodottoList.get(i).getImmagine()));
                 ImageView img = new ImageView(image);
                 img.setFitHeight(80);
                 img.setFitWidth(80);
 
-                VBox vbox = new VBox(10, lab1, lab2, prezzo);
+                VBox vbox = new VBox(10, lab1, lab2,quantita, prezzo);
                 HBox hbox = new HBox(20, img, vbox);
                 tilePane1.getChildren().add(hbox);
 
@@ -82,7 +84,7 @@ public class AllOrderPopup extends Application {
     @FXML
     private void initialize() throws IOException {
         HttpWrapper http = new HttpWrapper();
-        List<String> date = http.getAllOrdersDate(Manager.getUIDFromFile());
+        List<String> date = http.getAllOrdersDate("1");
         if (date.isEmpty()){
             choiceBox.setDisable(true);
         }
