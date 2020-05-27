@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox alignment="CENTER_RIGHT" prefHeight="75.0" prefWidth="300.0" spacing="10.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoggedUCLayoutController">
+    <children>
+        <Button fx:id="myProfileButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onMouseClicked="#handleMyProfileButtonEvent" textAlignment="CENTER">
+         <graphic>
+            <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@user_bw.png" />
+               </image></ImageView>
+         </graphic></Button>
+      <Button fx:id="myOrdersButton" mnemonicParsing="false" onMouseClicked="#handleMyOrdersButtonEvent">
+         <graphic>
+            <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@orders.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="optionsButton" mnemonicParsing="false" onMouseClicked="#handleOptionsButtonEvent">
+         <graphic>
+            <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@other_options.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+        <Button fx:id="cartButton" mnemonicParsing="false" onMouseClicked="#handleCartButtonAction">
+            <graphic>
+                <ImageView fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@shopping_basket.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+    </children>
+
+</HBox>

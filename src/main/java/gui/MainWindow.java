@@ -1,6 +1,5 @@
 package gui;
 
-import com.sun.javafx.collections.ElementObservableListDecorator;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +13,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import objects.CaratteristicheProdotto;
 import objects.Categoria;
@@ -34,6 +36,15 @@ public class MainWindow extends Application implements Initializable {
     private Stage stage;
     private Map<ProductLayoutController, Pane> productLayoutControllerMap;
 
+    private NotLoggedLayoutController notLoggedLayoutController;
+    private HBox notLoggedHBox;
+
+    private LoggedUCLayoutController loggedUCLayoutController;
+    private HBox loggedUCHBox;
+
+    private LoggedURLayoutController loggedURLayoutController;
+    private HBox loggedURHBox;
+
     @FXML
     private TextField searchField;
     @FXML
@@ -52,17 +63,8 @@ public class MainWindow extends Application implements Initializable {
     private RadioButton categoriaButton;
     @FXML
     private RadioButton caratteristicaButton;
-
-
     @FXML
-    protected void handleAccediButtonAction(ActionEvent event) {
-        LoginPopup loginPopup = new LoginPopup();
-        try {
-            loginPopup.start(new Stage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    private HBox userTypeButtonWrapper;
 
     @FXML
     protected void handleCercaButtonAction(ActionEvent event) throws IOException {
@@ -175,6 +177,28 @@ public class MainWindow extends Application implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            FXMLLoader notLogged = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("not_logged_layout.fxml"));
+            FXMLLoader loggedUC = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("logged_uc_layout.fxml"));
+            FXMLLoader loggedUR = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("logged_ur_layout.fxml"));
+            notLoggedHBox = notLogged.load();
+            loggedUCHBox = loggedUC.load();
+            loggedURHBox = loggedUR.load();
+
+            notLoggedLayoutController = notLogged.getController();
+            loggedUCLayoutController = loggedUC.getController();
+            loggedURLayoutController = loggedUR.getController();
+
+            userTypeButtonWrapper.getChildren().clear();
+            if (Manager.getUIDFromFile() != null) {
+                if (Manager.getUIDFromFile().matches("UC-\\d+")) {
+                    userTypeButtonWrapper.getChildren().add(loggedUCHBox);
+                } else if (Manager.getUIDFromFile().matches("UR-\\d+")) {
+                    userTypeButtonWrapper.getChildren().add(loggedURHBox);
+                } else if (Manager.getUIDFromFile().isEmpty() || Manager.getUIDFromFile().equals("ERROR")) {
+                    userTypeButtonWrapper.getChildren().add(notLoggedHBox);
+                }
+            }
+
             start10Prod();
         } catch (IOException e) {
             e.printStackTrace();
