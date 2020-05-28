@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import objects.Indirizzo;
 import objects.RuoloResponsabile;
 import objects.UtenteResponsabile;
+import utils.HttpWrapper;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,6 +30,8 @@ public class UtenteResponsabileDetailsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        HttpWrapper httpWrapper = new HttpWrapper();
+//        UtenteCliente utente = httpWrapper.getUser(Manager.getUIDFromFile());
         UtenteResponsabile utente = metodoDiProva(); //TODO get user by file
         nomeLabel.setText(utente.getNome());
         cognomeLabel.setText(utente.getCognome());

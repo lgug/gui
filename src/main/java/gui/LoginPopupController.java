@@ -29,10 +29,10 @@ public class LoginPopupController implements Initializable {
             if (!(result.startsWith("UC") || result.startsWith("UR"))) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, result, ButtonType.OK);
                 alert.show();
-
             } else {
                 primaryStage.close();
                 Manager.createIDFile(result);
+                MainWindow.setUserTypeLayout(result);
             }
         } catch (IOException e) {
             e.printStackTrace();

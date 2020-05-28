@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProductDetailsController">
+   <children>
+      <BorderPane prefHeight="500.0" prefWidth="400.0">
+         <top>
+            <Label fx:id="productName" text="Nome del prodotto" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+               </BorderPane.margin></Label>
+         </top>
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <ImageView fx:id="productImage" fitHeight="230.0" fitWidth="270.0" pickOnBounds="true">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin></ImageView>
+                        <GridPane hgap="5.0" vgap="12.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Prodotto da:">
+                                 <font>
+                                    <Font name="System Bold Italic" size="13.0" />
+                                 </font></Label>
+                              <Label text="Categoria:" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font name="System Bold Italic" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="productBrand" text="Nome del produttore" GridPane.columnIndex="1">
+                                 <font>
+                                    <Font name="System Italic" size="13.0" />
+                                 </font></Label>
+                              <Label fx:id="productCategory" text="Categoria" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font name="System Italic" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Caratteristiche:" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font name="System Bold Italic" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="productTag" text="Caratteristica" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font name="System Italic" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Disponibilità:" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font name="System Bold Italic" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="productAvailability" text="Ancora disponibili" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font name="System Italic" size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </GridPane>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="productPrice" text="EUR 34.99">
+                                 <font>
+                                    <Font name="System Bold" size="30.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children></VBox>
+         </center>
+         <bottom>
+            <Button fx:id="addToCartButton" mnemonicParsing="false" onMouseClicked="#handleAddToCartButtonEvent" text="Aggiungi al carrello" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="15.0" />
+               </BorderPane.margin>
+            </Button>
+         </bottom></BorderPane>
+   </children>
+</AnchorPane>

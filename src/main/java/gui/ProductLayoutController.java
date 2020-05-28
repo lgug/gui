@@ -9,9 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import objects.Ordine;
+import javafx.stage.Stage;
 import objects.Prodotto;
-
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -52,8 +51,8 @@ public class ProductLayoutController implements Initializable {
             disponibilitaProdotto.setText("Attualmente non disponibili!");
             disponibilitaProdotto.setTextFill(Color.RED);
         } else if (disp <= 10) {
-            disponibilitaProdotto.setText("Ancora " + disp + "disponibili!!!");
-            disponibilitaProdotto.setTextFill(Color.GOLD);
+            disponibilitaProdotto.setText("Ancora " + disp + " disponibili!!!");
+            disponibilitaProdotto.setTextFill(Color.GOLDENROD);
         } else {
             disponibilitaProdotto.setText("Attualmente disponibili: " + disp);
             disponibilitaProdotto.setTextFill(Color.GREEN);
@@ -67,7 +66,14 @@ public class ProductLayoutController implements Initializable {
                 new BorderStroke(Color.LIGHTGREY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THIN)));
     }
 
-    public void handleAdddButtonAction(MouseEvent mouseEvent) {
+    @FXML
+    protected void handleDetailsButtonEvent(MouseEvent event) {
+        ProductDetails productDetails = new ProductDetails(prodotto);
+        productDetails.start(new Stage());
+    }
+
+    @FXML
+    public void handleAddButtonAction(MouseEvent mouseEvent) {
         ArrayList<Prodotto> array = MainWindow.getArray();
         array.add(prodotto);
         MainWindow.setArray(array);

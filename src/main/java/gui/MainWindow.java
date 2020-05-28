@@ -36,14 +36,13 @@ public class MainWindow extends Application implements Initializable {
     private Stage stage;
     private Map<ProductLayoutController, Pane> productLayoutControllerMap;
 
+    private static HBox staticUserTypeButtonWrapper;
     private NotLoggedLayoutController notLoggedLayoutController;
-    private HBox notLoggedHBox;
-
+    private static HBox notLoggedHBox;
     private LoggedUCLayoutController loggedUCLayoutController;
-    private HBox loggedUCHBox;
-
+    private static HBox loggedUCHBox;
     private LoggedURLayoutController loggedURLayoutController;
-    private HBox loggedURHBox;
+    private static HBox loggedURHBox;
 
     @FXML
     private TextField searchField;
@@ -176,6 +175,7 @@ public class MainWindow extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        staticUserTypeButtonWrapper = userTypeButtonWrapper;
         try {
             FXMLLoader notLogged = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("not_logged_layout.fxml"));
             FXMLLoader loggedUC = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("logged_uc_layout.fxml"));
@@ -188,16 +188,8 @@ public class MainWindow extends Application implements Initializable {
             loggedUCLayoutController = loggedUC.getController();
             loggedURLayoutController = loggedUR.getController();
 
-            userTypeButtonWrapper.getChildren().clear();
-            if (Manager.getUIDFromFile() != null) {
-                if (Manager.getUIDFromFile().matches("UC-\\d+")) {
-                    userTypeButtonWrapper.getChildren().add(loggedUCHBox);
-                } else if (Manager.getUIDFromFile().matches("UR-\\d+")) {
-                    userTypeButtonWrapper.getChildren().add(loggedURHBox);
-                } else if (Manager.getUIDFromFile().isEmpty() || Manager.getUIDFromFile().equals("ERROR")) {
-                    userTypeButtonWrapper.getChildren().add(notLoggedHBox);
-                }
-            }
+            String uid = Manager.getUIDFromFile();
+            setUserTypeLayout(uid);
 
             start10Prod();
         } catch (IOException e) {
@@ -235,6 +227,19 @@ public class MainWindow extends Application implements Initializable {
         }
     }
 
+    public static void setUserTypeLayout(String uid) {
+        staticUserTypeButtonWrapper.getChildren().clear();
+        if (uid != null) {
+            if (uid.matches("UC-\\d+")) {
+                staticUserTypeButtonWrapper.getChildren().add(loggedUCHBox);
+            } else if (uid.matches("UR-\\d+")) {
+                staticUserTypeButtonWrapper.getChildren().add(loggedURHBox);
+            } else if (uid.trim().isEmpty() || uid.trim().equals("ERROR")) {
+                staticUserTypeButtonWrapper.getChildren().add(notLoggedHBox);
+            }
+        }
+    }
+
     public static ArrayList<Prodotto> getArray() {
         return array;
     }
@@ -250,4 +255,5 @@ public class MainWindow extends Application implements Initializable {
     public static void setList(ObservableList<Prodotto> list) {
         MainWindow.list = list;
     }
+    
 }

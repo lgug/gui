@@ -1,10 +1,13 @@
 package gui;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import utils.Manager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,7 +19,7 @@ public class LoggedUCLayoutController implements Initializable {
     @FXML
     private Button myOrdersButton;
     @FXML
-    private Button optionsButton;
+    private MenuButton optionsButton;
 
     @FXML
     protected void handleMyProfileButtonEvent(MouseEvent event) {
@@ -37,6 +40,12 @@ public class LoggedUCLayoutController implements Initializable {
     @FXML
     protected void handleOptionsButtonEvent(MouseEvent event) {
         //TODO
+    }
+
+    @FXML
+    protected void handleEsciMenuEvent(ActionEvent event) {
+        Manager.createIDFile("");
+        MainWindow.setUserTypeLayout(Manager.getUIDFromFile());
     }
 
     @FXML

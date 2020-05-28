@@ -22,15 +22,18 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="optionsButton" mnemonicParsing="false" onMouseClicked="#handleOptionsButtonEvent">
+      <MenuButton fx:id="optionsButton" mnemonicParsing="false" onMouseClicked="#handleOptionsButtonEvent" prefHeight="26.0" prefWidth="53.0">
+        <items>
+          <MenuItem mnemonicParsing="false" onAction="#handleEsciMenuEvent" text="Esci" />
+        </items>
          <graphic>
-            <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="16.5" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@other_options.png" />
                </image>
             </ImageView>
          </graphic>
-      </Button>
+      </MenuButton>
         <Button fx:id="cartButton" mnemonicParsing="false" onMouseClicked="#handleCartButtonAction">
             <graphic>
                 <ImageView fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
