@@ -320,4 +320,41 @@ public class HttpWrapper {
         }
         return null;
     }
+
+    public UtenteCliente getUserByID(String userId) throws IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(uri + "/getUserInfo/"+userId);
+        CloseableHttpResponse response = httpClient.execute(httpGet);
+        HttpEntity responseEntity = response.getEntity();
+        String jsonResponse = EntityUtils.toString(responseEntity);
+        JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
+        JsonArray utenteinfo = list.get(0).getAsJsonArray();
+        JsonArray indirizzoinfo = list.get(1).getAsJsonArray();
+        UtenteCliente utente = new UtenteCliente();
+        if (list.size() == 3) {
+            JsonArray tesserainfo = list.get(2).getAsJsonArray();
+            TesseraFedelta tessera = new TesseraFedelta();
+            tessera.setId(tesserainfo.get(0).getAsString());
+            tessera.setDataEmissione(tesserainfo.get(1).getAsLong());
+            tessera.setSaldoPunti(tesserainfo.get(2).getAsInt());
+            utente.setTesseraFedelta(tessera);
+        }
+        utente.setId(utenteinfo.get(0).getAsString());
+        utente.setNome(utenteinfo.get(1).getAsString());
+        utente.setCognome(utenteinfo.get(2).getAsString());
+        utente.setTelefono(utenteinfo.get(3).getAsString());
+        utente.setPagamento(FormaDiPagamento.valueOf(utenteinfo.get(4).getAsString()));
+        utente.setDatiDelPagamento(utenteinfo.get(5).getAsString());
+        utente.setEmail(utenteinfo.get(6).getAsString());
+        utente.setPassword(utenteinfo.get(7).getAsString());
+        Indirizzo indirizzo = new Indirizzo();
+        indirizzo.setVia(indirizzoinfo.get(1).getAsString());
+        indirizzo.setCap(indirizzoinfo.get(2).getAsString());
+        indirizzo.setLocalita(indirizzoinfo.get(3).getAsString());
+        indirizzo.setProvincia(indirizzoinfo.get(4).getAsString());
+        indirizzo.setPaese(indirizzoinfo.get(5).getAsString());
+        indirizzo.setCivico(indirizzoinfo.get(6).getAsString());
+        utente.setIndirizzo(indirizzo);
+        return utente;
+    }
 }

@@ -8,8 +8,10 @@ import objects.FormaDiPagamento;
 import objects.Indirizzo;
 import objects.TesseraFedelta;
 import objects.UtenteCliente;
+import utils.HttpWrapper;
 import utils.Manager;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -41,9 +43,13 @@ public class UtenteClienteDetailsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Manager.createIDFile("12345");
-        Manager.getUIDFromFile();
-        UtenteCliente utente = metodoDiProva(); //TODO get user from database with id
+        HttpWrapper http = new HttpWrapper();
+        UtenteCliente utente = null; //TODO get user from database with id
+        try {
+            utente = http.getUserByID(Manager.getUIDFromFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         nomeLabel.setText(utente.getNome());
         cognomeLabel.setText(utente.getCognome());
         Indirizzo indirizzo = utente.getIndirizzo();
