@@ -25,6 +25,7 @@ public class PopupCartController{
     private final ObservableList<String> st =FXCollections.observableArrayList( FormaDiPagamento.CARTA_CREDITO.toString(), FormaDiPagamento.CONSEGNA.toString(),FormaDiPagamento.PAYPAL.toString());
     private final ObservableList<Prodotto> list = MainWindow.getList();
     private final TreeSet<Prodotto> ts1 = new TreeSet<>();
+    private Stage primaryStage;
     public Label tot,caratteristiche,nome,marca,categoria,prezzo;
     public TableView<Prodotto> table;
     public TableColumn<Prodotto,String> col1,col2,col3,col4;
@@ -134,7 +135,8 @@ public class PopupCartController{
             }
         if (check) {
             Ordine ord = new Ordine();
-            ord.setData(new SimpleDateFormat("dd/MM/yyyyHH:mm:ss").format(new Date()));
+
+            ord.setData(new Date().getTime());
             List<ProdottoSemplificato> listprodsempl = new ArrayList<>();
             for (Prodotto prodotto : list) {
                 listprodsempl.add(new ProdottoSemplificato(prodotto.getId(), prodotto.getQuantita()));
@@ -143,10 +145,17 @@ public class PopupCartController{
             Random rand = new Random();
             ord.setID(String.valueOf(rand.nextInt()));
             HttpWrapper http = new HttpWrapper();
-            http.addOrdine(this.Id, ord);
-
+            String response = http.addOrdine(Manager.getUIDFromFile(), ord);
+            if (response.equalsIgnoreCase("OK")){
+                list.clear();
+                MainWindow.resetWindow();
+                primaryStage.close();
+            }
         }
     }
 
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 
 }

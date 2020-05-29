@@ -23,6 +23,9 @@ import utils.HttpWrapper;
 import utils.Manager;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,18 +40,20 @@ public class AllOrderPopup extends Application {
     private Label totaleLabel;
     @FXML
     private Label orderID;
+    private BigDecimal sum= new BigDecimal("0.0");
+
+    private HashMap<String,Long> dateMap = new HashMap<>();
 
     @FXML
     private void handleOkButtonAction(ActionEvent Event){
         clearPanel();
         if (choiceBox.getValue() != null) {
-            String date = (String) choiceBox.getValue();
+            Long date = dateMap.get(choiceBox.getValue());
             HttpWrapper http = new HttpWrapper();
             Ordine ordine = http.getAllProductsByOrder(Manager.getUIDFromFile(),date);
             List<Prodotto> prodottoList = ordine.getProdotto();
             int i = 0;
             Iterator it = prodottoList.iterator();
-            int totale = 0;
             while (it.hasNext()) {
                 Label lab1 = new Label(prodottoList.get(i).getNome());
                 lab1.setFont(Font.font(17));
@@ -60,7 +65,7 @@ public class AllOrderPopup extends Application {
                 Label prezzo = new Label("$" + String.valueOf(prodottoList.get(i).getPrezzo()));
                 prezzo.setFont(Font.font(20));
 
-                Label quantita = new Label(String.valueOf(prodottoList.get(i).getQuantita()));
+                Label quantita = new Label("Quantità: " + String.valueOf(prodottoList.get(i).getQuantita()));
 
                 Image image = new Image(ClassLoader.getSystemClassLoader().getResourceAsStream(prodottoList.get(i).getImmagine()));
                 ImageView img = new ImageView(image);
@@ -71,26 +76,32 @@ public class AllOrderPopup extends Application {
                 HBox hbox = new HBox(20, img, vbox);
                 tilePane1.getChildren().add(hbox);
 
-                totale+= prodottoList.get(i).getPrezzo();
+                BigDecimal prezzo2 = new BigDecimal(String.valueOf(prodottoList.get(i).getPrezzo()));
+                BigDecimal quantita2 = new BigDecimal(prodottoList.get(i).getQuantita());
+                sum =sum.add(prezzo2.multiply(quantita2));
 
                 it.next();
                 i++;
             }
+
             orderID.setText("ID ORDINE: " + ordine.getID());
-            totaleLabel.setText("Totale: " + String.valueOf(totale) + "$");
+            totaleLabel.setText("Totale: " + sum + "€");
         }
     }
 
     @FXML
     private void initialize() throws IOException {
         HttpWrapper http = new HttpWrapper();
-        List<String> date = http.getAllOrdersDate(Manager.getUIDFromFile());
+        List<Long> date = http.getAllOrdersDate(Manager.getUIDFromFile());
         if (date.isEmpty()){
             choiceBox.setDisable(true);
         }
         else {
-            for (String i : date) {
-                choiceBox.getItems().add(i);
+            for (Long i : date) {
+                Date data = new Date(i);
+                String dataS = Manager.getDateFormat(data);
+                choiceBox.getItems().add(dataS);
+                dateMap.put(dataS,i);
             }
         }
     }

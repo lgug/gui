@@ -257,7 +257,7 @@ public class HttpWrapper {
     }
 
     //TODO request all user's orders
-    public List<String> getAllOrdersDate(String userId) {
+    public List<Long> getAllOrdersDate(String userId) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(uri + "/getAllOrdersDate/"+userId);
 
@@ -265,12 +265,12 @@ public class HttpWrapper {
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
-            List<String> orderDate = new ArrayList<>();
+            List<Long> orderDate = new ArrayList<>();
             JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
             Iterator<JsonElement> it = list.iterator();
             while (it.hasNext()) {
                 JsonArray orderElement = it.next().getAsJsonArray();
-                orderDate.add(orderElement.get(0).getAsString());
+                orderDate.add(orderElement.get(0).getAsLong());
             }
             return orderDate;
         } catch (IOException e) {
@@ -279,7 +279,7 @@ public class HttpWrapper {
         return null;
     }
 
-    public Ordine getAllProductsByOrder(String userId, String date){
+    public Ordine getAllProductsByOrder(String userId, Long date){
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(uri + "/getAllProdByOrder/"+userId+"?date="+date);
         HttpGet httpGet2 = new HttpGet(uri+"/getOrderID/"+userId+"?date="+date);
@@ -331,6 +331,7 @@ public class HttpWrapper {
         JsonArray utenteinfo = list.get(0).getAsJsonArray();
         JsonArray indirizzoinfo = list.get(1).getAsJsonArray();
         UtenteCliente utente = new UtenteCliente();
+
         if (list.size() == 3) {
             JsonArray tesserainfo = list.get(2).getAsJsonArray();
             TesseraFedelta tessera = new TesseraFedelta();
@@ -339,6 +340,7 @@ public class HttpWrapper {
             tessera.setSaldoPunti(tesserainfo.get(2).getAsInt());
             utente.setTesseraFedelta(tessera);
         }
+
         utente.setId(utenteinfo.get(0).getAsString());
         utente.setNome(utenteinfo.get(1).getAsString());
         utente.setCognome(utenteinfo.get(2).getAsString());
@@ -347,6 +349,7 @@ public class HttpWrapper {
         utente.setDatiDelPagamento(utenteinfo.get(5).getAsString());
         utente.setEmail(utenteinfo.get(6).getAsString());
         utente.setPassword(utenteinfo.get(7).getAsString());
+
         Indirizzo indirizzo = new Indirizzo();
         indirizzo.setVia(indirizzoinfo.get(1).getAsString());
         indirizzo.setCap(indirizzoinfo.get(2).getAsString());
@@ -355,6 +358,7 @@ public class HttpWrapper {
         indirizzo.setPaese(indirizzoinfo.get(5).getAsString());
         indirizzo.setCivico(indirizzoinfo.get(6).getAsString());
         utente.setIndirizzo(indirizzo);
+
         return utente;
     }
 }

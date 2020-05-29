@@ -45,6 +45,7 @@ public class MainWindow extends Application implements Initializable {
     private LoggedURLayoutController loggedURLayoutController;
     private static HBox loggedURHBox;
 
+
     @FXML
     private TextField searchField;
     @FXML
@@ -66,6 +67,7 @@ public class MainWindow extends Application implements Initializable {
     @FXML
     private HBox userTypeButtonWrapper;
 
+    static GridPane statiProdGridPane;
     @FXML
     protected void handleCercaButtonAction(ActionEvent event) throws IOException {
         List<Prodotto> prodottoList = new ArrayList<>();
@@ -126,7 +128,7 @@ public class MainWindow extends Application implements Initializable {
     private void start10Prod() throws IOException {
         productLayoutControllerMap = new HashMap<>();
         List<Prodotto> prodottoList = get10mostAvailableProducts();
-
+        clearPanel();
         for (int i = 0; i < prodottoList.size(); i++) {
             FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("products_layout.fxml"));
             HBox hBox;
@@ -176,6 +178,7 @@ public class MainWindow extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        statiProdGridPane = productsGridPane;
         staticUserTypeButtonWrapper = userTypeButtonWrapper;
         try {
             FXMLLoader notLogged = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("not_logged_layout.fxml"));
@@ -198,7 +201,7 @@ public class MainWindow extends Application implements Initializable {
         }
     }
 
-    public List<Prodotto> get10mostAvailableProducts() throws IOException {
+    public static List<Prodotto> get10mostAvailableProducts() throws IOException {
         HttpWrapper http = new HttpWrapper();
         List<Prodotto> prodottoList = http.getFirst10Prod();
         return prodottoList;
@@ -256,5 +259,40 @@ public class MainWindow extends Application implements Initializable {
     public static void setList(ObservableList<Prodotto> list) {
         MainWindow.list = list;
     }
+
+    public static void resetWindow() throws IOException {
+
+        HashMap<ProductLayoutController, Pane> productLayoutControllerMap = new HashMap<>();
+        List<Prodotto> prodottoList = get10mostAvailableProducts();
+
+        statiProdGridPane.getChildren().clear();
+        for (int i = 0; i < prodottoList.size(); i++) {
+            FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("products_layout.fxml"));
+            HBox hBox;
+            try {
+                hBox = fxmlLoader.<HBox>load();
+                ProductLayoutController productLayoutController = fxmlLoader.getController();
+                productLayoutControllerMap.put(productLayoutController, hBox);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int pos = 0;
+        int row = 0;
+        int col = 0;
+        for (ProductLayoutController plc: productLayoutControllerMap.keySet()) {
+            plc.createOneProductLayout(prodottoList.get(pos));
+            pos++;
+            statiProdGridPane.add(productLayoutControllerMap.get(plc), col, row);
+            if (col == 1) {
+                col = 0;
+                row++;
+            } else {
+                col++;
+            }
+        }
+    }
+
     
 }

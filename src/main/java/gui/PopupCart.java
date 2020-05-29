@@ -17,6 +17,7 @@ public class PopupCart extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("PopupCart.fxml"));
         AnchorPane pane = loader.load();
+        ((PopupCartController) loader.getController()).setPrimaryStage(primaryStage);
         Scene scene = new Scene(pane);
         primaryStage.setTitle("Carrello");
         primaryStage.setScene(scene);

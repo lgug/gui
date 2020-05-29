@@ -3,7 +3,7 @@ package objects;
 public class UtenteCliente extends Utente {
 
     private String datiDelPagamento;
-    private FormaDiPagamento pagamento;
+    private static FormaDiPagamento pagamento;
     private TesseraFedelta tesseraFedelta;
 
     public UtenteCliente() {
