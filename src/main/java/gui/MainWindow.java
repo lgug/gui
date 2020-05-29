@@ -20,6 +20,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import objects.CaratteristicheProdotto;
 import objects.Categoria;
+import objects.Categoria;
 import objects.Prodotto;
 import utils.HttpWrapper;
 import utils.Manager;

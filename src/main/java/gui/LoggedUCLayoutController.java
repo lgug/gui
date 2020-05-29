@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -50,12 +51,16 @@ public class LoggedUCLayoutController implements Initializable {
 
     @FXML
     protected void handleCartButtonAction(MouseEvent mouseEvent) {
+
+        MainWindow.getList().addAll(MainWindow.getArray());
+
         PopupCart popupCart = new PopupCart();
         try {
             popupCart.start(new Stage());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        MainWindow.getArray().clear();
     }
 
     @Override

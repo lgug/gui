@@ -3,75 +3,83 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="476.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PopupCartController">
-    <children>
-        <Button fx:id="Continua" layoutX="381.0" layoutY="341.0" mnemonicParsing="false" onMouseClicked="#handleBuyButtonAction" text="Continua" />
-      <VBox layoutX="271.0" layoutY="30.0" prefHeight="25.0" prefWidth="200.0">
-         <children>
-              <Label text="Scegliere la data di consegna:" />
-              <DatePicker prefHeight="25.0" prefWidth="173.0" />
-         </children>
-      </VBox>
-      <VBox layoutX="271.0" layoutY="90.0" prefHeight="158.0" prefWidth="200.0">
-         <children>
-            <HBox prefHeight="17.0" prefWidth="196.0">
-               <children>
-                  <Label text="Nome:" />
-                  <Label fx:id="nome" prefHeight="17.0" prefWidth="107.0" />
-               </children>
-            </HBox>
-            <HBox prefHeight="17.0" prefWidth="174.0">
-               <children>
-                  <Label text="Marca:" />
-                  <Label fx:id="marca" prefHeight="17.0" prefWidth="87.0" />
-               </children>
-            </HBox>
-            <VBox prefHeight="17.0" prefWidth="174.0">
-               <children>
-                  <Label text="Caratteristiche:" />
-                  <Label fx:id="caratteristiche" prefHeight="17.0" prefWidth="174.0" />
-               </children>
-            </VBox>
-            <HBox prefHeight="17.0" prefWidth="200.0">
-               <children>
-                  <Label text="Categoria:" />
-                  <Label fx:id="categoria" prefHeight="17.0" prefWidth="109.0" />
-               </children>
-            </HBox>
-            <HBox prefHeight="17.0" prefWidth="200.0">
-               <children>
-                  <Label text="Prezzo:" />
-                  <Label fx:id="prezzo" prefHeight="17.0" prefWidth="120.0" />
-               </children>
-            </HBox>
-            <VBox prefHeight="47.0" prefWidth="100.0">
-               <children>
-                  <Label text="Quantita:" />
-                  <Spinner fx:id="spinner" prefHeight="18.0" prefWidth="64.0" />
-               </children>
-            </VBox>
-         </children>
-      </VBox>
-      <HBox layoutX="271.0" layoutY="313.0" prefHeight="17.0" prefWidth="186.0">
-         <children>
-              <Label text="Totale: " />
-            <Label fx:id="tot" prefHeight="17.0" prefWidth="80.0" text="0" />
-         </children>
-      </HBox>
-      <VBox layoutX="271.0" layoutY="263.0" prefHeight="61.0" prefWidth="200.0">
-         <children>
-              <Label text="Metodo di pagamento" />
-              <ChoiceBox fx:id="choicePagamento" prefHeight="25.0" prefWidth="173.0" />
-         </children>
-      </VBox>
-      <ImageView fx:id="image" fitHeight="61.0" fitWidth="64.0" layoutX="374.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true" />
-      <TableView fx:id="table" layoutX="21.0" layoutY="30.0" onMouseClicked="#handleSelectProductButtonAction" prefHeight="337.0" prefWidth="229.0">
-        <columns>
-          <TableColumn fx:id="col1" prefWidth="33.0" text="ID" />
-          <TableColumn fx:id="col2" prefWidth="134.0" text="NOME" />
-            <TableColumn fx:id="col3" prefWidth="61.0" text="Prezzo" />
-        </columns>
-      </TableView>
-    </children>
+    <Button fx:id="Continua" layoutX="381.0" layoutY="341.0" mnemonicParsing="false" onMouseClicked="#handleBuyButtonAction" text="Continua" />
+    <VBox layoutX="271.0" layoutY="30.0" prefHeight="25.0" prefWidth="200.0">
+        <Label text="Scegliere la data di consegna:" />
+        <DatePicker prefHeight="25.0" prefWidth="173.0" />
+    </VBox>
+    <VBox layoutX="271.0" layoutY="90.0" prefHeight="158.0" prefWidth="200.0">
+        <HBox prefHeight="17.0" prefWidth="196.0">
+            <Label text="Nome: ">
+                <font>
+                    <Font name="System Bold" size="12.0" />
+                </font>
+            </Label>
+            <Label fx:id="nome" prefHeight="17.0" prefWidth="107.0" />
+        </HBox>
+        <HBox prefHeight="17.0" prefWidth="174.0">
+            <Label text="Marca: ">
+                <font>
+                    <Font name="System Bold" size="12.0" />
+                </font>
+            </Label>
+            <Label fx:id="marca" prefHeight="17.0" prefWidth="87.0" />
+        </HBox>
+        <VBox prefHeight="17.0" prefWidth="174.0">
+            <Label text="Caratteristiche: ">
+                <font>
+                    <Font name="System Bold" size="12.0" />
+                </font>
+            </Label>
+            <Label fx:id="caratteristiche" prefHeight="17.0" prefWidth="174.0" />
+        </VBox>
+        <HBox prefHeight="17.0" prefWidth="200.0">
+            <Label text="Categoria: ">
+                <font>
+                    <Font name="System Bold" size="12.0" />
+                </font>
+            </Label>
+            <Label fx:id="categoria" prefHeight="17.0" prefWidth="109.0" />
+        </HBox>
+        <HBox prefHeight="17.0" prefWidth="200.0">
+            <Label text="Prezzo: ">
+                <font>
+                    <Font name="System Bold" size="12.0" />
+                </font>
+            </Label>
+            <Label fx:id="prezzo" prefHeight="17.0" prefWidth="120.0" />
+        </HBox>
+        <VBox prefHeight="47.0" prefWidth="100.0">
+            <Label text="Quantita: ">
+                <font>
+                    <Font name="System Bold" size="12.0" />
+                </font>
+            </Label>
+            <Spinner fx:id="spinner" prefHeight="18.0" prefWidth="64.0" />
+        </VBox>
+    </VBox>
+    <HBox layoutX="271.0" layoutY="345.0" prefHeight="17.0" prefWidth="107.0">
+        <Label prefHeight="17.0" prefWidth="62.0" text="Totale: ">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label fx:id="tot" prefHeight="17.0" prefWidth="80.0" text="0" />
+    </HBox>
+    <VBox layoutX="271.0" layoutY="263.0" prefHeight="61.0" prefWidth="200.0">
+        <Label text="Metodo di pagamento" />
+        <ChoiceBox fx:id="choicePagamento" prefHeight="25.0" prefWidth="173.0" />
+    </VBox>
+    <ImageView fx:id="image" fitHeight="61.0" fitWidth="64.0" layoutX="374.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true" />
+    <TableView fx:id="table" layoutX="11.0" layoutY="35.0" onMouseClicked="#handleSelectProductButtonAction" prefHeight="332.0" prefWidth="239.0">
+      <columns>
+          <TableColumn fx:id="col1" editable="false" prefWidth="31.0" text="ID" visible="false" />
+          <TableColumn fx:id="col2" editable="false" prefWidth="137.0" text="NOME" />
+          <TableColumn fx:id="col3" editable="false" prefWidth="57.0" text="PREZZO" />
+          <TableColumn fx:id="col4" prefWidth="44.0" text="QNT." />
+      </columns>
+    </TableView>
 </AnchorPane>
