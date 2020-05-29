@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 public class Manager {
 
+    public static String EURO = "\u20ac";
+
     public static String getDateFormat(Date date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
         return simpleDateFormat.format(date);
