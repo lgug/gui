@@ -62,7 +62,7 @@ public class AllOrderPopup extends Application {
                 Label lab2 = new Label(prodottoList.get(i).getMarca());
                 lab2.setFont(Font.font(15));
 
-                Label prezzo = new Label("$" + String.valueOf(prodottoList.get(i).getPrezzo()));
+                Label prezzo = new Label(Manager.EURO + String.valueOf(prodottoList.get(i).getPrezzo()));
                 prezzo.setFont(Font.font(20));
 
                 Label quantita = new Label("Quantità: " + String.valueOf(prodottoList.get(i).getQuantita()));
@@ -85,7 +85,7 @@ public class AllOrderPopup extends Application {
             }
 
             orderID.setText("ID ORDINE: " + ordine.getID());
-            totaleLabel.setText("Totale: " + sum + "€");
+            totaleLabel.setText("Totale: " + sum + Manager.EURO);
         }
     }
 

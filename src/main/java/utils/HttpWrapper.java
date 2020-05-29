@@ -116,22 +116,27 @@ public class HttpWrapper {
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
             List<Prodotto> prodottoList = new ArrayList<>();
-            JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-            Iterator<JsonElement> it = list.iterator();
-            while (it.hasNext()) {
-                JsonArray prodottoElement = it.next().getAsJsonArray();
-                Prodotto prodotto = new Prodotto();
-                prodotto.setId(prodottoElement.get(0).getAsInt());
-                prodotto.setNome(prodottoElement.get(1).getAsString());
-                prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
-                prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
-                prodotto.setImmagine(prodottoElement.get(4).getAsString());
-                prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
-                prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
-                prodotto.setMarca(prodottoElement.get(7).getAsString());
-                prodottoList.add(prodotto);
+            if(jsonResponse.equalsIgnoreCase("PRODOTTO INESISTENTE")){
+                return prodottoList;
             }
-            return prodottoList;
+            else {
+                JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
+                Iterator<JsonElement> it = list.iterator();
+                while (it.hasNext()) {
+                    JsonArray prodottoElement = it.next().getAsJsonArray();
+                    Prodotto prodotto = new Prodotto();
+                    prodotto.setId(prodottoElement.get(0).getAsInt());
+                    prodotto.setNome(prodottoElement.get(1).getAsString());
+                    prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
+                    prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
+                    prodotto.setImmagine(prodottoElement.get(4).getAsString());
+                    prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
+                    prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
+                    prodotto.setMarca(prodottoElement.get(7).getAsString());
+                    prodottoList.add(prodotto);
+                    return prodottoList;
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -360,5 +365,41 @@ public class HttpWrapper {
         utente.setIndirizzo(indirizzo);
 
         return utente;
+    }
+
+    public List<Prodotto> getProductsPerBrand(String brandName,String uid) throws IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(uri + "/getProdByBrand/"+brandName+"?uid="+uid);
+        try {
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+            String jsonResponse = EntityUtils.toString(responseEntity);
+            List<Prodotto> prodottoList = new ArrayList<>();
+            if(jsonResponse.equalsIgnoreCase("MARCA INESISTENTE")){
+                return prodottoList;
+            }
+            else {
+                JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
+                Iterator<JsonElement> it = list.iterator();
+                while (it.hasNext()) {
+                    JsonArray prodottoElement = it.next().getAsJsonArray();
+                    Prodotto prodotto = new Prodotto();
+                    prodotto.setId(prodottoElement.get(0).getAsInt());
+                    prodotto.setNome(prodottoElement.get(1).getAsString());
+                    prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
+                    prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
+                    prodotto.setImmagine(prodottoElement.get(4).getAsString());
+                    prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
+                    prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
+                    prodotto.setMarca(prodottoElement.get(7).getAsString());
+                    prodottoList.add(prodotto);
+                    return prodottoList;
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

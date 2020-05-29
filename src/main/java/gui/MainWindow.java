@@ -8,10 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -25,6 +22,7 @@ import objects.Prodotto;
 import utils.HttpWrapper;
 import utils.Manager;
 
+import javax.swing.text.Caret;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -65,7 +63,14 @@ public class MainWindow extends Application implements Initializable {
     @FXML
     private RadioButton caratteristicaButton;
     @FXML
+    private RadioButton marcaButton;
+    @FXML
     private HBox userTypeButtonWrapper;
+    @FXML
+    private ChoiceBox catChoiceBox;
+    @FXML
+    private ChoiceBox tagChoiceBox;
+
 
     static GridPane statiProdGridPane;
     @FXML
@@ -77,23 +82,16 @@ public class MainWindow extends Application implements Initializable {
              prodottoList = getProdByName(searchField.getText());
         }
         else if (categoriaButton.isSelected()){
-            Categoria cat = null;
-            if(searchField.getText().equalsIgnoreCase("frutta")){
-                cat = Categoria.valueOf("FRUTTA_VERDURA");
-            }
-            else if(searchField.getText().equalsIgnoreCase("verdura")){
-                cat = Categoria.valueOf("FRUTTA_VERDURA");
-            }
-            else{
-                cat = Categoria.valueOf(searchField.getText().toUpperCase());
-            }
-
+            Categoria cat = (Categoria) catChoiceBox.getValue();
             prodottoList = getProdByCat(cat);
         }
         else if(caratteristicaButton.isSelected()){
-            CaratteristicheProdotto tag = null;
-            tag = CaratteristicheProdotto.valueOf(searchField.getText().toUpperCase());
+            CaratteristicheProdotto tag = (CaratteristicheProdotto) tagChoiceBox.getValue();
             prodottoList = getProdByTag(tag);
+        }
+
+        else if(marcaButton.isSelected()){
+            prodottoList = getProdByBrand(searchField.getText());
         }
 
         for (int i = 0; i < prodottoList.size(); i++) {
@@ -192,6 +190,9 @@ public class MainWindow extends Application implements Initializable {
             loggedUCLayoutController = loggedUC.getController();
             loggedURLayoutController = loggedUR.getController();
 
+            catChoiceBox.getItems().addAll(Categoria.values());
+            tagChoiceBox.getItems().addAll(CaratteristicheProdotto.values());
+
             String uid = Manager.getUIDFromFile();
             setUserTypeLayout(uid);
 
@@ -210,6 +211,11 @@ public class MainWindow extends Application implements Initializable {
     private List<Prodotto> getProdByName(String prodName) throws IOException {
         HttpWrapper http = new HttpWrapper();
         return http.getProductsPerName(prodName);
+    }
+
+    private List<Prodotto> getProdByBrand(String brandName) throws IOException {
+        HttpWrapper http = new HttpWrapper();
+        return http.getProductsPerBrand(brandName,Manager.getUIDFromFile());
     }
     private List<Prodotto> getProdByCat(Categoria... category) throws IOException {
         HttpWrapper http = new HttpWrapper();
