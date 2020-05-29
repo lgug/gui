@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ManageProductsController">
+   <children>
+      <BorderPane prefHeight="600.0" prefWidth="600.0">
+         <top>
+            <Label text="Gestisci i prodotti " BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets bottom="15.0" top="15.0" />
+               </BorderPane.margin></Label>
+         </top>
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="47.0" prefWidth="600.0" spacing="5.0">
+                     <children>
+                        <TextField prefHeight="26.0" prefWidth="255.0" />
+                        <Button mnemonicParsing="false" text="Cerca" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="276.0" prefWidth="600.0">
+                     <children>
+                        <ScrollPane prefHeight="238.0" prefWidth="423.0">
+                           <content>
+                              <ListView prefHeight="274.0" prefWidth="412.0" />
+                           </content>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ScrollPane>
+                        <VBox alignment="CENTER" prefHeight="268.0" prefWidth="166.0" spacing="4.0">
+                           <children>
+                              <ImageView fitHeight="90.0" fitWidth="110.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@wrong.png" />
+                                 </image>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </VBox.margin>
+                              </ImageView>
+                              <Label text="Nome del prodotto">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Marca" />
+                              <Label text="Disponibilità" />
+                              <Label text="Prezzo" />
+                              <Button mnemonicParsing="false" text="Più dettagli" />
+                           </children>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </VBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="93.0" prefWidth="580.0" spacing="20.0">
+                     <children>
+                        <Button contentDisplay="TOP" mnemonicParsing="false" text="Aggiungi unità">
+                           <graphic>
+                              <ImageView fitHeight="150.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@plus.png" />
+                                 </image></ImageView>
+                           </graphic>
+                        </Button>
+                        <Button contentDisplay="TOP" mnemonicParsing="false" text="Rimuovi unità">
+                           <graphic>
+                              <ImageView fitHeight="150.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@delete.png" />
+                                 </image></ImageView>
+                           </graphic>
+                        </Button>
+                        <Button contentDisplay="TOP" mnemonicParsing="false" text="Rimuovi prodotto">
+                           <graphic>
+                              <ImageView fitHeight="150.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@bin.png" />
+                                 </image></ImageView>
+                           </graphic></Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="103.0" prefWidth="600.0">
+                     <children>
+                        <Button alignment="CENTER" mnemonicParsing="false" text="Aggiungi un nuovo prodotto">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </center></BorderPane>
+   </children>
+</AnchorPane>

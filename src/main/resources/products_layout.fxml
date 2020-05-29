@@ -21,7 +21,7 @@
             <Label fx:id="marcaProdotto" text="Marca" />
             <Label fx:id="categoriaProdotto" text="Categoria" />
             <Label fx:id="disponibilitaProdotto" text="Disponibilità" />
-            <Label fx:id="prezzoProdotto" text="€60,99">
+            <Label fx:id="prezzoProdotto" text="EUR 60,99">
                <font>
                   <Font size="20.0" />
                </font>

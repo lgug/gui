@@ -6,19 +6,22 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="450.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PaymentDataController">
+<AnchorPane prefHeight="359.0" prefWidth="507.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PaymentDataController">
    <children>
-      <BorderPane prefHeight="450.0" prefWidth="600.0">
+      <BorderPane prefHeight="361.0" prefWidth="507.0">
          <top>
             <Label text="Inserisci i dati di pagamento" BorderPane.alignment="CENTER">
                <font>
                   <Font name="System Bold" size="18.0" />
-               </font></Label>
+               </font>
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin></Label>
          </top>
          <center>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="283.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fx:id="iconDatiPagamento" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="iconDatiPagamento" fitHeight="170.0" fitWidth="250.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
                   <GridPane prefHeight="81.0" prefWidth="499.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
