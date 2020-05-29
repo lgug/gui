@@ -8,6 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import objects.*;
+
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
@@ -15,6 +17,7 @@ import java.util.*;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import utils.HttpWrapper;
+import utils.Manager;
 import utils.ProdottoSemplificato;
 
 
@@ -30,9 +33,23 @@ public class PopupCartController{
     public Spinner<Integer> spinner;
     public ChoiceBox<String> choicePagamento;
     private BigDecimal sum= new BigDecimal("0.0");
+    public FormaDiPagamento pagamento;
+    public String Id;
 
     public void initialize() {
+        HttpWrapper http = new HttpWrapper();
+        UtenteCliente utente = null; //TODO get user from database with id
+        try {
+            utente = http.getUserByID(Manager.getUIDFromFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert utente != null;
+        this.pagamento= utente.getPagamento();
+        this.Id= utente.getId();
         choicePagamento.setItems(st);
+        choicePagamento.setValue(pagamento.toString());
+
         for(Prodotto prodotto:list){
             if(ts1.contains(prodotto))
                 Objects.requireNonNull(ts1.floor(prodotto)).setQuantita(prodotto.getQuantita()+1);
@@ -117,7 +134,7 @@ public class PopupCartController{
             }
         if (check) {
             Ordine ord = new Ordine();
-            ord.setData(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+            ord.setData(new SimpleDateFormat("dd/MM/yyyyHH:mm:ss").format(new Date()));
             List<ProdottoSemplificato> listprodsempl = new ArrayList<>();
             for (Prodotto prodotto : list) {
                 listprodsempl.add(new ProdottoSemplificato(prodotto.getId(), prodotto.getQuantita()));
@@ -126,7 +143,8 @@ public class PopupCartController{
             Random rand = new Random();
             ord.setID(String.valueOf(rand.nextInt()));
             HttpWrapper http = new HttpWrapper();
-            http.addOrdine("2", ord);
+            http.addOrdine(this.Id, ord);
+
         }
     }
 

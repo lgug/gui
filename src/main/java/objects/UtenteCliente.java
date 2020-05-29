@@ -3,7 +3,7 @@ package objects;
 public class UtenteCliente extends Utente {
 
     private String datiDelPagamento;
-    private static FormaDiPagamento pagamento;
+    private FormaDiPagamento pagamento;
     private TesseraFedelta tesseraFedelta;
 
     public UtenteCliente() {
@@ -24,7 +24,7 @@ public class UtenteCliente extends Utente {
         this.datiDelPagamento = datiDelPagamento;
     }
 
-    public static FormaDiPagamento getPagamento() {
+    public  FormaDiPagamento getPagamento() {
         return pagamento;
     }
 
