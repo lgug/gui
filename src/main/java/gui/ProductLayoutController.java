@@ -51,12 +51,16 @@ public class ProductLayoutController implements Initializable {
         if (disp <= 0) {
             disponibilitaProdotto.setText("Attualmente non disponibili!");
             disponibilitaProdotto.setTextFill(Color.RED);
+            product_add_button.setVisible(false);
+
         } else if (disp <= 10) {
             disponibilitaProdotto.setText("Ancora " + disp + " disponibili!!!");
             disponibilitaProdotto.setTextFill(Color.GOLDENROD);
+            product_add_button.setVisible(true);
         } else {
             disponibilitaProdotto.setText("Attualmente disponibili: " + disp);
             disponibilitaProdotto.setTextFill(Color.GREEN);
+            product_add_button.setVisible(true);
         }
 
     }

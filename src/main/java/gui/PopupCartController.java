@@ -11,6 +11,7 @@ import objects.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -36,20 +37,19 @@ public class PopupCartController{
     private BigDecimal sum= new BigDecimal("0.0");
     public FormaDiPagamento pagamento;
     public String Id;
+    public UtenteCliente utente;
 
     public void initialize() {
         HttpWrapper http = new HttpWrapper();
-        UtenteCliente utente = null; //TODO get user from database with id
+        this.utente = null; //TODO get user from database with id
         try {
             utente = http.getUserByID(Manager.getUIDFromFile());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        assert utente != null;
-        this.pagamento= utente.getPagamento();
-        this.Id= utente.getId();
+
         choicePagamento.setItems(st);
-        choicePagamento.setValue(pagamento.toString());
+        choicePagamento.setValue(utente.getPagamento().toString());
 
         for(Prodotto prodotto:list){
             if(ts1.contains(prodotto))
@@ -120,7 +120,6 @@ public class PopupCartController{
         }
     }
 
-
     public void handleBuyButtonAction() throws Exception {
         boolean check= true;
         for (Prodotto prodotto : list)
@@ -147,6 +146,8 @@ public class PopupCartController{
             HttpWrapper http = new HttpWrapper();
             String response = http.addOrdine(Manager.getUIDFromFile(), ord);
             if (response.equalsIgnoreCase("OK")){
+                BigDecimal totale = new BigDecimal(tot.getText());
+                //utente.getTesseraFedelta().setSaldoPunti(totale.round(new MathContext(1)).intValueExact());
                 list.clear();
                 MainWindow.resetWindow();
                 primaryStage.close();
