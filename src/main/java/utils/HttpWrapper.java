@@ -268,10 +268,10 @@ public class HttpWrapper {
     }
 
     //TODO products removing
-    public String remove(String pid,String uid) throws IOException {
+    public String remove(String uid, int pid) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpPost request = new HttpPost(uri+"/removeProdByName/"+pid+"?uid="+uid);
+            HttpPost request = new HttpPost(uri+"/removeProdByName/" + pid + "?uid="+uid);
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
@@ -279,8 +279,8 @@ public class HttpWrapper {
                 String result = EntityUtils.toString(entity);
                 return result;
             }
-        } finally {
-            httpClient.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return "Error";
     }
@@ -351,45 +351,77 @@ public class HttpWrapper {
         return null;
     }
 
-    public UtenteCliente getUserByID(String userId) throws IOException {
+    public Utente getUserByID(String userId, Class<? extends Utente> utenteClass) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(uri + "/getUserInfo/"+userId);
-        CloseableHttpResponse response = httpClient.execute(httpGet);
-        HttpEntity responseEntity = response.getEntity();
-        String jsonResponse = EntityUtils.toString(responseEntity);
-        JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-        JsonArray utenteinfo = list.get(0).getAsJsonArray();
-        JsonArray indirizzoinfo = list.get(1).getAsJsonArray();
-        UtenteCliente utente = new UtenteCliente();
+        CloseableHttpResponse response = null;
+        try {
+            response = httpClient.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+            String jsonResponse = EntityUtils.toString(responseEntity);
 
-        if (list.size() == 3) {
-            JsonArray tesserainfo = list.get(2).getAsJsonArray();
-            TesseraFedelta tessera = new TesseraFedelta();
-            tessera.setId(tesserainfo.get(0).getAsString());
-            tessera.setDataEmissione(tesserainfo.get(1).getAsLong());
-            tessera.setSaldoPunti(tesserainfo.get(2).getAsInt());
-            utente.setTesseraFedelta(tessera);
+            JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
+            JsonArray utenteinfo = list.get(0).getAsJsonArray();
+            JsonArray indirizzoinfo = list.get(1).getAsJsonArray();
+
+            if (utenteClass.equals(UtenteCliente.class)) {
+                UtenteCliente utente = new UtenteCliente();
+
+                if (list.size() == 3) {
+                    JsonArray tesserainfo = list.get(2).getAsJsonArray();
+                    TesseraFedelta tessera = new TesseraFedelta();
+                    tessera.setId(tesserainfo.get(0).getAsString());
+                    tessera.setDataEmissione(tesserainfo.get(1).getAsLong());
+                    tessera.setSaldoPunti(tesserainfo.get(2).getAsInt());
+                    utente.setTesseraFedelta(tessera);
+                }
+
+                utente.setId(utenteinfo.get(0).getAsString());
+                utente.setNome(utenteinfo.get(1).getAsString());
+                utente.setCognome(utenteinfo.get(2).getAsString());
+                utente.setTelefono(utenteinfo.get(3).getAsString());
+                utente.setPagamento(FormaDiPagamento.valueOf(utenteinfo.get(4).getAsString()));
+                utente.setDatiDelPagamento(utenteinfo.get(5).getAsString());
+                utente.setEmail(utenteinfo.get(6).getAsString());
+                utente.setPassword(utenteinfo.get(7).getAsString());
+
+                Indirizzo indirizzo = new Indirizzo();
+                indirizzo.setVia(indirizzoinfo.get(1).getAsString());
+                indirizzo.setCap(indirizzoinfo.get(2).getAsString());
+                indirizzo.setLocalita(indirizzoinfo.get(3).getAsString());
+                indirizzo.setProvincia(indirizzoinfo.get(4).getAsString());
+                indirizzo.setPaese(indirizzoinfo.get(5).getAsString());
+                indirizzo.setCivico(indirizzoinfo.get(6).getAsString());
+                utente.setIndirizzo(indirizzo);
+                return utente;
+            } else if (utenteClass.equals(UtenteResponsabile.class)) {
+                UtenteResponsabile utente = new UtenteResponsabile();
+
+                utente.setId(utenteinfo.get(0).getAsString());
+                utente.setNome(utenteinfo.get(1).getAsString());
+                utente.setCognome(utenteinfo.get(2).getAsString());
+                utente.setTelefono(utenteinfo.get(3).getAsString());
+                utente.setEmail(utenteinfo.get(6).getAsString());
+                utente.setPassword(utenteinfo.get(7).getAsString());
+                utente.setMatricola(utenteinfo.get(8).getAsString());
+                utente.setRuolo(utenteinfo.get(9).getAsString().equals("<null>") ?
+                        null : RuoloResponsabile.valueOf(utenteinfo.get(9).getAsString()));
+
+                Indirizzo indirizzo = new Indirizzo();
+                indirizzo.setVia(indirizzoinfo.get(1).getAsString());
+                indirizzo.setCap(indirizzoinfo.get(2).getAsString());
+                indirizzo.setLocalita(indirizzoinfo.get(3).getAsString());
+                indirizzo.setProvincia(indirizzoinfo.get(4).getAsString());
+                indirizzo.setPaese(indirizzoinfo.get(5).getAsString());
+                indirizzo.setCivico(indirizzoinfo.get(6).getAsString());
+                utente.setIndirizzo(indirizzo);
+                return utente;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        utente.setId(utenteinfo.get(0).getAsString());
-        utente.setNome(utenteinfo.get(1).getAsString());
-        utente.setCognome(utenteinfo.get(2).getAsString());
-        utente.setTelefono(utenteinfo.get(3).getAsString());
-        utente.setPagamento(FormaDiPagamento.valueOf(utenteinfo.get(4).getAsString()));
-        utente.setDatiDelPagamento(utenteinfo.get(5).getAsString());
-        utente.setEmail(utenteinfo.get(6).getAsString());
-        utente.setPassword(utenteinfo.get(7).getAsString());
-
-        Indirizzo indirizzo = new Indirizzo();
-        indirizzo.setVia(indirizzoinfo.get(1).getAsString());
-        indirizzo.setCap(indirizzoinfo.get(2).getAsString());
-        indirizzo.setLocalita(indirizzoinfo.get(3).getAsString());
-        indirizzo.setProvincia(indirizzoinfo.get(4).getAsString());
-        indirizzo.setPaese(indirizzoinfo.get(5).getAsString());
-        indirizzo.setCivico(indirizzoinfo.get(6).getAsString());
-        utente.setIndirizzo(indirizzo);
-
-        return utente;
+        return null;
     }
 
     public List<Prodotto> getProductsPerBrand(String brandName,String uid) throws IOException {

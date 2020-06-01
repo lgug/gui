@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import objects.Prodotto;
 import utils.HttpWrapper;
@@ -48,6 +49,8 @@ public class ManageProductsController implements Initializable {
     private Button removeProductUnitButton;
     @FXML
     private Button removeProductButton;
+    @FXML
+    private VBox productDetailsWrapper;
 
     @FXML
     protected void handleSearchProductButtonEvent(MouseEvent mouseEvent) {
@@ -81,6 +84,7 @@ public class ManageProductsController implements Initializable {
         removeProductUnitButton.setDisable(false);
         removeProductButton.setDisable(false);
         productMoreDetailButton.setDisable(false);
+        productDetailsWrapper.setVisible(true);
     }
 
     @FXML
@@ -116,13 +120,17 @@ public class ManageProductsController implements Initializable {
     protected void handleRemoveProductButtonEvent(MouseEvent mouseEvent) {
         String uid = Manager.getUIDFromFile();
         HttpWrapper httpWrapper = new HttpWrapper();
-        //TODO httpWrapper.removeProdotto(uid, getPendingProduct())
+        if (getPendingProduct() != null) {
+            httpWrapper.remove(uid, getPendingProduct().getId());
+        }
+        productDetailsWrapper.setVisible(false);
         handleSearchProductButtonEvent(mouseEvent);
     }
 
     @FXML
     protected void handleAddNewProductButtonEvent(MouseEvent mouseEvent) {
-
+        InsertNewProduct insertNewProduct = new InsertNewProduct();
+        insertNewProduct.start(new Stage());
     }
 
     @Override
@@ -132,6 +140,7 @@ public class ManageProductsController implements Initializable {
         removeProductUnitButton.setDisable(true);
         removeProductButton.setDisable(true);
         productMoreDetailButton.setDisable(true);
+        productDetailsWrapper.setVisible(false);
     }
 
     private Prodotto getPendingProduct() {

@@ -37,7 +37,7 @@
                               <Insets />
                            </HBox.margin>
                         </ScrollPane>
-                        <VBox alignment="CENTER" prefHeight="268.0" prefWidth="166.0" spacing="4.0">
+                        <VBox fx:id="productDetailsWrapper" alignment="CENTER" prefHeight="268.0" prefWidth="166.0" spacing="4.0">
                            <children>
                               <ImageView fx:id="productDetailImage" fitHeight="90.0" fitWidth="110.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                  <image>

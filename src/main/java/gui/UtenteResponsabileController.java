@@ -26,7 +26,7 @@ public class UtenteResponsabileController implements Initializable {
 
     public RuoloResponsabile getRuoloResponsabile() {
         if (ruoloResponsabileBox != null)
-            return ruoloResponsabileBox.getValue();
+            return ruoloResponsabile;
         else return null;
     }
 

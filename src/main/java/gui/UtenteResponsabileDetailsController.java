@@ -7,6 +7,7 @@ import objects.Indirizzo;
 import objects.RuoloResponsabile;
 import objects.UtenteResponsabile;
 import utils.HttpWrapper;
+import utils.Manager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -31,8 +32,8 @@ public class UtenteResponsabileDetailsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         HttpWrapper httpWrapper = new HttpWrapper();
-//        UtenteCliente utente = httpWrapper.getUser(Manager.getUIDFromFile());
-        UtenteResponsabile utente = metodoDiProva(); //TODO get user by file
+        UtenteResponsabile utente = (UtenteResponsabile) httpWrapper.getUserByID(Manager.getUIDFromFile(), UtenteResponsabile.class);
+
         nomeLabel.setText(utente.getNome());
         cognomeLabel.setText(utente.getCognome());
         Indirizzo indirizzo = utente.getIndirizzo();

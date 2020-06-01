@@ -7,19 +7,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import objects.*;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.text.Normalizer;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import objects.FormaDiPagamento;
+import objects.Ordine;
+import objects.Prodotto;
+import objects.UtenteCliente;
 import utils.HttpWrapper;
 import utils.Manager;
 import utils.ProdottoSemplificato;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 
 public class PopupCartController{
@@ -42,12 +39,7 @@ public class PopupCartController{
 
     public void initialize() {
         HttpWrapper http = new HttpWrapper();
-        this.utente = null; //TODO get user from database with id
-        try {
-            utente = http.getUserByID(Manager.getUIDFromFile());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.utente = (UtenteCliente) http.getUserByID(Manager.getUIDFromFile(), UtenteCliente.class);
 
         choicePagamento.setItems(st);
         choicePagamento.setValue(utente.getPagamento().toString());

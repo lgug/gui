@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ManageProducts extends Application {
+public class InsertNewProduct extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -16,12 +16,12 @@ public class ManageProducts extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("manage_products.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("insert_new_product.fxml"));
         try {
             AnchorPane anchorPane = fxmlLoader.load();
             Scene scene = new Scene(anchorPane);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Gestisci i prodotti");
+            primaryStage.setTitle("Inserisci un nuovo prodotto");
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();

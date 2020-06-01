@@ -11,7 +11,6 @@ import objects.UtenteCliente;
 import utils.HttpWrapper;
 import utils.Manager;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -44,12 +43,8 @@ public class UtenteClienteDetailsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         HttpWrapper http = new HttpWrapper();
-        UtenteCliente utente = null; //TODO get user from database with id
-        try {
-            utente = http.getUserByID(Manager.getUIDFromFile());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        UtenteCliente utente = (UtenteCliente) http.getUserByID(Manager.getUIDFromFile(), UtenteCliente.class);
+
         nomeLabel.setText(utente.getNome());
         cognomeLabel.setText(utente.getCognome());
         Indirizzo indirizzo = utente.getIndirizzo();
