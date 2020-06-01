@@ -2,6 +2,7 @@ package gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -11,12 +12,14 @@ import objects.FormaDiPagamento;
 import objects.Ordine;
 import objects.Prodotto;
 import objects.UtenteCliente;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import utils.HttpWrapper;
 import utils.Manager;
 import utils.ProdottoSemplificato;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 
 public class PopupCartController{
@@ -33,8 +36,7 @@ public class PopupCartController{
     public Spinner<Integer> spinner;
     public ChoiceBox<String> choicePagamento;
     private BigDecimal sum= new BigDecimal("0.0");
-    public FormaDiPagamento pagamento;
-    public String Id;
+    ErrorPageQuantitaController controller;
     public UtenteCliente utente;
 
     public void initialize() {
@@ -114,46 +116,56 @@ public class PopupCartController{
     }
 
     public void handleBuyButtonAction() throws Exception {
-        boolean check= true;
+        boolean check = true;
         for (Prodotto prodotto : list)
             if (prodotto.getQuantita() > prodotto.getDisponibilita()) {
-                ErrorPageQuantita errorPageQuantita = new ErrorPageQuantita();
-                // TODO: 29/05/2020  errorPageQuantita.textError.setText("quantita");
-                errorPageQuantita.start(new Stage());
+                ErrorPageQuantitaController errorPageQuantitaController = new ErrorPageQuantitaController();
+                errorPageQuantitaController.textError.setText("quantita");
                 list.remove(prodotto);
                 initialize();
                 check = false;
                 break;
             }
         if (check) {
-            Calendar cal = Calendar.getInstance();
-            Ordine ord = new Ordine();
+            if (!dataConsegna.hasProperties()) {
 
-            cal.set(Calendar.DAY_OF_MONTH, dataConsegna.getValue().getDayOfMonth());
-            cal.set(Calendar.MONTH, dataConsegna.getValue().getMonthValue());
-            cal.set(Calendar.YEAR, dataConsegna.getValue().getYear());
-            ord.setDataConsegna(cal.getTimeInMillis());
+                ErrorPageQuantita errorPageQuantita = new ErrorPageQuantita();
+                errorPageQuantita.start(new Stage());
+                controller = errorPageQuantita.getController();
+                controller.getTextError().setText("Selezionare la data");
 
-            ord.setData(new Date().getTime());
-            List<ProdottoSemplificato> listprodsempl = new ArrayList<>();
-            for (Prodotto prodotto : list) {
-                listprodsempl.add(new ProdottoSemplificato(prodotto.getId(), prodotto.getQuantita()));
-            }
-            ord.setProdotti(listprodsempl);
-            Random rand = new Random();
-            ord.setID(String.valueOf(rand.nextInt()));
-            HttpWrapper http = new HttpWrapper();
-            String response = http.addOrdine(Manager.getUIDFromFile(), ord);
-            if (response.equalsIgnoreCase("OK")){
-                BigDecimal totale = new BigDecimal(tot.getText());
-                //utente.getTesseraFedelta().setSaldoPunti(totale.round(new MathContext(1)).intValueExact());
-                list.clear();
-                MainWindow.resetWindow();
-                primaryStage.close();
+            } else {
+                Calendar cal = Calendar.getInstance();
+                Ordine ord = new Ordine();
+                cal.set(Calendar.DAY_OF_MONTH, dataConsegna.getValue().getDayOfMonth());
+                cal.set(Calendar.MONTH, dataConsegna.getValue().getMonthValue());
+                cal.set(Calendar.YEAR, dataConsegna.getValue().getYear());
+                ord.setDataConsegna(cal.getTimeInMillis());
+                ord.setData(new Date().getTime());
+                List<ProdottoSemplificato> listprodsempl = new ArrayList<>();
+                for (Prodotto prodotto : list) {
+                    listprodsempl.add(new ProdottoSemplificato(prodotto.getId(), prodotto.getQuantita()));
+                }
+                ord.setProdotti(listprodsempl);
+                Random rand = new Random();
+                ord.setID(String.valueOf(rand.nextInt()));
+                HttpWrapper http = new HttpWrapper();
+                String response = http.addOrdine(Manager.getUIDFromFile(), ord);
+                if (response.equalsIgnoreCase("OK")) {
+                    BigDecimal totale = new BigDecimal(tot.getText());
+                    int punti = totale.round(new MathContext(1)).intValueExact();
+                    int puntis = utente.getTesseraFedelta().getSaldoPunti() + punti;
+                    //String id = utente.getTesseraFedelta().getId();
+                    http.addTesseraPoint(utente.getTesseraFedelta().getId(), puntis);
+
+                    list.clear();
+                    MainWindow.resetWindow();
+                    primaryStage.close();
+
+                }
             }
         }
     }
-
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }

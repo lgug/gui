@@ -477,7 +477,7 @@ public class HttpWrapper {
 
     public boolean addTesseraPoint(String idt,int punti){
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/addPoint/"+idt+"?punti="+String.valueOf(punti));
+        HttpGet httpGet = new HttpGet(uri + "/addPoint/"+idt+"?punti="+punti);
         try {
             CloseableHttpResponse response = httpClient.execute(httpGet);
             return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");

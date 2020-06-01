@@ -16,16 +16,9 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ErrorPageQuantita extends Application {
 
-    @FXML public Button button;
-    @FXML public ImageView warning;
-    @FXML public Label textError;
-    public String errore;
-    public void initialize () {
-        warning.setImage(new Image("wrong.png"));
-        textError.setText("Quantita non disonibile");
-    }
+public class ErrorPageQuantita extends Application {
+    public ErrorPageQuantitaController  controller;
 
     public static void main(String[] args) {
         launch(args);
@@ -35,21 +28,15 @@ public class ErrorPageQuantita extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("errorPageQuantita.fxml"));
         AnchorPane pane = loader.load();
+        controller = ((ErrorPageQuantitaController) loader.getController());
+        ((ErrorPageQuantitaController) loader.getController()).setPrimaryStage(primaryStage);
         Scene scene = new Scene(pane);
-
         primaryStage.setTitle("Errore");
         primaryStage.setScene(scene);
         primaryStage.show();
-
-
     }
 
-    public void handleOkButtonAction(MouseEvent mouseEvent) {
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
-    }
-
-    public void setErrore(String errore) {
-        this.errore = errore;
+    public ErrorPageQuantitaController getController() {
+        return controller;
     }
 }
