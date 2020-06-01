@@ -27,10 +27,11 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="orderID"  layoutX="599.0" layoutY="347.0" text="ID ORDINE:" textAlignment="CENTER">
+      <Label fx:id="orderID" layoutX="599.0" layoutY="347.0" text="ID ORDINE:" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
+      <Label fx:id="dataConsegna" layoutX="599.0" layoutY="309.0" text="Data di Consegna:" />
    </children>
 </AnchorPane>

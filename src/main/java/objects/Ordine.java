@@ -1,5 +1,6 @@
 package objects;
 
+import com.sun.javafx.collections.ElementObservableListDecorator;
 import utils.ProdottoSemplificato;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public class Ordine {
     private long dataConsegna;
 
 
-    public Ordine(Long data, List<ProdottoSemplificato> prodotti, String idu, long dataConsegna) {
+    public Ordine(Long data, List<ProdottoSemplificato> prodotti, String ID, long dataConsegna) {
         this.data = data;
         this.prodotti = prodotti;
         this.dataConsegna = dataConsegna;

@@ -343,6 +343,7 @@ public class HttpWrapper {
             ordine.setProdotto(prodottoList);
             JsonArray listina = list2.get(0).getAsJsonArray();
             ordine.setID(listina.get(0).getAsString());
+            ordine.setDataConsegna(listina.get(1).getAsLong());
             return ordine;
         } catch (IOException e) {
             e.printStackTrace();
@@ -435,6 +436,18 @@ public class HttpWrapper {
             httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpPost.setEntity(httpEntity);
             CloseableHttpResponse response = httpClient.execute(httpPost);
+            return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean addTesseraPoint(String idt,int punti){
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(uri + "/addPoint/"+idt+"?punti="+String.valueOf(punti));
+        try {
+            CloseableHttpResponse response = httpClient.execute(httpGet);
             return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
         } catch (IOException e) {
             e.printStackTrace();

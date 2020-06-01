@@ -40,13 +40,15 @@ public class AllOrderPopup extends Application {
     private Label totaleLabel;
     @FXML
     private Label orderID;
-    private BigDecimal sum= new BigDecimal("0.0");
+    @FXML
+    private Label dataConsegna;
 
     private HashMap<String,Long> dateMap = new HashMap<>();
 
     @FXML
     private void handleOkButtonAction(ActionEvent Event){
         clearPanel();
+        BigDecimal sum= new BigDecimal("0.0");
         if (choiceBox.getValue() != null) {
             Long date = dateMap.get(choiceBox.getValue());
             HttpWrapper http = new HttpWrapper();
@@ -64,6 +66,8 @@ public class AllOrderPopup extends Application {
 
                 Label prezzo = new Label(Manager.EURO + String.valueOf(prodottoList.get(i).getPrezzo()));
                 prezzo.setFont(Font.font(20));
+
+
 
                 Label quantita = new Label("Quantità: " + String.valueOf(prodottoList.get(i).getQuantita()));
 
@@ -83,7 +87,7 @@ public class AllOrderPopup extends Application {
                 it.next();
                 i++;
             }
-
+            dataConsegna.setText("Data di Consegna: "+Manager.getDateFormat(new Date(ordine.getDataConsegna())));
             orderID.setText("ID ORDINE: " + ordine.getID());
             totaleLabel.setText("Totale: " + sum + Manager.EURO);
         }
