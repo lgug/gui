@@ -23,15 +23,15 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="47.0" prefWidth="600.0" spacing="5.0">
                      <children>
-                        <TextField prefHeight="26.0" prefWidth="255.0" />
-                        <Button mnemonicParsing="false" text="Cerca" />
+                        <TextField fx:id="searchProductField" prefHeight="26.0" prefWidth="255.0" promptText="Cerca prodotto per nome" />
+                        <Button mnemonicParsing="false" onMouseClicked="#handleSearchProductButtonEvent" text="Cerca" />
                      </children>
                   </HBox>
                   <HBox prefHeight="276.0" prefWidth="600.0">
                      <children>
                         <ScrollPane prefHeight="238.0" prefWidth="423.0">
                            <content>
-                              <ListView prefHeight="274.0" prefWidth="412.0" />
+                              <ListView fx:id="productsListView" onMouseClicked="#handleListItemEvent" prefHeight="274.0" prefWidth="412.0" />
                            </content>
                            <HBox.margin>
                               <Insets />
@@ -39,7 +39,7 @@
                         </ScrollPane>
                         <VBox alignment="CENTER" prefHeight="268.0" prefWidth="166.0" spacing="4.0">
                            <children>
-                              <ImageView fitHeight="90.0" fitWidth="110.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="productDetailImage" fitHeight="90.0" fitWidth="110.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@wrong.png" />
                                  </image>
@@ -47,15 +47,15 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </ImageView>
-                              <Label text="Nome del prodotto">
+                              <Label fx:id="productDetailTitle" text="Nome del prodotto">
                                  <font>
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <Label text="Marca" />
-                              <Label text="Disponibilità" />
-                              <Label text="Prezzo" />
-                              <Button mnemonicParsing="false" text="Più dettagli" />
+                              <Label fx:id="productDetailBrand" text="Marca" />
+                              <Label fx:id="productDetailAvailability" text="Disponibilità" />
+                              <Label fx:id="productDetailPrice" text="Prezzo" />
+                              <Button fx:id="productMoreDetailButton" mnemonicParsing="false" onMouseClicked="#handleMoreDetailButtonEvent" text="Più dettagli" />
                            </children>
                            <HBox.margin>
                               <Insets left="10.0" />
@@ -68,7 +68,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="93.0" prefWidth="580.0" spacing="20.0">
                      <children>
-                        <Button contentDisplay="TOP" mnemonicParsing="false" text="Aggiungi unità">
+                        <Button fx:id="addProductUnitButton" contentDisplay="TOP" mnemonicParsing="false" onMouseClicked="#handleAddUnitButtonEvent" text="Aggiungi unità">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -76,7 +76,7 @@
                                  </image></ImageView>
                            </graphic>
                         </Button>
-                        <Button contentDisplay="TOP" mnemonicParsing="false" text="Rimuovi unità">
+                        <Button fx:id="removeProductUnitButton" contentDisplay="TOP" mnemonicParsing="false" onMouseClicked="#handleRemoveUnitButtonEvent" text="Rimuovi unità">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -84,7 +84,7 @@
                                  </image></ImageView>
                            </graphic>
                         </Button>
-                        <Button contentDisplay="TOP" mnemonicParsing="false" text="Rimuovi prodotto">
+                        <Button fx:id="removeProductButton" contentDisplay="TOP" mnemonicParsing="false" onMouseClicked="#handleRemoveProductButtonEvent" text="Rimuovi prodotto">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -98,7 +98,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="103.0" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" mnemonicParsing="false" text="Aggiungi un nuovo prodotto">
+                        <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handleAddNewProductButtonEvent" text="Aggiungi un nuovo prodotto">
                            <font>
                               <Font size="15.0" />
                            </font>

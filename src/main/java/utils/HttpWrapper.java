@@ -9,15 +9,16 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-
-import org.apache.http.entity.StringEntity;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class HttpWrapper {
     private String uri = "http://127.0.0.1:5000";
@@ -226,6 +227,29 @@ public class HttpWrapper {
         return "false";
     }
 
+    public boolean addUnitOfProdotto(String userId, int pid) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(uri + "/addQuantity/" + pid);
+        try {
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean removeUnitOfProdotto(String userId, int pid) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(uri + "/removeQuantity/" + pid);
+        try {
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     //TODO products adding
     public boolean addProdotto(String userId, Prodotto prodotto) {

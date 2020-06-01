@@ -47,7 +47,8 @@ public class LoggedURLayoutController implements Initializable {
 
     @FXML
     protected void handleAddButtonAction(MouseEvent event) {
-        //TODO
+        ManageProducts manageProducts = new ManageProducts();
+        manageProducts.start(new Stage());
     }
 
     @Override
