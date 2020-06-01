@@ -9,15 +9,16 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-
-import org.apache.http.entity.StringEntity;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class HttpWrapper {
     private String uri = "http://127.0.0.1:5000";
@@ -226,6 +227,29 @@ public class HttpWrapper {
         return "false";
     }
 
+    public boolean addUnitOfProdotto(String userId, int pid) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(uri + "/addQuantity/" + pid+"?uid="+userId);
+        try {
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean removeUnitOfProdotto(String userId, int pid) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(uri + "/removeQuantity/"+pid+"?uid="+userId);
+        try {
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     //TODO products adding
     public boolean addProdotto(String userId, Prodotto prodotto) {
@@ -244,10 +268,10 @@ public class HttpWrapper {
     }
 
     //TODO products removing
-    public String remove(String name,String uid) throws IOException {
+    public String remove(String pid,String uid) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpPost request = new HttpPost(uri+"/removeProdByName/"+name+"?uid="+uid);
+            HttpPost request = new HttpPost(uri+"/removeProdByName/"+pid+"?uid="+uid);
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
@@ -401,5 +425,20 @@ public class HttpWrapper {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean addTessera(TesseraFedelta tessera, String uid){
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(uri + "/add?uid=" + uid);
+        try {
+            HttpEntity httpEntity = new StringEntity(Manager.objectToJson(tessera));
+            httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+            httpPost.setEntity(httpEntity);
+            CloseableHttpResponse response = httpClient.execute(httpPost);
+            return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
