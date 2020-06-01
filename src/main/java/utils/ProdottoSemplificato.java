@@ -3,7 +3,6 @@ package utils;
 public class ProdottoSemplificato {
     private int id;
     private int quantita;
-
     public ProdottoSemplificato(int id, int quantita) {
         this.id = id;
         this.quantita = quantita;

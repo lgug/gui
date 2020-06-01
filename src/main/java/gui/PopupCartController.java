@@ -26,6 +26,7 @@ public class PopupCartController{
     private final ObservableList<String> st =FXCollections.observableArrayList( FormaDiPagamento.CARTA_CREDITO.toString(), FormaDiPagamento.CONSEGNA.toString(),FormaDiPagamento.PAYPAL.toString());
     private final ObservableList<Prodotto> list = MainWindow.getList();
     private final TreeSet<Prodotto> ts1 = new TreeSet<>();
+    public DatePicker dataConsegna;
     private Stage primaryStage;
     public Label tot,caratteristiche,nome,marca,categoria,prezzo;
     public TableView<Prodotto> table;
@@ -133,7 +134,13 @@ public class PopupCartController{
                 break;
             }
         if (check) {
+            Calendar cal = Calendar.getInstance();
             Ordine ord = new Ordine();
+
+            cal.set(Calendar.DAY_OF_MONTH, dataConsegna.getValue().getDayOfMonth());
+            cal.set(Calendar.MONTH, dataConsegna.getValue().getMonthValue());
+            cal.set(Calendar.YEAR, dataConsegna.getValue().getYear());
+            ord.setDataConsegna(cal.getTimeInMillis());
 
             ord.setData(new Date().getTime());
             List<ProdottoSemplificato> listprodsempl = new ArrayList<>();

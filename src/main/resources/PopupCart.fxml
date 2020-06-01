@@ -9,7 +9,7 @@
     <Button fx:id="Continua" layoutX="381.0" layoutY="341.0" mnemonicParsing="false" onMouseClicked="#handleBuyButtonAction" text="Continua" />
     <VBox layoutX="271.0" layoutY="30.0" prefHeight="25.0" prefWidth="200.0">
         <Label text="Scegliere la data di consegna:" />
-        <DatePicker prefHeight="25.0" prefWidth="173.0" />
+        <DatePicker fx:id="dataConsegna" prefHeight="25.0" prefWidth="173.0" />
     </VBox>
     <VBox layoutX="271.0" layoutY="90.0" prefHeight="158.0" prefWidth="200.0">
         <HBox prefHeight="17.0" prefWidth="196.0">

@@ -1,6 +1,5 @@
 package objects;
 
-import com.sun.javafx.collections.ElementObservableListDecorator;
 import utils.ProdottoSemplificato;
 
 import java.util.List;
@@ -10,10 +9,13 @@ public class Ordine {
     private Long data;
     private List<ProdottoSemplificato> prodotti;
     private String ID;
+    private long dataConsegna;
 
-    public Ordine(Long data, List<ProdottoSemplificato> prodotti, String idu) {
+
+    public Ordine(Long data, List<ProdottoSemplificato> prodotti, String idu, long dataConsegna) {
         this.data = data;
         this.prodotti = prodotti;
+        this.dataConsegna = dataConsegna;
         this.ID = ID;
 
     }
@@ -46,6 +48,9 @@ public class Ordine {
         this.ID = ID;
     }
 
+    public long getDataConsegna() { return dataConsegna; }
+
+    public void setDataConsegna(long dataConsegna) { this.dataConsegna = dataConsegna; }
 
     public void setProdotto(List<Prodotto> prodotto) {
         this.prodotto = prodotto;
