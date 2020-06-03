@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
@@ -30,6 +31,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class AllOrderPopup extends Application {
+    @FXML
+    public Label statoOrdine;
     @FXML
     private TilePane tilePane1;
     @FXML
@@ -87,9 +90,26 @@ public class AllOrderPopup extends Application {
                 it.next();
                 i++;
             }
-            dataConsegna.setText("Data di Consegna: "+Manager.getDateFormat(new Date(ordine.getDataConsegna())));
+            Date consegna = new Date(ordine.getDataConsegna());
+            dataConsegna.setText(Manager.getSimpleDateFormat(consegna));
             orderID.setText("ID ORDINE: " + ordine.getID());
             totaleLabel.setText("Totale: " + sum + Manager.EURO);
+            Date dates = new Date();
+            if(ordine.getDataConsegna()> dates.getTime()) {
+                statoOrdine.setText("In preparzione");
+                statoOrdine.setTextFill(Color.web("#FF2D00"));
+            }
+            if(ordine.getDataConsegna()-172800000< dates.getTime()) {
+                statoOrdine.setText("In consegna");
+                statoOrdine.setTextFill(Color.web("#B3B900"));
+            }
+            if(ordine.getDataConsegna()< dates.getTime()) {
+                statoOrdine.setText("Consegnato");
+                statoOrdine.setTextFill(Color.web("#00B908"));
+            }
+
+
+
         }
     }
 

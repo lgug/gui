@@ -15,6 +15,10 @@ public class Manager {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
         return simpleDateFormat.format(date);
     }
+    public static String getSimpleDateFormat(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return simpleDateFormat.format(date);
+    }
 
 
     public static String objectToJson(Object obj){
@@ -75,4 +79,5 @@ public class Manager {
         }
         return false;
     }
+
 }
