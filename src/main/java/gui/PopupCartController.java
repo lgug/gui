@@ -36,10 +36,11 @@ public class PopupCartController{
     public Spinner<Integer> spinner;
     public ChoiceBox<String> choicePagamento;
     private BigDecimal sum= new BigDecimal("0.0");
-    ErrorPageQuantitaController controller;
+    ErrorPageQuantita errorPageQuantita = new ErrorPageQuantita();
+
     public UtenteCliente utente;
 
-    public void initialize() {
+    public void initialize() throws Exception {
         HttpWrapper http = new HttpWrapper();
         this.utente = (UtenteCliente) http.getUserByID(Manager.getUIDFromFile(), UtenteCliente.class);
 
@@ -119,26 +120,26 @@ public class PopupCartController{
         boolean check = true;
         for (Prodotto prodotto : list)
             if (prodotto.getQuantita() > prodotto.getDisponibilita()) {
-                ErrorPageQuantitaController errorPageQuantitaController = new ErrorPageQuantitaController();
-                errorPageQuantitaController.textError.setText("quantita");
+                errorPageQuantita.start(new Stage());
+                ErrorPageQuantitaController controller=errorPageQuantita.getController();
+                controller.getTextError().setText("Quantita non disponibile");
                 list.remove(prodotto);
                 initialize();
                 check = false;
                 break;
             }
         if (check) {
-            if (!dataConsegna.hasProperties()) {
-
-                ErrorPageQuantita errorPageQuantita = new ErrorPageQuantita();
+            if (dataConsegna.getValue()==null) {
                 errorPageQuantita.start(new Stage());
-                controller = errorPageQuantita.getController();
+                ErrorPageQuantitaController controller=errorPageQuantita.getController();
                 controller.getTextError().setText("Selezionare la data");
 
             } else {
                 Calendar cal = Calendar.getInstance();
                 Ordine ord = new Ordine();
+
                 cal.set(Calendar.DAY_OF_MONTH, dataConsegna.getValue().getDayOfMonth());
-                cal.set(Calendar.MONTH, dataConsegna.getValue().getMonthValue());
+                cal.set(Calendar.MONTH, dataConsegna.getValue().getMonth().getValue());
                 cal.set(Calendar.YEAR, dataConsegna.getValue().getYear());
                 ord.setDataConsegna(cal.getTimeInMillis());
                 ord.setData(new Date().getTime());
