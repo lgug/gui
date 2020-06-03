@@ -253,7 +253,7 @@ public class HttpWrapper {
     //TODO products adding
     public boolean addProdotto(String userId, Prodotto prodotto) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost(uri + "/addProduct/uid=" + userId);
+        HttpPost httpPost = new HttpPost(uri + "/addProduct/"+ userId);
         try {
             HttpEntity httpEntity = new StringEntity(Manager.objectToJson(prodotto));
             httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
@@ -458,19 +458,19 @@ public class HttpWrapper {
         return null;
     }
 
-    public boolean addTessera(TesseraFedelta tessera, String uid){
+    public String addTessera(TesseraFedelta tessera, String uid){
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost(uri + "/add?uid=" + uid);
+        HttpPost httpPost = new HttpPost(uri + "/addTessera/"+uid);
         try {
             HttpEntity httpEntity = new StringEntity(Manager.objectToJson(tessera));
             httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpPost.setEntity(httpEntity);
             CloseableHttpResponse response = httpClient.execute(httpPost);
-            return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
+            return response.getStatusLine().getReasonPhrase();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
+        return "Error";
     }
 
     public boolean addTesseraPoint(String idt,int punti){
@@ -483,5 +483,22 @@ public class HttpWrapper {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public String changePassword(String uid,String oldPassw,String newPassw){
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try {
+            HttpPost request = new HttpPost(uri+"/changePassword/" + uid + "?old="+oldPassw+"&new="+newPassw);
+            request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
+            CloseableHttpResponse response = httpClient.execute(request);
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                String result = EntityUtils.toString(entity);
+                return result;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "Error";
     }
 }
