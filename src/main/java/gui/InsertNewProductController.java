@@ -11,6 +11,7 @@ import objects.CaratteristicheProdotto;
 import objects.Categoria;
 import objects.Prodotto;
 import utils.HttpWrapper;
+import utils.KeyGenerator;
 import utils.Manager;
 
 import java.io.File;
@@ -43,13 +44,14 @@ public class InsertNewProductController implements Initializable {
     protected void handleInsertNewProductButtonEvent(MouseEvent mouseEvent) {
         Prodotto prodotto = new Prodotto();
         if (pendingFile != null) {
+            prodotto.setId(KeyGenerator.generateProductKey());
             prodotto.setImmagine(pendingFile.getName());
             prodotto.setNome(newProductName.getText());
             prodotto.setMarca(newProductBrand.getText());
             prodotto.setPrezzo(Float.valueOf(newProductPrice.getText()));
             prodotto.setCategoria(newProductCategory.getValue());
             prodotto.setCaratteristiche(newProductTag.getValue());
-            //TODO set quantita confezione
+            prodotto.setQuantita(newProductQuantity.getValue());
             prodotto.setDisponibilita(newProductAvailability.getValue());
 
             boolean imageInserted = Manager.saveResource(pendingFile);
