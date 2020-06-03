@@ -56,4 +56,23 @@ public class Manager {
         }
         return "ERROR";
     }
+
+    public static boolean saveResource(File file) {
+        File dest = new File("src/main/resources/" + file.getName());
+        try {
+            FileInputStream is = new FileInputStream(file);
+            FileOutputStream os = new FileOutputStream(dest);
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = is.read(buffer)) > 0) {
+                os.write(buffer, 0, length);
+            }
+            is.close();
+            os.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

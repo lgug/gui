@@ -11,7 +11,7 @@
          <top>
             <HBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox prefHeight="70.0" prefWidth="614.0" spacing="10.0">
+                  <VBox prefHeight="72.0" prefWidth="707.0" spacing="10.0">
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="403.0" spacing="10.0">
                            <children>
@@ -22,27 +22,49 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox prefHeight="25.0" prefWidth="528.0" spacing="10.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="528.0" spacing="10.0">
                            <children>
                               <Label text="Cerca per:">
                                  <font>
-                                    <Font name="System Bold" size="13.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Label>
                               <RadioButton fx:id="nomeButton" mnemonicParsing="false" selected="true" text="Nome">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="searchByToggleGroup" />
                                  </toggleGroup>
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
                               </RadioButton>
-                              <RadioButton fx:id="categoriaButton" mnemonicParsing="false" text="Categoria" toggleGroup="$searchByToggleGroup" />
-                              <ChoiceBox fx:id="catChoiceBox" prefHeight="20.0" prefWidth="65.0" />
-                              <RadioButton fx:id="caratteristicaButton" mnemonicParsing="false" text="Caratteristica" toggleGroup="$searchByToggleGroup" />
-                              <ChoiceBox fx:id="tagChoiceBox" prefHeight="25.0" prefWidth="65.0" />
-                              <RadioButton fx:id="marcaButton" mnemonicParsing="false" text="Marca" toggleGroup="$searchByToggleGroup" />
+                              <RadioButton fx:id="marcaButton" mnemonicParsing="false" text="Marca" toggleGroup="$searchByToggleGroup">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font></RadioButton>
+                              <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="154.0" spacing="2.0">
+                                 <children>
+                                    <RadioButton fx:id="categoriaButton" mnemonicParsing="false" text="Categoria:" toggleGroup="$searchByToggleGroup">
+                                       <font>
+                                          <Font size="12.0" />
+                                       </font>
+                                    </RadioButton>
+                                    <ChoiceBox fx:id="catChoiceBox" prefHeight="20.0" prefWidth="65.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="176.0" spacing="2.0">
+                                 <children>
+                                    <RadioButton fx:id="caratteristicaButton" mnemonicParsing="false" text="Caratteristica:" toggleGroup="$searchByToggleGroup">
+                                       <font>
+                                          <Font size="12.0" />
+                                       </font>
+                                    </RadioButton>
+                                    <ChoiceBox fx:id="tagChoiceBox" prefHeight="25.0" prefWidth="65.0" />
+                                 </children>
+                              </HBox>
                            </children>
                         </HBox>
                      </children></VBox>
-                  <HBox fx:id="userTypeButtonWrapper" alignment="CENTER_RIGHT" prefHeight="64.0" prefWidth="431.0">
+                  <HBox fx:id="userTypeButtonWrapper" alignment="CENTER_RIGHT" prefHeight="72.0" prefWidth="402.0">
 
                   </HBox>
                </children>

@@ -122,9 +122,8 @@ public class HttpWrapper {
             }
             else {
                 JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-                Iterator<JsonElement> it = list.iterator();
-                while (it.hasNext()) {
-                    JsonArray prodottoElement = it.next().getAsJsonArray();
+                for (JsonElement jsonElement : list) {
+                    JsonArray prodottoElement = jsonElement.getAsJsonArray();
                     Prodotto prodotto = new Prodotto();
                     prodotto.setId(prodottoElement.get(0).getAsInt());
                     prodotto.setNome(prodottoElement.get(1).getAsString());
@@ -135,8 +134,8 @@ public class HttpWrapper {
                     prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
                     prodotto.setMarca(prodottoElement.get(7).getAsString());
                     prodottoList.add(prodotto);
-                    return prodottoList;
                 }
+                return prodottoList;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -254,7 +253,7 @@ public class HttpWrapper {
     //TODO products adding
     public boolean addProdotto(String userId, Prodotto prodotto) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost(uri + "/add?uid=" + userId);
+        HttpPost httpPost = new HttpPost(uri + "/addProduct/uid=" + userId);
         try {
             HttpEntity httpEntity = new StringEntity(Manager.objectToJson(prodotto));
             httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
@@ -271,7 +270,7 @@ public class HttpWrapper {
     public String remove(String uid, int pid) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpPost request = new HttpPost(uri+"/removeProdByName/" + pid + "?uid="+uid);
+            HttpPost request = new HttpPost(uri+"/removeProd/" + pid + "?uid=" + uid);
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
@@ -404,8 +403,7 @@ public class HttpWrapper {
                 utente.setEmail(utenteinfo.get(6).getAsString());
                 utente.setPassword(utenteinfo.get(7).getAsString());
                 utente.setMatricola(utenteinfo.get(8).getAsString());
-                utente.setRuolo(utenteinfo.get(9).getAsString().equals("<null>") ?
-                        null : RuoloResponsabile.valueOf(utenteinfo.get(9).getAsString()));
+                utente.setRuolo(RuoloResponsabile.valueOf(utenteinfo.get(10).getAsString()));
 
                 Indirizzo indirizzo = new Indirizzo();
                 indirizzo.setVia(indirizzoinfo.get(1).getAsString());

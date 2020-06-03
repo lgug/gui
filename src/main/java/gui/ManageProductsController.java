@@ -107,12 +107,14 @@ public class ManageProductsController implements Initializable {
 
     @FXML
     protected void handleRemoveUnitButtonEvent(MouseEvent mouseEvent) {
-        String uid = Manager.getUIDFromFile();
-        HttpWrapper httpWrapper = new HttpWrapper();
         if (getPendingProduct() != null) {
-            httpWrapper.removeUnitOfProdotto(uid, getPendingProduct().getId());
-            handleSearchProductButtonEvent(mouseEvent);
-            handleListItemEvent(mouseEvent);
+            if (getPendingProduct().getDisponibilita() > 0) {
+                String uid = Manager.getUIDFromFile();
+                HttpWrapper httpWrapper = new HttpWrapper();
+                httpWrapper.removeUnitOfProdotto(uid, getPendingProduct().getId());
+                handleSearchProductButtonEvent(mouseEvent);
+                handleListItemEvent(mouseEvent);
+            }
         }
     }
 
@@ -124,6 +126,9 @@ public class ManageProductsController implements Initializable {
             httpWrapper.remove(uid, getPendingProduct().getId());
         }
         productDetailsWrapper.setVisible(false);
+        addProductUnitButton.setDisable(true);
+        removeProductUnitButton.setDisable(true);
+        removeProductButton.setDisable(true);
         handleSearchProductButtonEvent(mouseEvent);
     }
 

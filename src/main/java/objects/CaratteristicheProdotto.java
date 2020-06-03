@@ -1,12 +1,12 @@
 package objects;
 
 public enum CaratteristicheProdotto {
-    NO_GLUTINE("senza glutine"),
-    VEGAN("vegano"),
-    NO_LATTE("no latte"),
-    BIOLOGICO("biologico"),
-    NEUTRO("neutro"),
-    VEGETARIANO("vegetariano");
+    NO_GLUTINE("Senza glutine"),
+    VEGAN("Vegano"),
+    NO_LATTE("Senza latte"),
+    BIOLOGICO("Biologico"),
+    NEUTRO("Generico"),
+    VEGETARIANO("Vegetariano");
 
     private String enumString;
 

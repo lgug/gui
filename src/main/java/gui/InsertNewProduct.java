@@ -19,6 +19,7 @@ public class InsertNewProduct extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("insert_new_product.fxml"));
         try {
             AnchorPane anchorPane = fxmlLoader.load();
+            ((InsertNewProductController) fxmlLoader.getController()).setStage(primaryStage);
             Scene scene = new Scene(anchorPane);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Inserisci un nuovo prodotto");
