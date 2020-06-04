@@ -31,6 +31,11 @@
                                     <Font name="System Bold Italic" size="30.0" />
                                  </font>
                               </Label>
+                              <Button fx:id="modificaProfilo" mnemonicParsing="false" onAction="#handleModificaProfiloButtonAction" prefHeight="30.0" prefWidth="147.0" text="Modifica profilo">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Button>
                            </children>
                            <padding>
                               <Insets left="20.0" />
@@ -44,7 +49,7 @@
                </children></VBox>
          </top>
          <center>
-            <GridPane prefHeight="240.0" prefWidth="500.0" BorderPane.alignment="CENTER_LEFT">
+            <GridPane prefHeight="299.0" prefWidth="412.0" BorderPane.alignment="CENTER_LEFT">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="258.0" minWidth="10.0" prefWidth="193.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="267.0" />
@@ -79,7 +84,7 @@
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font></Label>
-                  <Button mnemonicParsing="false" prefHeight="0.0" prefWidth="68.0" text="Cambia" GridPane.columnIndex="1" GridPane.rowIndex="5" onAction="#changePassword"/>
+                  <Button mnemonicParsing="false" onAction="#changePassword" prefHeight="0.0" prefWidth="68.0" text="Cambia" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                      <children>
                         <Label text="Tessera Fedeltà">
@@ -93,7 +98,7 @@
                               <Font size="26.0" />
                            </font>
                         </Label>
-                        <Button fx:id="newTesseraButton" mnemonicParsing="false" text="Inserisci una tessera" onAction="#aggiungiTesseraFedelta">
+                        <Button fx:id="newTesseraButton" mnemonicParsing="false" onAction="#aggiungiTesseraFedelta" text="Inserisci una tessera">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin></Button>

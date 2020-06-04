@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import objects.FormaDiPagamento;
 import objects.Indirizzo;
@@ -21,6 +22,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class UtenteClienteDetailsController implements Initializable {
+
 
     @FXML
     private Label nomeLabel;
@@ -44,6 +46,8 @@ public class UtenteClienteDetailsController implements Initializable {
     private Label puntiFedeltaLabel;
     @FXML
     private Button newTesseraButton;
+    @FXML
+    private Button modificaProfilo;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -163,5 +167,14 @@ public class UtenteClienteDetailsController implements Initializable {
                 new Indirizzo("Verdi", "46b", "37120", "Verona", "Verona", "Italia"),
                 "+39467873773", "mario.rossi@gmail.com", "password12345", "11234567842;03/22",
                 FormaDiPagamento.CARTA_CREDITO, new TesseraFedelta("23456789034567", new Date().getTime(), 46));
+    }
+
+    public void handleModificaProfiloButtonAction(ActionEvent actionEvent) {
+        ModificaProfilo modificaProfilo = new ModificaProfilo();
+        try {
+            modificaProfilo.start(new Stage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

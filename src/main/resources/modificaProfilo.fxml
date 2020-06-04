@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="260.0" prefWidth="414.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ModificaProfiloController">
+   <children>
+      <BorderPane prefHeight="299.0" prefWidth="414.0">
+         <top>
+            <Label text="Modifica" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </top>
+         <center>
+            <VBox prefHeight="256.0" prefWidth="375.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox prefHeight="38.0" prefWidth="375.0">
+                     <children>
+                        <Label text="Nome: ">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <TextField fx:id="nome" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="37.0" prefWidth="375.0">
+                     <children>
+                        <Label text="Cognome: ">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <TextField fx:id="cognome" />
+                     </children></VBox>
+                  <VBox prefHeight="46.0" prefWidth="375.0">
+                     <children>
+                        <Label text="Telefono:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <TextField fx:id="telefono" />
+                     </children></VBox>
+                  <HBox prefHeight="38.0" prefWidth="375.0">
+                     <children>
+                        <VBox prefHeight="94.0" prefWidth="248.0">
+                           <children>
+                              <Label text="Via: ">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                              <TextField fx:id="via" prefHeight="25.0" prefWidth="176.0" />
+                           </children></VBox>
+                        <Pane prefHeight="94.0" prefWidth="29.0" />
+                        <VBox prefHeight="94.0" prefWidth="128.0">
+                           <children>
+                              <Label text="N.civico: ">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                              <TextField fx:id="civico" />
+                           </children></VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="100.0" prefWidth="120.0">
+                           <children>
+                              <Label text="CAP: ">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                              <TextField fx:id="cap" />
+                           </children></VBox>
+                        <Pane prefHeight="100.0" prefWidth="30.0" />
+                        <VBox prefHeight="100.0" prefWidth="169.0">
+                           <children>
+                              <Label text="Città: ">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                              <TextField fx:id="citta" />
+                           </children></VBox>
+                        <Pane prefHeight="100.0" prefWidth="30.0" />
+                        <VBox prefHeight="100.0" prefWidth="92.0">
+                           <children>
+                              <Label text="Provincia: ">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                              <TextField fx:id="provinicia" />
+                           </children></VBox>
+                     </children>
+                  </HBox>
+               </children></VBox>
+         </center>
+         <left>
+            <Pane prefHeight="310.0" prefWidth="19.0" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <Pane prefHeight="310.0" prefWidth="20.0" BorderPane.alignment="CENTER" />
+         </right>
+         <bottom>
+            <Pane prefHeight="59.0" prefWidth="414.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="59.0" prefWidth="414.0">
+                     <children>
+                        <Button fx:id="aggiornaDati" mnemonicParsing="false" text="Aggiorna Dati" />
+                     </children>
+                  </VBox>
+               </children></Pane>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>
