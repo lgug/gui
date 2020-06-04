@@ -1,8 +1,10 @@
 package gui;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import objects.Indirizzo;
 import objects.RuoloResponsabile;
 import objects.UtenteResponsabile;
@@ -45,6 +47,15 @@ public class UtenteResponsabileDetailsController implements Initializable {
         ruoloLabel.setText(utente.getRuolo().toString());
     }
 
+    @FXML
+    private void changePassword(ActionEvent event){
+        ChangepasswordPopup changepasswordPopup = new ChangepasswordPopup();
+        try {
+            changepasswordPopup.start(new Stage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     //TODO to delete
     private UtenteResponsabile metodoDiProva() {

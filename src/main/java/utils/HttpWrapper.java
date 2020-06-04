@@ -97,7 +97,7 @@ public class HttpWrapper {
                 prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
                 prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
                 prodotto.setMarca(prodottoElement.get(7).getAsString());
-                prodotto.setQuantita(1);
+                prodotto.setQuantita(prodottoElement.get(8).getAsInt());
 
                 prodottoList.add(prodotto);
             }
@@ -133,6 +133,7 @@ public class HttpWrapper {
                     prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
                     prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
                     prodotto.setMarca(prodottoElement.get(7).getAsString());
+                    prodotto.setQuantita(prodottoElement.get(8).getAsInt());
                     prodottoList.add(prodotto);
                 }
                 return prodottoList;
@@ -167,6 +168,7 @@ public class HttpWrapper {
                 prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
                 prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
                 prodotto.setMarca(prodottoElement.get(7).getAsString());
+                prodotto.setQuantita(prodottoElement.get(8).getAsInt());
                 prodottoList.add(prodotto);
             }
             return prodottoList;
@@ -201,6 +203,7 @@ public class HttpWrapper {
                 prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
                 prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
                 prodotto.setMarca(prodottoElement.get(7).getAsString());
+                prodotto.setQuantita(prodottoElement.get(8).getAsInt());
                 prodottoList.add(prodotto);
             }
             return prodottoList;
@@ -447,6 +450,7 @@ public class HttpWrapper {
                     prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
                     prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
                     prodotto.setMarca(prodottoElement.get(7).getAsString());
+                    prodotto.setQuantita(prodottoElement.get(8).getAsInt());
                     prodottoList.add(prodotto);
                     return prodottoList;
                 }
@@ -500,5 +504,27 @@ public class HttpWrapper {
             e.printStackTrace();
         }
         return "Error";
+    }
+
+    public List<String> getAllUserID(String uid){
+        List<String> userList = new ArrayList<>();
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(uri + "/getAllUserID/"+uid);
+        try {
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+            String jsonResponse = EntityUtils.toString(responseEntity);
+            JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
+            Iterator<JsonElement> it = list.iterator();
+            while (it.hasNext()) {
+                JsonArray orderElement = it.next().getAsJsonArray();
+                userList.add(orderElement.get(0).getAsString());
+            }
+            return userList;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="454.0" prefWidth="752.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AllOrderUtenteResponsabile">
+   <children>
+      <HBox prefHeight="454.0" prefWidth="574.0" spacing="10.0">
+         <children>
+            <ListView fx:id="userListView" onMouseClicked="#cercaDate" prefHeight="454.0" prefWidth="184.0" />
+            <ListView fx:id="dateListView" onMouseClicked="#cercaProdotti" prefHeight="431.0" prefWidth="184.0" />
+            <ListView fx:id="productsListView" prefHeight="454.0" prefWidth="184.0" />
+         </children>
+      </HBox>
+      <VBox layoutX="585.0" layoutY="85.0" prefHeight="195.0" prefWidth="162.0" spacing="5.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="160.0" text="ID ORDINE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="orderidLabel" layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="197.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="160.0" text="DATA DI CONSEGNA:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="datadiconsegnaLabel" layoutX="10.0" layoutY="40.0" prefHeight="17.0" prefWidth="197.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -78,7 +78,7 @@
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font></Label>
-                        <Button mnemonicParsing="false" prefHeight="0.0" prefWidth="68.0" text="Cambia" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Button mnemonicParsing="false" prefHeight="0.0" prefWidth="68.0" text="Cambia" GridPane.columnIndex="1" GridPane.rowIndex="5" onAction="#changePassword" />
                         <Label text="Matricola:" GridPane.rowIndex="2">
                             <font>
                                 <Font name="System Bold" size="13.0" />
