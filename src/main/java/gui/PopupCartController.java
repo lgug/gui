@@ -14,6 +14,9 @@ import objects.Prodotto;
 import objects.UtenteCliente;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,7 +25,7 @@ import utils.Manager;
 import utils.ProdottoSemplificato;
 
 
-public class PopupCartController{
+public class  PopupCartController{
     private final ObservableList<String> st =FXCollections.observableArrayList( FormaDiPagamento.CARTA_CREDITO.toString(), FormaDiPagamento.CONSEGNA.toString(),FormaDiPagamento.PAYPAL.toString());
     private final ObservableList<Prodotto> list = MainWindow.getList();
     private final TreeSet<Prodotto> ts1 = new TreeSet<>();
@@ -138,10 +141,11 @@ public class PopupCartController{
                 Calendar cal = Calendar.getInstance();
                 Ordine ord = new Ordine();
 
-                cal.set(Calendar.DAY_OF_MONTH, dataConsegna.getValue().getDayOfMonth());
-                cal.set(Calendar.MONTH, dataConsegna.getValue().getMonth().getValue());
-                cal.set(Calendar.YEAR, dataConsegna.getValue().getYear());
-                ord.setDataConsegna(cal.getTimeInMillis());
+                LocalDate localDate = dataConsegna.getValue();
+                Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+                Date date = Date.from(instant);
+
+                ord.setDataConsegna(date.getTime());
                 ord.setData(new Date().getTime());
                 List<ProdottoSemplificato> listprodsempl = new ArrayList<>();
                 for (Prodotto prodotto : list) {

@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.application.Application;
+import utils.FieldChecker;
 import utils.HttpWrapper;
 import utils.Manager;
 
@@ -30,12 +31,14 @@ public class ChangepasswordPopup extends Application{
     private void changePassword(ActionEvent event){
         if (!(oldPasswordField.getText().isEmpty()  && newPasswordField.getText().isEmpty())){
             HttpWrapper http = new HttpWrapper();
-            String r =http.changePassword(Manager.getUIDFromFile(),oldPasswordField.getText(),newPasswordField.getText());
-            responseLabel.setText(r);
-            if(r.equalsIgnoreCase("OK")){
-                responseLabel.setTextFill(Paint.valueOf("green"));
-            } else
-                responseLabel.setTextFill(Paint.valueOf("red"));
+            if(FieldChecker.validatePassword(oldPasswordField.getText()) && FieldChecker.validatePassword(newPasswordField.getText())) {
+                String r = http.changePassword(Manager.getUIDFromFile(), oldPasswordField.getText(), newPasswordField.getText());
+                responseLabel.setText(r);
+                if(r.equalsIgnoreCase("OK")){
+                    responseLabel.setTextFill(Paint.valueOf("green"));
+                } else
+                    responseLabel.setTextFill(Paint.valueOf("red"));
+            }
         }
         else{
             responseLabel.setText("INSERISCI I VALORI NEI CAMPI");
