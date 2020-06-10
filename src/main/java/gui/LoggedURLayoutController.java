@@ -30,8 +30,9 @@ public class LoggedURLayoutController implements Initializable {
     }
 
     @FXML
-    protected void handleMyHistoryButtonEvent(MouseEvent event) {
-        //TODO
+    protected void handleMyHistoryButtonEvent(MouseEvent event) throws Exception {
+        AllOrderUtenteResponsabile allorderPopup = new AllOrderUtenteResponsabile();
+        allorderPopup.start(new Stage());
     }
 
     @FXML

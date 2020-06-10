@@ -71,7 +71,7 @@ public class AllOrderUtenteResponsabile extends Application {
             }
             productsListView.setItems(prodotti);
             orderidLabel.setText(ordine.getID());
-            datadiconsegnaLabel.setText(Manager.getDateFormat(new Date(ordine.getDataConsegna())));
+            datadiconsegnaLabel.setText(Manager.getDateFormatWH(new Date(ordine.getDataConsegna())));
         }
     }
 

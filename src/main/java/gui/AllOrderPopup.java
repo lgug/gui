@@ -102,7 +102,7 @@ public class AllOrderPopup extends Application {
             totaleLabel.setText("Totale: " + sum + Manager.EURO);
             Date dates = new Date();
             if (ordine.getDataConsegna() > dates.getTime()) {
-                statoOrdine.setText("In preparzione");
+                statoOrdine.setText("In preparazione");
                 statoOrdine.setTextFill(Color.web("#FF2D00"));
             }
             if (ordine.getDataConsegna() - 172800000 < dates.getTime()) {
