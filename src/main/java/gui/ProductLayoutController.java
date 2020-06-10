@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -38,8 +37,8 @@ public class ProductLayoutController implements Initializable {
 
     public void createOneProductLayout(Prodotto prodotto) {
         this.prodotto=prodotto;
-        Image image = new Image(ClassLoader.getSystemClassLoader().getResourceAsStream(prodotto.getImmagine()));
-        prodottoImage.setImage(image);
+//        Image image = new Image(ClassLoader.getSystemClassLoader().getResourceAsStream(prodotto.getImmagine()));
+        prodottoImage.setImage(Manager.decodeImage(prodotto.getImmagine()));
         titoloProdotto.setText(prodotto.getNome());
         marcaProdotto.setText(prodotto.getMarca());
         categoriaProdotto.setText(prodotto.getCategoria().toString());

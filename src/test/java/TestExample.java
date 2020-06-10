@@ -1,10 +1,10 @@
+import objects.*;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import utils.HttpWrapper;
-import objects.*;
-import utils.*;
+import utils.Manager;
 
+import java.io.File;
 import java.io.IOException;
 
 public class TestExample {
@@ -21,8 +21,8 @@ public class TestExample {
         HttpWrapper http = new HttpWrapper();
         http.login("Pippo","Franco");
         http.availability("123");
-        http.tag("vegan","123");
-        http.remove("mela bella", "123");
+        http.tag("123", CaratteristicheProdotto.VEGAN);
+        http.remove("123", 123);
     }
 
     @Test
@@ -34,6 +34,12 @@ public class TestExample {
         HttpWrapper httpWrapper = new HttpWrapper();
         boolean response = httpWrapper.sendNewUser(utenteCliente);
         Assert.assertTrue(response);
+    }
+
+    @Test
+    public void testManager() {
+        String imageBlob = Manager.getImageBlob(new File(ClassLoader.getSystemResource("tuna.png").getPath()));
+        Assert.assertNotNull(imageBlob);
     }
 
 }

@@ -1,11 +1,12 @@
 package utils;
 
 import com.google.gson.Gson;
+import javafx.scene.image.Image;
+import org.apache.commons.codec.binary.Base64;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 public class Manager {
 
@@ -84,6 +85,34 @@ public class Manager {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static boolean isUserCliente() {
+        String uid = getUIDFromFile();
+        return uid.matches("UC-[\\d]+");
+    }
+
+    public static boolean isUserResponsabile() {
+        String uid = getUIDFromFile();
+        return uid.matches("UR-[\\d]+");
+    }
+
+    public static String encodeImage(File file) {
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] bytes = new byte[(int)file.length()];
+            fileInputStream.read(bytes);
+            fileInputStream.close();
+            return new String(Base64.encodeBase64(bytes));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Image decodeImage(String base64) {
+        byte[] decodedBase64 = Base64.decodeBase64(base64);
+        return new Image(new ByteArrayInputStream(decodedBase64));
     }
 
 }

@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -74,7 +73,8 @@ public class ManageProductsController implements Initializable {
     @FXML
     protected void handleListItemEvent(MouseEvent mouseEvent) {
         Prodotto prodotto = getPendingProduct();
-        productDetailImage.setImage(new Image(ClassLoader.getSystemClassLoader().getResourceAsStream(prodotto.getImmagine())));
+//        productDetailImage.setImage(new Image(ClassLoader.getSystemClassLoader().getResourceAsStream(prodotto.getImmagine())));
+        productDetailImage.setImage(Manager.decodeImage(prodotto.getImmagine()));
         productDetailTitle.setText(prodotto.getNome());
         productDetailBrand.setText(prodotto.getMarca());
         productDetailAvailability.setText("Disponibilità: " + prodotto.getDisponibilita());

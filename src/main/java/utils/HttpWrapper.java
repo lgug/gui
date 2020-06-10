@@ -260,6 +260,7 @@ public class HttpWrapper {
         try {
             HttpEntity httpEntity = new StringEntity(Manager.objectToJson(prodotto));
             httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+            httpPost.setHeader(HttpHeaders.ACCEPT_CHARSET, "utf-16");
             httpPost.setEntity(httpEntity);
             CloseableHttpResponse response = httpClient.execute(httpPost);
             return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");

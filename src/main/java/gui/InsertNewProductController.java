@@ -44,8 +44,10 @@ public class InsertNewProductController implements Initializable {
     protected void handleInsertNewProductButtonEvent(MouseEvent mouseEvent) {
         Prodotto prodotto = new Prodotto();
         if (pendingFile != null) {
+            String imageBlob = Manager.encodeImage(pendingFile);
             prodotto.setId(KeyGenerator.generateProductKey());
-            prodotto.setImmagine(pendingFile.getName());
+//            prodotto.setImmagine(pendingFile.getName());
+            prodotto.setImmagine(imageBlob);
             prodotto.setNome(newProductName.getText());
             prodotto.setMarca(newProductBrand.getText());
             prodotto.setPrezzo(Float.valueOf(newProductPrice.getText()));
@@ -54,13 +56,19 @@ public class InsertNewProductController implements Initializable {
             prodotto.setQuantita(newProductQuantity.getValue());
             prodotto.setDisponibilita(newProductAvailability.getValue());
 
-            boolean imageInserted = Manager.saveResource(pendingFile);
-            if (imageInserted) {
-                String uid = Manager.getUIDFromFile();
-                HttpWrapper httpWrapper = new HttpWrapper();
-                boolean result = httpWrapper.addProdotto(uid, prodotto);
-                if (result) stage.close();
-            }
+//            boolean imageInserted = Manager.saveResource(pendingFile);
+//            if (imageInserted) {
+//                String uid = Manager.getUIDFromFile();
+//                HttpWrapper httpWrapper = new HttpWrapper();
+//                boolean result = httpWrapper.addProdotto(uid, prodotto);
+//                if (result) stage.close();
+//            }
+
+            String uid = Manager.getUIDFromFile();
+            HttpWrapper httpWrapper = new HttpWrapper();
+            boolean result = httpWrapper.addProdotto(uid, prodotto);
+            if (result) stage.close();
+            else; //TODO
         }
     }
 
