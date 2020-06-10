@@ -2,27 +2,24 @@ package gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import objects.FormaDiPagamento;
 import objects.Ordine;
 import objects.Prodotto;
 import objects.UtenteCliente;
+import utils.HttpWrapper;
+import utils.Manager;
+import utils.ProdottoSemplificato;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import utils.HttpWrapper;
-import utils.Manager;
-import utils.ProdottoSemplificato;
 
 
 public class  PopupCartController{
@@ -84,7 +81,7 @@ public class  PopupCartController{
             caratteristiche.setText(prodotto.get(0).getCaratteristiche().toString());
             categoria.setText(prodotto.get(0).getCategoria().toString());
             prezzo.setText(String.valueOf(prodotto.get(0).getPrezzo()));
-            image.setImage(new Image(prodotto.get(0).getImmagine()));
+            image.setImage(Manager.decodeImage(prodotto.get(0).getImmagine()));
             SpinnerValueFactory<Integer> spinnerQuantity = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, prodotto.get(0).getDisponibilita(), prodotto.get(0).getQuantita()) {
                 @Override
                 public void decrement(int steps) {

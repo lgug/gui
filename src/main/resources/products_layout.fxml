@@ -10,7 +10,7 @@
    <children>
       <ImageView fx:id="prodottoImage" fitHeight="110.0" fitWidth="110.0" pickOnBounds="true">
          <HBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            <Insets bottom="5.0" right="5.0" top="5.0" />
          </HBox.margin></ImageView>
       <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="190.0">
          <children>
@@ -18,9 +18,9 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Label>
-            <Label fx:id="marcaProdotto" text="Marca" />
-            <Label fx:id="categoriaProdotto" text="Categoria" />
-            <Label fx:id="disponibilitaProdotto" text="Disponibilità" />
+            <Label fx:id="marcaProdotto" text="Marca" textFill="#575757" />
+            <Label fx:id="categoriaProdotto" text="Categoria" textFill="#575757" />
+            <Label fx:id="disponibilitaProdotto" text="Disponibilità" textFill="#575757" />
             <Label fx:id="prezzoProdotto" text="EUR 60,99">
                <font>
                   <Font size="20.0" />

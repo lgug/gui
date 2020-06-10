@@ -3,7 +3,6 @@ package gui;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,7 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -81,7 +79,7 @@ public class AllOrderPopup extends Application {
 
                 Label quantita = new Label("Quantit\u00E0: " + String.valueOf(prodottoList.get(i).getQuantita()));
 
-                Image image = new Image(ClassLoader.getSystemClassLoader().getResourceAsStream(prodottoList.get(i).getImmagine()));
+                Image image = Manager.decodeImage(prodottoList.get(i).getImmagine());
                 ImageView img = new ImageView(image);
                 img.setFitHeight(80);
                 img.setFitWidth(80);

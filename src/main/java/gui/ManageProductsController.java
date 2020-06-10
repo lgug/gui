@@ -16,7 +16,6 @@ import objects.Prodotto;
 import utils.HttpWrapper;
 import utils.Manager;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -55,19 +54,15 @@ public class ManageProductsController implements Initializable {
     protected void handleSearchProductButtonEvent(MouseEvent mouseEvent) {
         pendingTextSearch = searchProductField.getText();
         HttpWrapper httpWrapper = new HttpWrapper();
-        try {
-            List<Prodotto> products = httpWrapper.getProductsPerName(pendingTextSearch);
-            List<String> stringList = new ArrayList<>();
-            products.forEach(prodotto -> {
-                String s = prodotto.getId() + "  ->  " + prodotto.getNome() + ", " + prodotto.getMarca();
-                pendingProductsMap.put(s, prodotto);
-                stringList.add(s);
-            });
-            observableList = FXCollections.observableList(stringList);
-            productsListView.setItems(observableList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        List<Prodotto> products = httpWrapper.getProductsPerName(pendingTextSearch);
+        List<String> stringList = new ArrayList<>();
+        products.forEach(prodotto -> {
+            String s = prodotto.getId() + "  ->  " + prodotto.getNome() + ", " + prodotto.getMarca();
+            pendingProductsMap.put(s, prodotto);
+            stringList.add(s);
+        });
+        observableList = FXCollections.observableList(stringList);
+        productsListView.setItems(observableList);
     }
 
     @FXML

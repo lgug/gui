@@ -9,24 +9,32 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 public class HttpWrapper {
-    private String uri = "http://127.0.0.1:5000";
 
-    public String login(String email, String password) throws IOException {
+    private final String uri = "http://127.0.0.1:5000";
+
+    public String login(String email, String password) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpGet request = new HttpGet(uri + "/login?"+"email=" + email + "&"+"password=" + password);
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/login");
+            uriBuilder.setParameters(new BasicNameValuePair("email", email), new BasicNameValuePair("password", password));
+
+            HttpGet request = new HttpGet(uriBuilder.build());
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
@@ -35,51 +43,56 @@ public class HttpWrapper {
                 System.out.println(result);
                 return result;
             }
-        } finally {
-            httpClient.close();
+        } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
         }
         return "Error";
     }
 
-    //TODO user access method. return string, parameters email, password
-
     public boolean sendNewUser(Utente utente) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost(uri + "/register/" + utente.getId());
         try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/register/" + utente.getId());
+
+            HttpPost httpPost = new HttpPost(uriBuilder.build());
             HttpEntity httpEntity = new StringEntity(Manager.objectToJson(utente));
             httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpPost.setEntity(httpEntity);
             CloseableHttpResponse response = httpClient.execute(httpPost);
             return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    //TODO get products per availability
-
-    public String availability(String id) throws IOException {
+    public String availability(String id) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpGet request = new HttpGet(uri + "/getFirstProducts/"+id);
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/getFirstProducts/" + id);
+
+            HttpGet request = new HttpGet(uriBuilder.build());
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                String result = EntityUtils.toString(entity);
-                return result;
+                return EntityUtils.toString(entity);
             }
-        } finally {
-            httpClient.close();
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
         }
         return "Error";
     }
-    public List<Prodotto> getFirst10Prod() throws IOException{
+
+    public List<Prodotto> getFirst10Prod() {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/getFirstProducts");
         try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/getFirstProducts");
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
@@ -102,17 +115,19 @@ public class HttpWrapper {
                 prodottoList.add(prodotto);
             }
             return prodottoList;
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    //TODO get products per name
-    public List<Prodotto> getProductsPerName(String prodName) throws IOException {
+    public List<Prodotto> getProductsPerName(String prodName) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/getProdByName/"+prodName);
         try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/getProdByName/" + prodName);
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
@@ -138,19 +153,22 @@ public class HttpWrapper {
                 }
                 return prodottoList;
             }
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    //TODO get products per category
     public List<Prodotto> getProductByCategory(String userId, Categoria... categories) {
         StringBuilder categoriesString = new StringBuilder();
         Arrays.asList(categories).forEach(categoria -> categoriesString.append(categoria.toRealString()).append(";"));
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/getProdByCat/" + categoriesString.toString() + "?uid=" + userId);
         try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/getProdByCat/" + categoriesString.toString());
+            uriBuilder.addParameter("uid", userId);
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
@@ -172,20 +190,22 @@ public class HttpWrapper {
                 prodottoList.add(prodotto);
             }
             return prodottoList;
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    //TODO get products per tag
-
-    public List<Prodotto> tag(String id, CaratteristicheProdotto... tag) throws IOException {
+    public List<Prodotto> tag(String id, CaratteristicheProdotto... tag) {
         StringBuilder categoriesString = new StringBuilder();
         Arrays.asList(tag).forEach(tags -> categoriesString.append(tags.realToString()).append(";"));
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/getProdByTag/" + categoriesString.toString() + "?uid=" + id);
         try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/getProdByTag/" + categoriesString.toString());
+            uriBuilder.setParameter("uid", id);
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
@@ -207,23 +227,25 @@ public class HttpWrapper {
                 prodottoList.add(prodotto);
             }
             return prodottoList;
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    //TODO order sending, return boolean, parameters Ordine
     public String addOrdine(String userId, Ordine ordine) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost(uri + "/buyOrder/"+userId);
         try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/buyOrder/" + userId);
+
+            HttpPost httpPost = new HttpPost(uriBuilder.build());
             HttpEntity httpEntity = new StringEntity(Manager.objectToJson(ordine));
             httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpPost.setEntity(httpEntity);
             CloseableHttpResponse response = httpClient.execute(httpPost);
             return EntityUtils.toString(response.getEntity());
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return "false";
@@ -231,11 +253,15 @@ public class HttpWrapper {
 
     public boolean addUnitOfProdotto(String userId, int pid) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/addQuantity/" + pid+"?uid="+userId);
         try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/addQuantity/" + pid);
+            uriBuilder.setParameter("uid", userId);
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
             return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return false;
@@ -243,57 +269,66 @@ public class HttpWrapper {
 
     public boolean removeUnitOfProdotto(String userId, int pid) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/removeQuantity/"+pid+"?uid="+userId);
         try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/removeQuantity/" + pid);
+            uriBuilder.setParameter("uid", userId);
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
             return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    //TODO products adding
     public boolean addProdotto(String userId, Prodotto prodotto) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost(uri + "/addProduct/"+ userId);
         try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/addProduct/"+ userId);
+
+            HttpPost httpPost = new HttpPost(uriBuilder.build());
             HttpEntity httpEntity = new StringEntity(Manager.objectToJson(prodotto));
             httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpPost.setHeader(HttpHeaders.ACCEPT_CHARSET, "utf-16");
             httpPost.setEntity(httpEntity);
             CloseableHttpResponse response = httpClient.execute(httpPost);
             return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    //TODO products removing
     public String remove(String uid, int pid) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpPost request = new HttpPost(uri+"/removeProd/" + pid + "?uid=" + uid);
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/removeProd/" + pid);
+            uriBuilder.setParameter("uid", uid);
+
+            HttpPost request = new HttpPost(uriBuilder.build());
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                String result = EntityUtils.toString(entity);
-                return result;
+                return EntityUtils.toString(entity);
             }
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return "Error";
     }
 
-    //TODO request all user's orders
     public List<Long> getAllOrdersDate(String userId) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/getAllOrdersDate/"+userId);
-
         try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/getAllOrdersDate/" + userId);
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
@@ -305,17 +340,24 @@ public class HttpWrapper {
                 orderDate.add(orderElement.get(0).getAsLong());
             }
             return orderDate;
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Ordine getAllProductsByOrder(String userId, Long date){
+    public Ordine getAllProductsByOrder(String userId, Long date) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/getAllProdByOrder/"+userId+"?date="+date);
-        HttpGet httpGet2 = new HttpGet(uri+"/getOrderID/"+userId+"?date="+date);
         try {
+            URIBuilder uriBuilder1 = new URIBuilder(uri);
+            uriBuilder1.setPath("/getAllProdByOrder/" + userId);
+            uriBuilder1.setParameter("date", String.valueOf(date));
+            URIBuilder uriBuilder2 = new URIBuilder(uri);
+            uriBuilder2.setPath("/getOrderID/" + userId);
+            uriBuilder2.setParameter("date", String.valueOf(date));
+
+            HttpGet httpGet = new HttpGet(uriBuilder1.build());
+            HttpGet httpGet2 = new HttpGet(uriBuilder2.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
@@ -348,7 +390,7 @@ public class HttpWrapper {
             ordine.setID(listina.get(0).getAsString());
             ordine.setDataConsegna(listina.get(1).getAsLong());
             return ordine;
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return null;
@@ -356,10 +398,12 @@ public class HttpWrapper {
 
     public Utente getUserByID(String userId, Class<? extends Utente> utenteClass) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/getUserInfo/"+userId);
-        CloseableHttpResponse response = null;
         try {
-            response = httpClient.execute(httpGet);
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/getUserInfo/" + userId);
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
+            CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
 
@@ -419,17 +463,21 @@ public class HttpWrapper {
                 utente.setIndirizzo(indirizzo);
                 return utente;
             }
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
 
         return null;
     }
 
-    public List<Prodotto> getProductsPerBrand(String brandName,String uid) throws IOException {
+    public List<Prodotto> getProductsPerBrand(String brandName, String uid) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/getProdByBrand/"+brandName+"?uid="+uid);
         try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/getProdByBrand/" + brandName);
+            uriBuilder.setParameter("uid", uid);
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
@@ -457,61 +505,74 @@ public class HttpWrapper {
                 }
             }
 
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public String addTessera(TesseraFedelta tessera, String uid){
+    public String addTessera(TesseraFedelta tessera, String uid) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost(uri + "/addTessera/"+uid);
         try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/addTessera/" + uid);
+
+            HttpPost httpPost = new HttpPost(uriBuilder.build());
             HttpEntity httpEntity = new StringEntity(Manager.objectToJson(tessera));
             httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpPost.setEntity(httpEntity);
             CloseableHttpResponse response = httpClient.execute(httpPost);
             return response.getStatusLine().getReasonPhrase();
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return "Error";
     }
 
-    public boolean addTesseraPoint(String idt,int punti){
+    public boolean addTesseraPoint(String idt,int punti) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/addPoint/"+idt+"?punti="+punti);
         try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/addPoint/" + idt);
+            uriBuilder.setParameter("punti", String.valueOf(punti));
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
             return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public String changePassword(String uid,String oldPassw,String newPassw){
+    public String changePassword(String uid, String oldPassw, String newPassw) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
-            HttpPost request = new HttpPost(uri+"/changePassword/" + uid + "?old="+oldPassw+"&new="+newPassw);
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/changePassword/" + uid);
+            uriBuilder.setParameters(new BasicNameValuePair("old", oldPassw), new BasicNameValuePair("new", newPassw));
+
+            HttpPost request = new HttpPost(uriBuilder.build());
             request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                String result = EntityUtils.toString(entity);
-                return result;
+                return EntityUtils.toString(entity);
             }
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return "Error";
     }
 
-    public List<String> getAllUserID(String uid){
+    public List<String> getAllUserID(String uid) {
         List<String> userList = new ArrayList<>();
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(uri + "/getAllUserID/"+uid);
         try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/getAllUserID/" + uid);
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
@@ -522,7 +583,7 @@ public class HttpWrapper {
                 userList.add(orderElement.get(0).getAsString());
             }
             return userList;
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return null;
