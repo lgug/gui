@@ -33,11 +33,10 @@ import java.util.*;
 public class AllOrderPopup extends Application {
     @FXML
     public Label statoOrdine;
-    public TableView table;
-    public TableColumn col1;
-    public TableColumn col2;
-    public TableColumn col3;
-    public TableColumn col4;
+    public TableView<Ordine> table;
+    public TableColumn<Ordine,String>  col1;
+    public TableColumn<Ordine,String>   col2;
+    public TableColumn<Ordine,String>   col4;
     @FXML
     private TilePane tilePane1;
     @FXML
@@ -57,14 +56,14 @@ public class AllOrderPopup extends Application {
     }
 
     @FXML
-    private void handleOkButtonAction(ActionEvent Event){
-        clearPanel();
-        BigDecimal sum= new BigDecimal("0.0");
-        
-        if (choiceBox.getValue() != null) {
-            Long date = dateMap.get(choiceBox.getValue());
+    public void handleSelectOrderButtonAction(MouseEvent mouseEvent) {
+        ObservableList<Ordine> ordini = table.getSelectionModel().getSelectedItems();
+        if (ordini.size()!=0) {
+            Ordine ordine = ordini.get(0);
+            clearPanel();
+            BigDecimal sum = new BigDecimal("0.0");
             HttpWrapper http = new HttpWrapper();
-            Ordine ordine = http.getAllProductsByOrder(Manager.getUIDFromFile(),date);
+            Ordine ordines = http.getAllProductsByOrder(Manager.getUIDFromFile(), ordini.get(0).getData());
             List<Prodotto> prodottoList = ordine.getProdotto();
             int i = 0;
             Iterator it = prodottoList.iterator();
@@ -80,104 +79,41 @@ public class AllOrderPopup extends Application {
                 prezzo.setFont(Font.font(20));
 
 
-
-                Label quantita = new Label("Quantità: " + String.valueOf(prodottoList.get(i).getQuantita()));
+                Label quantita = new Label("Quantit\u00E0: " + String.valueOf(prodottoList.get(i).getQuantita()));
 
                 Image image = new Image(ClassLoader.getSystemClassLoader().getResourceAsStream(prodottoList.get(i).getImmagine()));
                 ImageView img = new ImageView(image);
                 img.setFitHeight(80);
                 img.setFitWidth(80);
 
-                VBox vbox = new VBox(10, lab1, lab2,quantita, prezzo);
+                VBox vbox = new VBox(10, lab1, lab2, quantita, prezzo);
                 HBox hbox = new HBox(20, img, vbox);
                 tilePane1.getChildren().add(hbox);
 
                 BigDecimal prezzo2 = new BigDecimal(String.valueOf(prodottoList.get(i).getPrezzo()));
                 BigDecimal quantita2 = new BigDecimal(prodottoList.get(i).getQuantita());
-                sum =sum.add(prezzo2.multiply(quantita2));
+                sum = sum.add(prezzo2.multiply(quantita2));
 
                 it.next();
                 i++;
             }
-            Date consegna = new Date(ordine.getDataConsegna());
-            dataConsegna.setText(Manager.getSimpleDateFormat(consegna));
+
             orderID.setText("ID ORDINE: " + ordine.getID());
             totaleLabel.setText("Totale: " + sum + Manager.EURO);
             Date dates = new Date();
-            if(ordine.getDataConsegna()> dates.getTime()) {
+            if (ordine.getDataConsegna() > dates.getTime()) {
                 statoOrdine.setText("In preparzione");
                 statoOrdine.setTextFill(Color.web("#FF2D00"));
             }
-            if(ordine.getDataConsegna()-172800000< dates.getTime()) {
+            if (ordine.getDataConsegna() - 172800000 < dates.getTime()) {
                 statoOrdine.setText("In consegna");
                 statoOrdine.setTextFill(Color.web("#B3B900"));
             }
-            if(ordine.getDataConsegna()< dates.getTime()) {
+            if (ordine.getDataConsegna() < dates.getTime()) {
                 statoOrdine.setText("Consegnato");
                 statoOrdine.setTextFill(Color.web("#00B908"));
             }
         }
-    }
-
-    public void handleSelectOrderButtonAction(MouseEvent mouseEvent) {
-        ObservableList<Ordine> ordini = table.getSelectionModel().getSelectedItems();
-        Ordine ordine= ordini.get(0);
-        clearPanel();
-        BigDecimal sum= new BigDecimal("0.0");
-        HttpWrapper http = new HttpWrapper();
-        Ordine ordines = http.getAllProductsByOrder(Manager.getUIDFromFile(),ordini.get(0).getData());
-        List<Prodotto> prodottoList = ordine.getProdotto();
-        int i = 0;
-        Iterator it = prodottoList.iterator();
-        while (it.hasNext()) {
-            Label lab1 = new Label(prodottoList.get(i).getNome());
-            lab1.setFont(Font.font(17));
-            lab1.setStyle("-fx-font-weight: bold");
-
-            Label lab2 = new Label(prodottoList.get(i).getMarca());
-            lab2.setFont(Font.font(15));
-
-            Label prezzo = new Label(Manager.EURO + String.valueOf(prodottoList.get(i).getPrezzo()));
-            prezzo.setFont(Font.font(20));
-
-
-
-            Label quantita = new Label("Quantit\u00E0: " + String.valueOf(prodottoList.get(i).getQuantita()));
-
-            Image image = new Image(ClassLoader.getSystemClassLoader().getResourceAsStream(prodottoList.get(i).getImmagine()));
-            ImageView img = new ImageView(image);
-            img.setFitHeight(80);
-            img.setFitWidth(80);
-
-            VBox vbox = new VBox(10, lab1, lab2,quantita, prezzo);
-            HBox hbox = new HBox(20, img, vbox);
-            tilePane1.getChildren().add(hbox);
-
-            BigDecimal prezzo2 = new BigDecimal(String.valueOf(prodottoList.get(i).getPrezzo()));
-            BigDecimal quantita2 = new BigDecimal(prodottoList.get(i).getQuantita());
-            sum =sum.add(prezzo2.multiply(quantita2));
-
-            it.next();
-            i++;
-        }
-        Date consegna = new Date(ordine.getDataConsegna());
-        dataConsegna.setText(Manager.getSimpleDateFormat(consegna));
-        orderID.setText("ID ORDINE: " + ordine.getID());
-        totaleLabel.setText("Totale: " + sum + Manager.EURO);
-        Date dates = new Date();
-        if(ordine.getDataConsegna()> dates.getTime()) {
-            statoOrdine.setText("In preparzione");
-            statoOrdine.setTextFill(Color.web("#FF2D00"));
-        }
-        if(ordine.getDataConsegna()-172800000< dates.getTime()) {
-            statoOrdine.setText("In consegna");
-            statoOrdine.setTextFill(Color.web("#B3B900"));
-        }
-        if(ordine.getDataConsegna()< dates.getTime()) {
-            statoOrdine.setText("Consegnato");
-            statoOrdine.setTextFill(Color.web("#00B908"));
-        }
-
     }
 
     @FXML
@@ -201,21 +137,7 @@ public class AllOrderPopup extends Application {
         col1.setCellValueFactory(new PropertyValueFactory<>("acquistato"));
         col2.setCellValueFactory(new PropertyValueFactory<>("consegna"));
         table.setItems((ObservableList) obsOrdine);
-        //col3.setCellValueFactory("dataConsegna"));
-        /*
-        if (dates.isEmpty()){
-            choiceBox.setDisable(true);
-        }
-        else {
-            for (Long i : dates) {
-                Date data = new Date(i);
-                String dataS = Manager.getDateFormat(data);
-                choiceBox.getItems().add(dataS);
-                dateMap.put(dataS,i);
-            }
-        }
 
-         */
     }
     @FXML
     private void clearPanel(){
