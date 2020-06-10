@@ -15,7 +15,7 @@
             </Label>
          </top>
          <center>
-            <VBox prefHeight="256.0" prefWidth="375.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="256.0" prefWidth="375.0" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
                   <VBox prefHeight="38.0" prefWidth="375.0">
                      <children>

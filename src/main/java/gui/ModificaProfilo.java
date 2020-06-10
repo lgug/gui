@@ -14,7 +14,7 @@ public class ModificaProfilo extends Application {
 
         @Override
         public void start(Stage primaryStage) throws Exception {
-            FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("ModificaProfilo.fxml"));
+            FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("modificaProfilo.fxml"));
             AnchorPane pane = loader.load();
             ((ModificaProfiloController) loader.getController()).setPrimaryStage(primaryStage);
             Scene scene = new Scene(pane);

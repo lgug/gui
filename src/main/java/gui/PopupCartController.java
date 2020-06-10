@@ -125,7 +125,7 @@ public class  PopupCartController{
             if (prodotto.getQuantita() > prodotto.getDisponibilita()) {
                 errorPageQuantita.start(new Stage());
                 ErrorPageQuantitaController controller=errorPageQuantita.getController();
-                controller.getTextError().setText("Quantita non disponibile");
+                controller.getTextError().setText("Quantit\u00E0 non disponibile");
                 list.remove(prodotto);
                 initialize();
                 check = false;
@@ -142,9 +142,9 @@ public class  PopupCartController{
                 Ordine ord = new Ordine();
 
                 LocalDate localDate = dataConsegna.getValue();
+
                 Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
                 Date date = Date.from(instant);
-
                 ord.setDataConsegna(date.getTime());
                 ord.setData(new Date().getTime());
                 List<ProdottoSemplificato> listprodsempl = new ArrayList<>();
