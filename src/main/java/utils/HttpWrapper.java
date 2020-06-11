@@ -25,7 +25,7 @@ import java.util.List;
 
 public class HttpWrapper {
 
-    private final String uri = "http://127.0.0.1:5000";
+    private final String uri = "http://0.0.0.0:9440";
 
     public String login(String email, String password) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -166,7 +166,6 @@ public class HttpWrapper {
         try {
             URIBuilder uriBuilder = new URIBuilder(uri);
             uriBuilder.setPath("/getProdByCat/" + categoriesString.toString());
-            uriBuilder.addParameter("uid", userId);
 
             HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
@@ -203,7 +202,7 @@ public class HttpWrapper {
         try {
             URIBuilder uriBuilder = new URIBuilder(uri);
             uriBuilder.setPath("/getProdByTag/" + categoriesString.toString());
-            uriBuilder.setParameter("uid", id);
+
 
             HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
@@ -475,7 +474,7 @@ public class HttpWrapper {
         try {
             URIBuilder uriBuilder = new URIBuilder(uri);
             uriBuilder.setPath("/getProdByBrand/" + brandName);
-            uriBuilder.setParameter("uid", uid);
+
 
             HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
@@ -501,8 +500,9 @@ public class HttpWrapper {
                     prodotto.setMarca(prodottoElement.get(7).getAsString());
                     prodotto.setQuantita(prodottoElement.get(8).getAsInt());
                     prodottoList.add(prodotto);
-                    return prodottoList;
+
                 }
+                return prodottoList;
             }
 
         } catch (IOException | URISyntaxException e) {
