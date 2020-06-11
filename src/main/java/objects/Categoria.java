@@ -6,9 +6,10 @@ public enum Categoria {
     DOLCI("Dolci e dessert"),
     PESCE("Pesce"),
     LEGUMI("Legumi e cereali"),
-    LATTICINI("Latticini");
+    LATTICINI("Latticini"),
+    BEVANDE("Bevande");
 
-    private String enumString;
+    private final String enumString;
 
     Categoria(String enumString) {
         this.enumString = enumString;

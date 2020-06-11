@@ -15,7 +15,7 @@
                   <Font name="System Bold" size="30.0" />
                </font>
                <BorderPane.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </BorderPane.margin></Label>
          </top>
          <center>
@@ -23,9 +23,9 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
                      <children>
-                        <ImageView fx:id="productImage" fitHeight="230.0" fitWidth="270.0" pickOnBounds="true">
+                        <ImageView fx:id="productImage" fitHeight="230.0" fitWidth="230.0" pickOnBounds="true">
                            <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="10.0" left="10.0" right="10.0" />
                            </VBox.margin></ImageView>
                         <GridPane hgap="5.0" vgap="12.0">
                           <columnConstraints>
@@ -34,6 +34,7 @@
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -67,12 +68,22 @@
                                     <Font name="System Italic" size="13.0" />
                                  </font>
                               </Label>
-                              <Label text="Disponibilità:" GridPane.rowIndex="3">
+                              <Label text="Disponibilità:" GridPane.rowIndex="4">
                                  <font>
                                     <Font name="System Bold Italic" size="13.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="productAvailability" text="Ancora disponibili" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <Label fx:id="productAvailability" text="Ancora disponibili" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font name="System Italic" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Confezione:" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font name="System Bold Italic" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="productQuantity" text="Pezzi" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <font>
                                     <Font name="System Italic" size="13.0" />
                                  </font>
@@ -84,7 +95,7 @@
                         </GridPane>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="productPrice" text="EUR 34.99">
+                              <Label fx:id="productPrice" text="EUR 34.99" textFill="#0a0e86">
                                  <font>
                                     <Font name="System Bold" size="30.0" />
                                  </font>

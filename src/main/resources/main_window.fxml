@@ -15,10 +15,11 @@
                      <children>
                         <VBox prefHeight="72.0" prefWidth="565.0" spacing="10.0">
                            <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="403.0" spacing="10.0">
+                              <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="502.0" spacing="10.0">
                                  <children>
                                     <TextField fx:id="searchField" prefHeight="26.0" prefWidth="312.0" promptText="Cerca qui i tuoi prodotti" />
-                                    <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleCercaButtonAction" text="Cerca" textAlignment="CENTER" />
+                                    <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleCercaButtonAction" prefHeight="26.0" prefWidth="77.0" text="Cerca" textAlignment="CENTER" />
+                                    <Button mnemonicParsing="false" onMouseClicked="#handleSuggestButtonEvent" prefHeight="26.0" prefWidth="92.0" text="Suggeriti" />
                                  </children>
                                  <VBox.margin>
                                     <Insets top="10.0" />
@@ -114,12 +115,12 @@
                               <Insets top="5.0" />
                            </VBox.margin>
                         </Label>
-                        <AnchorPane>
+                        <AnchorPane prefHeight="26.0" prefWidth="880.0">
                            <VBox.margin>
-                              <Insets bottom="7.0" left="20.0" />
+                              <Insets bottom="7.0" left="20.0" right="20.0" />
                            </VBox.margin>
                            <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="4.0" prefWidth="900.0" spacing="5.0">
+                              <HBox alignment="CENTER_LEFT" prefHeight="4.0" prefWidth="860.0" spacing="5.0">
                                  <children>
                                     <Label text="Ordina per:">
                                        <font>
@@ -129,7 +130,7 @@
                                     <ChoiceBox fx:id="sortTypeChoiceBox" prefHeight="26.0" prefWidth="173.0" />
                                  </children>
                               </HBox>
-                              <Label fx:id="numberOfResults" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="24.0" prefWidth="125.0" text="0 prodotti trovati" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                              <Label fx:id="numberOfResults" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="24.0" prefWidth="125.0" text="0 prodotti trovati" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <font>
                                     <Font name="System Italic" size="13.0" />
                                  </font>

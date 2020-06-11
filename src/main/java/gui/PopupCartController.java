@@ -161,7 +161,7 @@ public class  PopupCartController{
                     http.addTesseraPoint(utente.getTesseraFedelta().getId(), puntis);
 
                     list.clear();
-                    MainWindow.resetWindow();
+                    MainWindow.getInstance().resetWindow();
                     primaryStage.close();
 
                 }

@@ -33,7 +33,8 @@ public class LoginPopupController implements Initializable {
         } else {
             primaryStage.close();
             Manager.createIDFile(result);
-            MainWindow.setUserTypeLayout(result);
+            MainWindow.getInstance().setUserTypeLayout(result);
+            MainWindow.getInstance().resetWindow();
         }
     }
 

@@ -45,7 +45,8 @@ public class LoggedUCLayoutController implements Initializable {
     @FXML
     protected void handleEsciMenuEvent(ActionEvent event) {
         Manager.createIDFile("");
-        MainWindow.setUserTypeLayout(Manager.getUIDFromFile());
+        MainWindow.getInstance().setUserTypeLayout(Manager.getUIDFromFile());
+        MainWindow.getInstance().resetWindow();
     }
 
     @FXML

@@ -8,7 +8,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -28,19 +32,19 @@ import java.util.*;
 
 public class MainWindow extends Application implements Initializable {
 
+    private static MainWindow instance;
+
+    public static MainWindow getInstance() {
+        return instance;
+    }
 
     public static ArrayList<Prodotto> array = new ArrayList<>();
-    public static  ObservableList<Prodotto> list = FXCollections.observableArrayList();
+    public static ObservableList<Prodotto> list = FXCollections.observableArrayList();
     private Map<ProductLayoutController, Pane> productLayoutControllerMap;
 
-    private static HBox staticUserTypeButtonWrapper;
-    private NotLoggedLayoutController notLoggedLayoutController;
-    private static HBox notLoggedHBox;
-    private LoggedUCLayoutController loggedUCLayoutController;
-    private static HBox loggedUCHBox;
-    private LoggedURLayoutController loggedURLayoutController;
-    private static HBox loggedURHBox;
-
+    private HBox notLoggedHBox;
+    private HBox loggedUCHBox;
+    private HBox loggedURHBox;
 
     @FXML
     private TextField searchField;
@@ -66,8 +70,6 @@ public class MainWindow extends Application implements Initializable {
     private ChoiceBox<CaratteristicheProdotto> tagChoiceBox;
     @FXML
     private ChoiceBox<SortingType> sortTypeChoiceBox;
-
-    static GridPane statiProdGridPane;
 
     @FXML
     protected void handleCercaButtonAction(ActionEvent event) {
@@ -104,13 +106,17 @@ public class MainWindow extends Application implements Initializable {
                     e.printStackTrace();
                 }
             }
-            numberOfResults.setText(StringsUtils.foundProduct(productLayoutControllerMap.size()));
         }
+        numberOfResults.setText(StringsUtils.foundProduct(productLayoutControllerMap.size()));
 
         sortProductResult();
     }
 
     @FXML
+    protected void handleSuggestButtonEvent(MouseEvent mouseEvent) {
+        start10Prod();
+    }
+
     private void start10Prod() {
         productsListTitle.setText("Prodotti suggeriti");
         productLayoutControllerMap = new HashMap<>();
@@ -129,8 +135,8 @@ public class MainWindow extends Application implements Initializable {
                     e.printStackTrace();
                 }
             }
-            numberOfResults.setText(StringsUtils.foundProduct(productLayoutControllerMap.size()));
         }
+        numberOfResults.setText(StringsUtils.foundProduct(productLayoutControllerMap.size()));
 
         sortProductResult();
     }
@@ -155,8 +161,7 @@ public class MainWindow extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        statiProdGridPane = productsGridPane;
-        staticUserTypeButtonWrapper = userTypeButtonWrapper;
+        instance = this;
         try {
             FXMLLoader notLogged = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("not_logged_layout.fxml"));
             FXMLLoader loggedUC = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("logged_uc_layout.fxml"));
@@ -165,12 +170,14 @@ public class MainWindow extends Application implements Initializable {
             loggedUCHBox = loggedUC.load();
             loggedURHBox = loggedUR.load();
 
-            notLoggedLayoutController = notLogged.getController();
-            loggedUCLayoutController = loggedUC.getController();
-            loggedURLayoutController = loggedUR.getController();
-
             catChoiceBox.getItems().addAll(Categoria.values());
+            catChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+                    categoriaButton.setSelected(true));
+
             tagChoiceBox.getItems().addAll(CaratteristicheProdotto.values());
+            tagChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+                    caratteristicaButton.setSelected(true));
+
             sortTypeChoiceBox.getItems().setAll(SortingType.values());
             sortTypeChoiceBox.setValue(SortingType.NAME_ASCENDING);
             sortTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -187,7 +194,7 @@ public class MainWindow extends Application implements Initializable {
         }
     }
 
-    public static List<Prodotto> get10mostAvailableProducts() {
+    public List<Prodotto> get10mostAvailableProducts() {
         HttpWrapper http = new HttpWrapper();
         return http.getFirst10Prod();
     }
@@ -211,15 +218,15 @@ public class MainWindow extends Application implements Initializable {
         return http.tag(Manager.getUIDFromFile(),tag);
     }
 
-    public static void setUserTypeLayout(String uid) {
-        staticUserTypeButtonWrapper.getChildren().clear();
+    public void setUserTypeLayout(String uid) {
+        userTypeButtonWrapper.getChildren().clear();
         if (uid != null) {
             if (uid.matches("UC-\\d+")) {
-                staticUserTypeButtonWrapper.getChildren().add(loggedUCHBox);
+                userTypeButtonWrapper.getChildren().add(loggedUCHBox);
             } else if (uid.matches("UR-\\d+")) {
-                staticUserTypeButtonWrapper.getChildren().add(loggedURHBox);
+                userTypeButtonWrapper.getChildren().add(loggedURHBox);
             } else if (uid.trim().isEmpty() || uid.trim().equals("ERROR")) {
-                staticUserTypeButtonWrapper.getChildren().add(notLoggedHBox);
+                userTypeButtonWrapper.getChildren().add(notLoggedHBox);
             }
         }
     }
@@ -240,38 +247,10 @@ public class MainWindow extends Application implements Initializable {
         MainWindow.list = list;
     }
 
-    //TODO redundant method: to review
-    public static void resetWindow() {
-        HashMap<ProductLayoutController, Pane> productLayoutControllerMap = new HashMap<>();
-        List<Prodotto> prodottoList = get10mostAvailableProducts();
 
-        statiProdGridPane.getChildren().clear();
-        for (int i = 0; i < prodottoList.size(); i++) {
-            FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("products_layout.fxml"));
-            HBox hBox;
-            try {
-                hBox = fxmlLoader.<HBox>load();
-                ProductLayoutController productLayoutController = fxmlLoader.getController();
-                productLayoutControllerMap.put(productLayoutController, hBox);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        int pos = 0;
-        int row = 0;
-        int col = 0;
-        for (ProductLayoutController plc: productLayoutControllerMap.keySet()) {
-            plc.createOneProductLayout(prodottoList.get(pos));
-            pos++;
-            statiProdGridPane.add(productLayoutControllerMap.get(plc), col, row);
-            if (col == 1) {
-                col = 0;
-                row++;
-            } else {
-                col++;
-            }
-        }
+    public void resetWindow() {
+        clearPanel();
+        start10Prod();
     }
 
     private void sortProductResult() {

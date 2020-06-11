@@ -28,6 +28,8 @@ public class ProductDetailsController implements Initializable {
     @FXML
     private Label productTag;
     @FXML
+    private Label productQuantity;
+    @FXML
     private Label productAvailability;
     @FXML
     private Label productPrice;
@@ -40,16 +42,16 @@ public class ProductDetailsController implements Initializable {
 
     public void initializeProdottoData() {
         if (prodotto != null) {
-//            productImage.setImage(new Image(ClassLoader.getSystemClassLoader().getResourceAsStream(prodotto.getImmagine())));
             productImage.setImage(Manager.decodeImage(prodotto.getImmagine()));
             productName.setText(prodotto.getNome());
             productBrand.setText(prodotto.getMarca());
             productCategory.setText(prodotto.getCategoria().toString());
             productTag.setText(prodotto.getCaratteristiche().toString());
+            productQuantity.setText(prodotto.getQuantita() + " pezzi");
             productAvailability.setText("Ancora " + prodotto.getDisponibilita());
             productPrice.setText(Manager.EURO + prodotto.getPrezzo());
 
-            if (Manager.isUserResponsabile()) {
+            if (!Manager.isUserCliente()) {
                 addToCartButton.setManaged(false);
             }
         }
