@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -17,12 +16,12 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import objects.CaratteristicheProdotto;
 import objects.Categoria;
-import objects.Categoria;
 import objects.Prodotto;
+import objects.SortingType;
 import utils.HttpWrapper;
 import utils.Manager;
+import utils.StringsUtils;
 
-import javax.swing.text.Caret;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -32,7 +31,6 @@ public class MainWindow extends Application implements Initializable {
 
     public static ArrayList<Prodotto> array = new ArrayList<>();
     public static  ObservableList<Prodotto> list = FXCollections.observableArrayList();
-    private Stage stage;
     private Map<ProductLayoutController, Pane> productLayoutControllerMap;
 
     private static HBox staticUserTypeButtonWrapper;
@@ -47,13 +45,9 @@ public class MainWindow extends Application implements Initializable {
     @FXML
     private TextField searchField;
     @FXML
-    private Button searchButton;
-    @FXML
-    private Button accediButton;
-    @FXML
-    private Button cartButton;
-    @FXML
     private Label productsListTitle;
+    @FXML
+    private Label numberOfResults;
     @FXML
     private GridPane productsGridPane;
     @FXML
@@ -67,14 +61,17 @@ public class MainWindow extends Application implements Initializable {
     @FXML
     private HBox userTypeButtonWrapper;
     @FXML
-    private ChoiceBox catChoiceBox;
+    private ChoiceBox<Categoria> catChoiceBox;
     @FXML
-    private ChoiceBox tagChoiceBox;
-
+    private ChoiceBox<CaratteristicheProdotto> tagChoiceBox;
+    @FXML
+    private ChoiceBox<SortingType> sortTypeChoiceBox;
 
     static GridPane statiProdGridPane;
+
     @FXML
-    protected void handleCercaButtonAction(ActionEvent event) throws IOException {
+    protected void handleCercaButtonAction(ActionEvent event) {
+        productsListTitle.setText("Risultati della ricerca");
         List<Prodotto> prodottoList = new ArrayList<>();
         clearPanel();
         productLayoutControllerMap = new HashMap<>();
@@ -82,11 +79,11 @@ public class MainWindow extends Application implements Initializable {
              prodottoList = getProdByName(searchField.getText());
         }
         else if (categoriaButton.isSelected()){
-            Categoria cat = (Categoria) catChoiceBox.getValue();
+            Categoria cat = catChoiceBox.getValue();
             prodottoList = getProdByCat(cat);
         }
         else if(caratteristicaButton.isSelected()){
-            CaratteristicheProdotto tag = (CaratteristicheProdotto) tagChoiceBox.getValue();
+            CaratteristicheProdotto tag = tagChoiceBox.getValue();
             prodottoList = getProdByTag(tag);
         }
 
@@ -94,65 +91,48 @@ public class MainWindow extends Application implements Initializable {
             prodottoList = getProdByBrand(searchField.getText());
         }
 
-        for (int i = 0; i < prodottoList.size(); i++) {
-            FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("products_layout.fxml"));
-            HBox hBox;
-            try {
-                hBox = fxmlLoader.<HBox>load();
-                ProductLayoutController productLayoutController = fxmlLoader.getController();
-                productLayoutControllerMap.put(productLayoutController, hBox);
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (prodottoList != null && prodottoList.size() > 0) {
+            for (Prodotto prodotto : prodottoList) {
+                FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("products_layout.fxml"));
+                HBox hBox;
+                try {
+                    hBox = fxmlLoader.<HBox>load();
+                    ProductLayoutController productLayoutController = fxmlLoader.getController();
+                    productLayoutController.setProdotto(prodotto);
+                    productLayoutControllerMap.put(productLayoutController, hBox);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            numberOfResults.setText(StringsUtils.foundProduct(productLayoutControllerMap.size()));
         }
 
-        int pos = 0;
-        int row = 0;
-        int col = 0;
-        for (ProductLayoutController plc: productLayoutControllerMap.keySet()) {
-            plc.createOneProductLayout(prodottoList.get(pos));
-            pos++;
-            productsGridPane.add(productLayoutControllerMap.get(plc), col, row);
-            if (col == 1) {
-                col = 0;
-                row++;
-            } else {
-                col++;
-            }
-        }
+        sortProductResult();
     }
 
     @FXML
-    private void start10Prod() throws IOException {
+    private void start10Prod() {
+        productsListTitle.setText("Prodotti suggeriti");
         productLayoutControllerMap = new HashMap<>();
         List<Prodotto> prodottoList = get10mostAvailableProducts();
         clearPanel();
-        for (int i = 0; i < prodottoList.size(); i++) {
-            FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("products_layout.fxml"));
-            HBox hBox;
-            try {
-                hBox = fxmlLoader.<HBox>load();
-                ProductLayoutController productLayoutController = fxmlLoader.getController();
-                productLayoutControllerMap.put(productLayoutController, hBox);
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (prodottoList != null && prodottoList.size() > 0) {
+            for (Prodotto prodotto : prodottoList) {
+                FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("products_layout.fxml"));
+                HBox hBox;
+                try {
+                    hBox = fxmlLoader.<HBox>load();
+                    ProductLayoutController productLayoutController = fxmlLoader.getController();
+                    productLayoutController.setProdotto(prodotto);
+                    productLayoutControllerMap.put(productLayoutController, hBox);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            numberOfResults.setText(StringsUtils.foundProduct(productLayoutControllerMap.size()));
         }
 
-        int pos = 0;
-        int row = 0;
-        int col = 0;
-        for (ProductLayoutController plc: productLayoutControllerMap.keySet()) {
-            plc.createOneProductLayout(prodottoList.get(pos));
-            pos++;
-            productsGridPane.add(productLayoutControllerMap.get(plc), col, row);
-            if (col == 1) {
-                col = 0;
-                row++;
-            } else {
-                col++;
-            }
-        }
+        sortProductResult();
     }
 
     private void clearPanel(){
@@ -165,7 +145,6 @@ public class MainWindow extends Application implements Initializable {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        stage = primaryStage;
         FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("main_window.fxml"));
         AnchorPane pane = loader.load();
         Scene scene = new Scene(pane);
@@ -192,6 +171,12 @@ public class MainWindow extends Application implements Initializable {
 
             catChoiceBox.getItems().addAll(Categoria.values());
             tagChoiceBox.getItems().addAll(CaratteristicheProdotto.values());
+            sortTypeChoiceBox.getItems().setAll(SortingType.values());
+            sortTypeChoiceBox.setValue(SortingType.NAME_ASCENDING);
+            sortTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                clearPanel();
+                sortProductResult();
+            });
 
             String uid = Manager.getUIDFromFile();
             setUserTypeLayout(uid);
@@ -202,39 +187,28 @@ public class MainWindow extends Application implements Initializable {
         }
     }
 
-    public static List<Prodotto> get10mostAvailableProducts() throws IOException {
+    public static List<Prodotto> get10mostAvailableProducts() {
         HttpWrapper http = new HttpWrapper();
-        List<Prodotto> prodottoList = http.getFirst10Prod();
-        return prodottoList;
+        return http.getFirst10Prod();
     }
 
-    private List<Prodotto> getProdByName(String prodName) throws IOException {
+    private List<Prodotto> getProdByName(String prodName) {
         HttpWrapper http = new HttpWrapper();
         return http.getProductsPerName(prodName);
     }
 
-    private List<Prodotto> getProdByBrand(String brandName) throws IOException {
+    private List<Prodotto> getProdByBrand(String brandName) {
         HttpWrapper http = new HttpWrapper();
         return http.getProductsPerBrand(brandName,Manager.getUIDFromFile());
     }
-    private List<Prodotto> getProdByCat(Categoria... category) throws IOException {
+    private List<Prodotto> getProdByCat(Categoria... category) {
         HttpWrapper http = new HttpWrapper();
         return http.getProductByCategory(Manager.getUIDFromFile(),category);
     }
 
-    private List<Prodotto> getProdByTag(CaratteristicheProdotto... tag) throws IOException {
+    private List<Prodotto> getProdByTag(CaratteristicheProdotto... tag) {
         HttpWrapper http = new HttpWrapper();
         return http.tag(Manager.getUIDFromFile(),tag);
-    }
-
-    public void handleCartButtonAction(MouseEvent mouseEvent) {
-        list= FXCollections.observableArrayList(array);
-        PopupCart popupCart = new PopupCart();
-        try {
-            popupCart.start(new Stage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public static void setUserTypeLayout(String uid) {
@@ -266,8 +240,8 @@ public class MainWindow extends Application implements Initializable {
         MainWindow.list = list;
     }
 
-    public static void resetWindow() throws IOException {
-
+    //TODO redundant method: to review
+    public static void resetWindow() {
         HashMap<ProductLayoutController, Pane> productLayoutControllerMap = new HashMap<>();
         List<Prodotto> prodottoList = get10mostAvailableProducts();
 
@@ -300,5 +274,64 @@ public class MainWindow extends Application implements Initializable {
         }
     }
 
+    private void sortProductResult() {
+        if (sortTypeChoiceBox.getValue() != null) {
+            List<ProductLayoutController> sortedList = new ArrayList<>(productLayoutControllerMap.keySet());
+            sortedList.sort(new ProductComparator(sortTypeChoiceBox.getValue()));
+            int row = 0;
+            int col = 0;
+            for (ProductLayoutController plc: sortedList) {
+                plc.createOneProductLayout();
+                productsGridPane.add(productLayoutControllerMap.get(plc), col, row);
+                if (col == 1) {
+                    col = 0;
+                    row++;
+                } else {
+                    col++;
+                }
+            }
+        }
+    }
+
+
+    private static class ProductComparator implements Comparator<ProductLayoutController> {
+
+        private final SortingType sortingType;
+
+        public ProductComparator(SortingType sortingType) {
+            this.sortingType = sortingType;
+        }
+
+        @Override
+        public int compare(ProductLayoutController o1, ProductLayoutController o2) {
+            switch (sortingType) {
+                case NAME_ASCENDING:
+                    return o1.getProdotto().getNome().compareTo(o2.getProdotto().getNome());
+                case NAME_DESCENDING:
+                    return o2.getProdotto().getNome().compareTo(o1.getProdotto().getNome());
+                case BRAND_ASCENDING:
+                    int c1 = o1.getProdotto().getMarca().compareTo(o2.getProdotto().getMarca());
+                    if (c1 == 0)
+                        return o1.getProdotto().getNome().compareTo(o2.getProdotto().getNome());
+                    return c1;
+                case BRAND_DESCENDING:
+                    int c2 = o2.getProdotto().getMarca().compareTo(o1.getProdotto().getMarca());
+                    if (c2 == 0)
+                        return o2.getProdotto().getNome().compareTo(o1.getProdotto().getNome());
+                    return c2;
+                case PRICE_ASCENDING:
+                    int c3 = Float.compare(o1.getProdotto().getPrezzo(), o2.getProdotto().getPrezzo());
+                    if (c3 == 0)
+                        return o1.getProdotto().getNome().compareTo(o2.getProdotto().getNome());
+                    return c3;
+                case PRICE_DESCENDING:
+                    int c4 = Float.compare(o2.getProdotto().getPrezzo(), o1.getProdotto().getPrezzo());
+                    if (c4 == 0)
+                        return o2.getProdotto().getNome().compareTo(o1.getProdotto().getNome());
+                    return c4;
+            }
+            return 0;
+        }
+    }
     
 }

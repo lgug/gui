@@ -38,7 +38,7 @@ public class TestExample {
 
     @Test
     public void testManager() {
-        String imageBlob = Manager.getImageBlob(new File(ClassLoader.getSystemResource("tuna.png").getPath()));
+        String imageBlob = Manager.encodeImage(new File(ClassLoader.getSystemResource("tuna.png").getPath()));
         Assert.assertNotNull(imageBlob);
     }
 

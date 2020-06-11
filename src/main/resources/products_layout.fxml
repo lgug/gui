@@ -8,11 +8,11 @@
 
 <HBox fx:id="productWrapper" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="93.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProductLayoutController">
    <children>
-      <ImageView fx:id="prodottoImage" fitHeight="110.0" fitWidth="110.0" pickOnBounds="true">
+      <ImageView fx:id="prodottoImage" fitHeight="110.0" fitWidth="110.0" nodeOrientation="INHERIT" pickOnBounds="true">
          <HBox.margin>
-            <Insets bottom="5.0" right="5.0" top="5.0" />
+            <Insets bottom="5.0" right="10.0" top="5.0" />
          </HBox.margin></ImageView>
-      <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="190.0">
+      <VBox alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="211.0">
          <children>
             <Label fx:id="titoloProdotto" text="Nome prodotto">
                <font>
@@ -34,7 +34,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </VBox>
-      <VBox alignment="CENTER" prefHeight="120.0" prefWidth="56.0" spacing="5.0">
+      <VBox alignment="CENTER" prefHeight="120.0" prefWidth="52.0" spacing="5.0">
          <children>
             <Button mnemonicParsing="false" onMouseClicked="#handleDetailsButtonEvent" prefHeight="28.0" prefWidth="24.0">
                <graphic>
@@ -47,7 +47,7 @@
             </Button>
             <Button fx:id="product_add_button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#handleAddButtonAction" prefHeight="0.0" prefWidth="0.0">
                <graphic>
-                  <ImageView fitHeight="150.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="productAddButtonSymbol" fitHeight="150.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@plus.png" />
                      </image>

@@ -9,76 +9,82 @@
    <children>
       <BorderPane prefHeight="600.0" prefWidth="900.0">
          <top>
-            <HBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER">
+            <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <VBox prefHeight="72.0" prefWidth="707.0" spacing="10.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="92.0" prefWidth="920.0" spacing="10.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="403.0" spacing="10.0">
+                        <VBox prefHeight="72.0" prefWidth="565.0" spacing="10.0">
                            <children>
-                              <TextField fx:id="searchField" prefHeight="26.0" prefWidth="312.0" promptText="Cerca qui i tuoi prodotti" />
-                              <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleCercaButtonAction" text="Cerca" textAlignment="CENTER" />
-                           </children>
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="528.0" spacing="10.0">
-                           <children>
-                              <Label text="Cerca per:">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                              </Label>
-                              <RadioButton fx:id="nomeButton" mnemonicParsing="false" selected="true" text="Nome">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="searchByToggleGroup" />
-                                 </toggleGroup>
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </RadioButton>
-                              <RadioButton fx:id="marcaButton" mnemonicParsing="false" text="Marca" toggleGroup="$searchByToggleGroup">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font></RadioButton>
-                              <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="154.0" spacing="2.0">
+                              <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="403.0" spacing="10.0">
                                  <children>
-                                    <RadioButton fx:id="categoriaButton" mnemonicParsing="false" text="Categoria:" toggleGroup="$searchByToggleGroup">
+                                    <TextField fx:id="searchField" prefHeight="26.0" prefWidth="312.0" promptText="Cerca qui i tuoi prodotti" />
+                                    <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleCercaButtonAction" text="Cerca" textAlignment="CENTER" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="528.0" spacing="10.0">
+                                 <children>
+                                    <Label text="Cerca per:">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <RadioButton fx:id="nomeButton" mnemonicParsing="false" selected="true" text="Nome">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="searchByToggleGroup" />
+                                       </toggleGroup>
                                        <font>
                                           <Font size="12.0" />
                                        </font>
                                     </RadioButton>
-                                    <ChoiceBox fx:id="catChoiceBox" prefHeight="20.0" prefWidth="65.0" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="176.0" spacing="2.0">
-                                 <children>
-                                    <RadioButton fx:id="caratteristicaButton" mnemonicParsing="false" text="Caratteristica:" toggleGroup="$searchByToggleGroup">
+                                    <RadioButton fx:id="marcaButton" mnemonicParsing="false" text="Marca" toggleGroup="$searchByToggleGroup">
                                        <font>
                                           <Font size="12.0" />
                                        </font>
                                     </RadioButton>
-                                    <ChoiceBox fx:id="tagChoiceBox" prefHeight="25.0" prefWidth="65.0" />
+                                    <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="154.0" spacing="2.0">
+                                       <children>
+                                          <RadioButton fx:id="categoriaButton" mnemonicParsing="false" text="Categoria:" toggleGroup="$searchByToggleGroup">
+                                             <font>
+                                                <Font size="12.0" />
+                                             </font>
+                                          </RadioButton>
+                                          <ChoiceBox fx:id="catChoiceBox" prefHeight="20.0" prefWidth="65.0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="176.0" spacing="2.0">
+                                       <children>
+                                          <RadioButton fx:id="caratteristicaButton" mnemonicParsing="false" text="Caratteristica:" toggleGroup="$searchByToggleGroup">
+                                             <font>
+                                                <Font size="12.0" />
+                                             </font>
+                                          </RadioButton>
+                                          <ChoiceBox fx:id="tagChoiceBox" prefHeight="25.0" prefWidth="65.0" />
+                                       </children>
+                                    </HBox>
                                  </children>
                               </HBox>
                            </children>
-                        </HBox>
-                     </children></VBox>
-                  <HBox fx:id="userTypeButtonWrapper" alignment="CENTER_RIGHT" prefHeight="72.0" prefWidth="402.0">
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox fx:id="userTypeButtonWrapper" alignment="CENTER_RIGHT" prefHeight="72.0" prefWidth="191.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
 
                   </HBox>
                </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </HBox>
+            </AnchorPane>
          </top>
          <center>
             <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <center>
-                  <ScrollPane prefHeight="-Infinity" prefWidth="-Infinity">
+                  <ScrollPane prefHeight="-Infinity" prefWidth="-Infinity" BorderPane.alignment="TOP_CENTER">
                      <content>
-                        <GridPane fx:id="productsGridPane" alignment="CENTER" hgap="5" prefWidth="900.0" vgap="5">
+                        <GridPane fx:id="productsGridPane" alignment="CENTER" hgap="5" prefHeight="20.0" prefWidth="905.0" vgap="5">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -91,14 +97,47 @@
                            </padding>
                         </GridPane>
                      </content>
+                     <BorderPane.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                     </BorderPane.margin>
                   </ScrollPane>
                </center>
                <top>
-                  <Label fx:id="productsListTitle" text="Lista dei prodotti" BorderPane.alignment="CENTER">
-                     <font>
-                        <Font name="System Bold" size="21.0" />
-                     </font>
-                  </Label>
+                  <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+                     <children>
+                        <Separator prefWidth="200.0" />
+                        <Label fx:id="productsListTitle" alignment="CENTER" text="Prodotti suggeriti">
+                           <font>
+                              <Font name="System Bold" size="21.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <AnchorPane>
+                           <VBox.margin>
+                              <Insets bottom="7.0" left="20.0" />
+                           </VBox.margin>
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="4.0" prefWidth="900.0" spacing="5.0">
+                                 <children>
+                                    <Label text="Ordina per:">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <ChoiceBox fx:id="sortTypeChoiceBox" prefHeight="26.0" prefWidth="173.0" />
+                                 </children>
+                              </HBox>
+                              <Label fx:id="numberOfResults" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="24.0" prefWidth="125.0" text="0 prodotti trovati" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font name="System Italic" size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
                </top>
             </BorderPane>
          </center>

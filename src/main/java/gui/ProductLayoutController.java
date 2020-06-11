@@ -17,8 +17,13 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ProductLayoutController implements Initializable {
+
+    private Prodotto prodotto;
+
     @FXML
     public Button product_add_button;
+    @FXML
+    private ImageView productAddButtonSymbol;
     @FXML
     private HBox productWrapper;
     @FXML
@@ -33,11 +38,13 @@ public class ProductLayoutController implements Initializable {
     private Label disponibilitaProdotto;
     @FXML
     private Label prezzoProdotto;
-    private Prodotto prodotto;
+
+    public void createOneProductLayout() {
+        createOneProductLayout(this.prodotto);
+    }
 
     public void createOneProductLayout(Prodotto prodotto) {
         this.prodotto=prodotto;
-//        Image image = new Image(ClassLoader.getSystemClassLoader().getResourceAsStream(prodotto.getImmagine()));
         prodottoImage.setImage(Manager.decodeImage(prodotto.getImmagine()));
         titoloProdotto.setText(prodotto.getNome());
         marcaProdotto.setText(prodotto.getMarca());
@@ -66,6 +73,10 @@ public class ProductLayoutController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if (!Manager.isUserCliente()) {
+            product_add_button.setManaged(false);
+            productAddButtonSymbol.setManaged(false);
+        }
         productWrapper.setBorder(new Border(
                 new BorderStroke(Color.LIGHTGREY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THIN)));
     }
@@ -81,5 +92,13 @@ public class ProductLayoutController implements Initializable {
         ArrayList<Prodotto> array = MainWindow.getArray();
         array.add(prodotto);
         MainWindow.setArray(array);
+    }
+
+    public Prodotto getProdotto() {
+        return prodotto;
+    }
+
+    public void setProdotto(Prodotto prodotto) {
+        this.prodotto = prodotto;
     }
 }
