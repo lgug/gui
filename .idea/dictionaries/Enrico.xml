@@ -4,8 +4,10 @@
       <w>caratteristiche</w>
       <w>categoria</w>
       <w>marca</w>
+      <w>ordini</w>
       <w>pagamento</w>
       <w>prezzo</w>
+      <w>prodotto</w>
     </words>
   </dictionary>
 </component>

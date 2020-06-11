@@ -9,7 +9,7 @@
    <children>
       <HBox prefHeight="476.0" prefWidth="817.0">
          <children>
-            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="475.0" prefWidth="536.0" vbarPolicy="ALWAYS">
+            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="476.0" prefWidth="495.0" vbarPolicy="ALWAYS">
                <content>
                   <TilePane fx:id="tilePane1" hgap="50.0" prefHeight="534.0" prefWidth="554.0" vgap="50.0">
                      <padding>
@@ -20,13 +20,13 @@
             </ScrollPane>
             <Pane prefHeight="476.0" prefWidth="283.0">
                <children>
-                  <VBox prefHeight="476.0" prefWidth="282.0">
+                  <VBox prefHeight="476.0" prefWidth="323.0">
                      <children>
-                        <TableView fx:id="table" onMouseClicked="#handleSelectOrderButtonAction" prefHeight="355.0" prefWidth="268.0">
+                        <TableView fx:id="table" onMouseClicked="#handleSelectOrderButtonAction" prefHeight="355.0" prefWidth="314.0">
                           <columns>
                             <TableColumn fx:id="col1" prefWidth="154.0" text="Data ordine" />
-                              <TableColumn fx:id="col2" prefWidth="127.0" text="Data Consegna" />
-                              <TableColumn fx:id="col4" minWidth="0.0" prefWidth="0.0" text="Id" visible="false" />
+                              <TableColumn fx:id="col2" prefWidth="167.0" text="Data Consegna" />
+                              <TableColumn fx:id="col4" minWidth="0.0" prefWidth="1.0" text="Id" visible="false" />
                           </columns>
                         </TableView>
                         <GridPane prefHeight="119.0" prefWidth="282.0">

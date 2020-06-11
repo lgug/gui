@@ -15,6 +15,7 @@ public class Ordine {
     private long dataConsegna;
     private String consegna;
     private String acquistato;
+    private String ora;
 
 
     public Ordine(Long data, List<ProdottoSemplificato> prodotti, String ID, long dataConsegna) {
@@ -65,7 +66,7 @@ public class Ordine {
 
     public void setAcquistato(String acquistato) { this.acquistato = acquistato; }
 
-    public String getConsegna() { return consegna; }
+    public void setOra(String ora) { this.ora = ora; }
 
-    public String getAcquistato() { return acquistato; }
+    public String getOra() { return ora; }
 }

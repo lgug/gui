@@ -26,7 +26,9 @@ public class  PopupCartController{
     private final ObservableList<String> st =FXCollections.observableArrayList( FormaDiPagamento.CARTA_CREDITO.toString(), FormaDiPagamento.CONSEGNA.toString(),FormaDiPagamento.PAYPAL.toString());
     private final ObservableList<Prodotto> list = MainWindow.getList();
     private final TreeSet<Prodotto> ts1 = new TreeSet<>();
+    private final ObservableList<String> ore =FXCollections.observableArrayList("08:00", "09:00", "10:00", "11:00 ", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00");
     public DatePicker dataConsegna;
+    public ChoiceBox<String> choiceOra;
     private Stage primaryStage;
     public Label tot,caratteristiche,nome,marca,categoria,prezzo;
     public TableView<Prodotto> table;
@@ -37,13 +39,14 @@ public class  PopupCartController{
     public ChoiceBox<String> choicePagamento;
     private BigDecimal sum= new BigDecimal("0.0");
     ErrorPageQuantita errorPageQuantita = new ErrorPageQuantita();
+    private long dataora;
 
     public UtenteCliente utente;
 
     public void initialize() throws Exception {
         HttpWrapper http = new HttpWrapper();
         this.utente = (UtenteCliente) http.getUserByID(Manager.getUIDFromFile(), UtenteCliente.class);
-
+        choiceOra.setItems(ore);
         choicePagamento.setItems(st);
         choicePagamento.setValue(utente.getPagamento().toString());
 
@@ -128,43 +131,52 @@ public class  PopupCartController{
                 check = false;
                 break;
             }
+        if (choiceOra.getValue() == null){
+            errorPageQuantita.start(new Stage());
+            ErrorPageQuantitaController controller = errorPageQuantita.getController();
+            controller.getTextError().setText("Inserire orario di consegna");
+            initialize();
+            check = false;
+        }
+        if (dataConsegna.getValue()==null) {
+            errorPageQuantita.start(new Stage());
+            ErrorPageQuantitaController controller = errorPageQuantita.getController();
+            controller.getTextError().setText("Selezionare la data");
+            initialize();
+            check = false;
+        }
         if (check) {
-            if (dataConsegna.getValue()==null) {
-                errorPageQuantita.start(new Stage());
-                ErrorPageQuantitaController controller=errorPageQuantita.getController();
-                controller.getTextError().setText("Selezionare la data");
 
-            } else {
-                Calendar cal = Calendar.getInstance();
-                Ordine ord = new Ordine();
+            Calendar cal = Calendar.getInstance();
+            Ordine ord = new Ordine();
+            long millis = (ore.indexOf(choiceOra.getValue())+8)*3600000;
+            LocalDate localDate = dataConsegna.getValue();
 
-                LocalDate localDate = dataConsegna.getValue();
-
-                Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-                Date date = Date.from(instant);
-                ord.setDataConsegna(date.getTime());
-                ord.setData(new Date().getTime());
-                List<ProdottoSemplificato> listprodsempl = new ArrayList<>();
-                for (Prodotto prodotto : list) {
-                    listprodsempl.add(new ProdottoSemplificato(prodotto.getId(), prodotto.getQuantita()));
-                }
-                ord.setProdotti(listprodsempl);
-                Random rand = new Random();
-                ord.setID(String.valueOf(rand.nextInt()));
-                HttpWrapper http = new HttpWrapper();
-                String response = http.addOrdine(Manager.getUIDFromFile(), ord);
-                if (response.equalsIgnoreCase("OK")) {
-                    BigDecimal totale = new BigDecimal(tot.getText());
-                    int punti = totale.round(new MathContext(1)).intValueExact();
-                    int puntis = utente.getTesseraFedelta().getSaldoPunti() + punti;
-                    //String id = utente.getTesseraFedelta().getId();
-                    http.addTesseraPoint(utente.getTesseraFedelta().getId(), puntis);
+            Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+            Date date = Date.from(instant);
+            dataora = date.getTime()+millis;
+            ord.setDataConsegna(dataora);
+            ord.setData(new Date().getTime());
+            List<ProdottoSemplificato> listprodsempl = new ArrayList<>();
+            for (Prodotto prodotto : list) {
+                listprodsempl.add(new ProdottoSemplificato(prodotto.getId(), prodotto.getQuantita()));
+            }
+            ord.setProdotti(listprodsempl);
+            Random rand = new Random();
+            ord.setID(String.valueOf(rand.nextInt()));
+            HttpWrapper http = new HttpWrapper();
+            String response = http.addOrdine(Manager.getUIDFromFile(), ord);
+            if (response.equalsIgnoreCase("OK")) {
+                BigDecimal totale = new BigDecimal(tot.getText());
+                int punti = totale.round(new MathContext(1)).intValueExact();
+                int puntis = utente.getTesseraFedelta().getSaldoPunti() + punti;
+                //String id = utente.getTesseraFedelta().getId();
+                http.addTesseraPoint(utente.getTesseraFedelta().getId(), puntis);
 
                     list.clear();
                     MainWindow.getInstance().resetWindow();
                     primaryStage.close();
 
-                }
             }
         }
     }

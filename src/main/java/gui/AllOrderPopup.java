@@ -3,7 +3,6 @@ package gui;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import javafx.scene.layout.HBox;
@@ -25,7 +23,6 @@ import objects.Prodotto;
 import utils.HttpWrapper;
 import utils.Manager;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -40,30 +37,22 @@ public class AllOrderPopup extends Application {
     @FXML
     private TilePane tilePane1;
     @FXML
-    private ChoiceBox choiceBox;
-    @FXML
-    private Button okButton;
-    @FXML
     private Label totaleLabel;
     @FXML
     private Label orderID;
-    @FXML
-    private Label dataConsegna;
 
-    private HashMap<String,Long> dateMap = new HashMap<>();
+
 
     public AllOrderPopup() {
     }
 
     @FXML
-    public void handleSelectOrderButtonAction(MouseEvent mouseEvent) {
+    public void handleSelectOrderButtonAction() {
         ObservableList<Ordine> ordini = table.getSelectionModel().getSelectedItems();
         if (ordini.size()!=0) {
             Ordine ordine = ordini.get(0);
             clearPanel();
             BigDecimal sum = new BigDecimal("0.0");
-            HttpWrapper http = new HttpWrapper();
-            Ordine ordines = http.getAllProductsByOrder(Manager.getUIDFromFile(), ordini.get(0).getData());
             List<Prodotto> prodottoList = ordine.getProdotto();
             int i = 0;
             Iterator it = prodottoList.iterator();
@@ -75,11 +64,11 @@ public class AllOrderPopup extends Application {
                 Label lab2 = new Label(prodottoList.get(i).getMarca());
                 lab2.setFont(Font.font(15));
 
-                Label prezzo = new Label(Manager.EURO + String.valueOf(prodottoList.get(i).getPrezzo()));
+                Label prezzo = new Label(Manager.EURO + prodottoList.get(i).getPrezzo());
                 prezzo.setFont(Font.font(20));
 
 
-                Label quantita = new Label("Quantit\u00E0: " + String.valueOf(prodottoList.get(i).getQuantita()));
+                Label quantita = new Label("Quantit\u00E0: " + prodottoList.get(i).getQuantita());
 
                 Image image = Manager.decodeImage(prodottoList.get(i).getImmagine());
                 ImageView img = new ImageView(image);
@@ -117,18 +106,18 @@ public class AllOrderPopup extends Application {
     }
 
     @FXML
-    private void initialize() throws IOException {
+    private void initialize() {
         List<Ordine> ordines = new ArrayList<>();
         HttpWrapper http = new HttpWrapper();
         List<Long> dates = http.getAllOrdersDate(Manager.getUIDFromFile());
         for(Long date: dates) {
             Ordine ordine = http.getAllProductsByOrder(Manager.getUIDFromFile(), date);
             Date data = new Date(ordine.getDataConsegna());
-            SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             String dataS = DateFor.format(data);
             ordine.setConsegna(dataS);
             data.setTime(ordine.getData());
-            dataS = Manager.getDateFormat(data);
+            dataS = DateFor.format(data);
             ordine.setAcquistato(dataS);
             ordines.add(ordine);
         }
@@ -136,7 +125,7 @@ public class AllOrderPopup extends Application {
         col4.setCellValueFactory(new PropertyValueFactory<>("ID"));
         col1.setCellValueFactory(new PropertyValueFactory<>("acquistato"));
         col2.setCellValueFactory(new PropertyValueFactory<>("consegna"));
-        table.setItems((ObservableList) obsOrdine);
+        table.setItems(obsOrdine);
 
     }
     @FXML
