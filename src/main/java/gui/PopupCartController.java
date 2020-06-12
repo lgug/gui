@@ -10,7 +10,6 @@ import objects.*;
 import utils.HttpWrapper;
 import utils.Manager;
 import utils.ProdottoSemplificato;
-
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.Instant;
@@ -29,7 +28,7 @@ public class  PopupCartController{
     public DatePicker dataConsegna;
     public ChoiceBox<String> choiceOra;
     private Stage primaryStage;
-    public Label tot,caratteristiche,nome,marca,categoria,prezzo;
+    public Label tot,caratteristiche,nome,marca,categoria,prezzo,pezzi;
     public TableView<ProdottoEsteso> table;
     public TableColumn<Prodotto,String> col1,col2,col3,col4;
     public Button Continua;
@@ -105,6 +104,7 @@ public class  PopupCartController{
             categoria.setText(prodotto.get(0).getCategoria().toString());
             prezzo.setText(String.valueOf(prodotto.get(0).getPrezzo()));
             image.setImage(Manager.decodeImage(prodotto.get(0).getImmagine()));
+            pezzi.setText(String.valueOf(prodotto.get(0).getQuantita()));
             SpinnerValueFactory<Integer> spinnerQuantity = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, prodotto.get(0).getDisponibilita(), prodotto.get(0).getNumeroProdotti()) {
                 @Override
                 public void decrement(int steps) {
@@ -155,14 +155,12 @@ public class  PopupCartController{
             errorPageQuantita.start(new Stage());
             ErrorPageQuantitaController controller = errorPageQuantita.getController();
             controller.getTextError().setText("Inserire orario di consegna");
-            initialize();
             check = false;
         }
         if (dataConsegna.getValue()==null) {
             errorPageQuantita.start(new Stage());
             ErrorPageQuantitaController controller = errorPageQuantita.getController();
             controller.getTextError().setText("Selezionare la data");
-            initialize();
             check = false;
         }
         if (check) {
@@ -176,8 +174,8 @@ public class  PopupCartController{
             ord.setDataConsegna(dataora);
             ord.setData(new Date().getTime());
             List<ProdottoSemplificato> listprodsempl = new ArrayList<>();
-            for (Prodotto prodotto : list) {
-                listprodsempl.add(new ProdottoSemplificato(prodotto.getId(), prodotto.getQuantita()));
+            for (ProdottoEsteso prodotto : listext) {
+                listprodsempl.add(new ProdottoSemplificato(prodotto.getId(), prodotto.getNumeroProdotti()));
             }
             ord.setProdotti(listprodsempl);
             Random rand = new Random();
