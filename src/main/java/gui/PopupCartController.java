@@ -18,7 +18,6 @@ import objects.UtenteCliente;
 import utils.HttpWrapper;
 import utils.Manager;
 import utils.ProdottoSemplificato;
-import utils.StringsUtils;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
