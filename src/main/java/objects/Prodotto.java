@@ -94,4 +94,6 @@ public class Prodotto implements Comparable<Prodotto> {
     public int compareTo(Prodotto o) {
         return id - o.id;
     }
+
+    public CaratteristicheProdotto getTag() { return tag; }
 }

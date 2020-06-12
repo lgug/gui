@@ -26,41 +26,25 @@ public class Ordine {
 
     }
     public Ordine(){ }
-    public Long getData() {
-        return data;
-    }
+    public Long getData() { return data; }
 
-    public void setData(Long data) {
-        this.data = data;
-    }
+    public void setData(Long data) { this.data = data; }
 
-    public List<ProdottoSemplificato> getProdotti() {
-        return prodotti;
-    }
+    public List<ProdottoSemplificato> getProdotti() { return prodotti; }
 
-    public void setProdotti(List<ProdottoSemplificato> prodotti) {
-        this.prodotti = prodotti;
-    }
+    public void setProdotti(List<ProdottoSemplificato> prodotti) { this.prodotti = prodotti; }
 
-    public List<Prodotto> getProdotto() {
-        return prodotto;
-    }
+    public List<Prodotto> getProdotto() { return prodotto; }
 
-    public String getID() {
-        return ID;
-    }
+    public String getID() { return ID; }
 
-    public void setID(String ID) {
-        this.ID = ID;
-    }
+    public void setID(String ID) { this.ID = ID; }
 
     public long getDataConsegna() { return dataConsegna; }
 
     public void setDataConsegna(long dataConsegna) { this.dataConsegna = dataConsegna; }
 
-    public void setProdotto(List<Prodotto> prodotto) {
-        this.prodotto = prodotto;
-    }
+    public void setProdotto(List<Prodotto> prodotto) { this.prodotto = prodotto; }
 
     public void setConsegna(String consegna) { this.consegna = consegna; }
 
@@ -69,4 +53,8 @@ public class Ordine {
     public void setOra(String ora) { this.ora = ora; }
 
     public String getOra() { return ora; }
+
+    public String getConsegna() { return consegna; }
+
+    public String getAcquistato() { return acquistato; }
 }

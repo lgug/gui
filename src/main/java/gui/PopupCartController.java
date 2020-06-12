@@ -6,10 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import objects.FormaDiPagamento;
-import objects.Ordine;
-import objects.Prodotto;
-import objects.UtenteCliente;
+import objects.*;
 import utils.HttpWrapper;
 import utils.Manager;
 import utils.ProdottoSemplificato;
@@ -25,13 +22,15 @@ import java.util.*;
 public class  PopupCartController{
     private final ObservableList<String> st =FXCollections.observableArrayList( FormaDiPagamento.CARTA_CREDITO.toString(), FormaDiPagamento.CONSEGNA.toString(),FormaDiPagamento.PAYPAL.toString());
     private final ObservableList<Prodotto> list = MainWindow.getList();
+    private final ObservableList<ProdottoEsteso> listext = FXCollections.observableArrayList();
     private final TreeSet<Prodotto> ts1 = new TreeSet<>();
+    private final TreeSet<ProdottoEsteso> ts2 = new TreeSet<>();
     private final ObservableList<String> ore =FXCollections.observableArrayList("08:00", "09:00", "10:00", "11:00 ", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00");
     public DatePicker dataConsegna;
     public ChoiceBox<String> choiceOra;
     private Stage primaryStage;
     public Label tot,caratteristiche,nome,marca,categoria,prezzo;
-    public TableView<Prodotto> table;
+    public TableView<ProdottoEsteso> table;
     public TableColumn<Prodotto,String> col1,col2,col3,col4;
     public Button Continua;
     public ImageView image;
@@ -39,11 +38,21 @@ public class  PopupCartController{
     public ChoiceBox<String> choicePagamento;
     private BigDecimal sum= new BigDecimal("0.0");
     ErrorPageQuantita errorPageQuantita = new ErrorPageQuantita();
-    private long dataora;
-
+    private final ArrayList<ProdottoSemplificato> listSempl= new ArrayList<>();
     public UtenteCliente utente;
 
-    public void initialize() throws Exception {
+    public static class ProdottoEsteso extends Prodotto{
+        public int numeroProdotti;
+        public ProdottoEsteso(Prodotto prodotto, int numeroProdotti) {
+            super(prodotto.getId(), prodotto.getNome(), prodotto.getMarca(), prodotto.getTag(), prodotto.getCategoria(),prodotto.getPrezzo(),prodotto.getDisponibilita(),prodotto.getQuantita(),prodotto.getImmagine());
+            this.numeroProdotti = numeroProdotti;
+        }
+        public int getNumeroProdotti() { return numeroProdotti; }
+
+        public void setNumeroProdotti(int numeroProdotti) { this.numeroProdotti = numeroProdotti; }
+    }
+
+    public void initialize() {
         HttpWrapper http = new HttpWrapper();
         this.utente = (UtenteCliente) http.getUserByID(Manager.getUIDFromFile(), UtenteCliente.class);
         choiceOra.setItems(ore);
@@ -51,33 +60,44 @@ public class  PopupCartController{
         choicePagamento.setValue(utente.getPagamento().toString());
 
         for(Prodotto prodotto:list){
-            if(ts1.contains(prodotto))
-                Objects.requireNonNull(ts1.floor(prodotto)).setQuantita(prodotto.getQuantita()+1);
-
-            else
+            if(ts1.contains(prodotto)) {
+                for(ProdottoSemplificato prodottoSemplificato: listSempl){
+                    if(prodottoSemplificato.getId()==prodotto.getId())
+                        prodottoSemplificato.setQuantita(prodottoSemplificato.getQuantita()+1);
+                }
+            }
+            else{
                 ts1.add(prodotto);
+                listSempl.add(new ProdottoSemplificato(prodotto.getId(),1));
+            }
         }
         list.clear();
         list.addAll(ts1);
-        for(Prodotto prodotto:list){
-
-                BigDecimal prezzo = new BigDecimal(String.valueOf(prodotto.getPrezzo()));
-                BigDecimal quantita = new BigDecimal(prodotto.getQuantita());
+        for(Prodotto prodotto: list){
+            for(ProdottoSemplificato prodottoSemplificato:listSempl){
+                if(prodotto.getId()==prodottoSemplificato.getId()){
+                    ts2.add(new ProdottoEsteso(prodotto,prodottoSemplificato.getQuantita()));
+                }
+            }
+        }
+        listext.addAll(ts2);
+        for(ProdottoEsteso prodottoEsteso:listext){
+                BigDecimal prezzo = new BigDecimal(String.valueOf(prodottoEsteso.getPrezzo()));
+                BigDecimal quantita = new BigDecimal(prodottoEsteso.getNumeroProdotti());
                 sum =sum.add(prezzo.multiply(quantita));
-
         }
         ts1.clear();
-        System.out.println(ts1);
+        ts2.clear();
         tot.setText(String.valueOf(sum));
         col1.setCellValueFactory(new PropertyValueFactory<>("id"));
         col2.setCellValueFactory(new PropertyValueFactory<>("nome"));
         col3.setCellValueFactory(new PropertyValueFactory<>("prezzo"));
-        col4.setCellValueFactory(new PropertyValueFactory<>("quantita"));
-        table.setItems(list);
+        col4.setCellValueFactory(new PropertyValueFactory<>("numeroProdotti"));
+        table.setItems(listext);
     }
 
     public void handleSelectProductButtonAction() {
-        ObservableList<Prodotto> prodotto = table.getSelectionModel().getSelectedItems();
+        ObservableList<ProdottoEsteso> prodotto = table.getSelectionModel().getSelectedItems();
         if(prodotto.size() !=0){
             nome.setText(prodotto.get(0).getNome());
             marca.setText(prodotto.get(0).getMarca());
@@ -85,18 +105,18 @@ public class  PopupCartController{
             categoria.setText(prodotto.get(0).getCategoria().toString());
             prezzo.setText(String.valueOf(prodotto.get(0).getPrezzo()));
             image.setImage(Manager.decodeImage(prodotto.get(0).getImmagine()));
-            SpinnerValueFactory<Integer> spinnerQuantity = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, prodotto.get(0).getDisponibilita(), prodotto.get(0).getQuantita()) {
+            SpinnerValueFactory<Integer> spinnerQuantity = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, prodotto.get(0).getDisponibilita(), prodotto.get(0).getNumeroProdotti()) {
                 @Override
                 public void decrement(int steps) {
-                    if ((prodotto.get(0).getQuantita() > 0) && (this.getValue() != 0)) {
+                    if ((prodotto.get(0).getNumeroProdotti() > 0) && (this.getValue() != 0)) {
                         BigDecimal totale = new BigDecimal(tot.getText());
                         totale = totale.add(new BigDecimal(String.valueOf(-prodotto.get(0).getPrezzo())));
                         tot.setText(String.valueOf(totale));
                     }
                     this.setValue(this.getValue() - 1);
-                    prodotto.get(0).setQuantita(this.getValue());
+                    prodotto.get(0).setNumeroProdotti(this.getValue());
                     table.refresh();
-                    if(prodotto.get(0).getQuantita()==0) {
+                    if(prodotto.get(0).getNumeroProdotti()==0) {
                         list.remove(prodotto.get(0));
 
                         handleSelectProductButtonAction();
@@ -105,13 +125,13 @@ public class  PopupCartController{
 
                 @Override
                 public void increment(int steps) {
-                    if (prodotto.get(0).getQuantita() < prodotto.get(0).getDisponibilita()) {
+                    if (prodotto.get(0).getNumeroProdotti() < prodotto.get(0).getDisponibilita()) {
                         BigDecimal totale = new BigDecimal(tot.getText());
                         totale = totale.add(new BigDecimal(String.valueOf(prodotto.get(0).getPrezzo())));
                         tot.setText(String.valueOf(totale));
                     }
                     this.setValue(this.getValue() + 1);
-                    prodotto.get(0).setQuantita(this.getValue());
+                    prodotto.get(0).setNumeroProdotti(this.getValue());
                     table.refresh();
                 }
             };
@@ -121,8 +141,8 @@ public class  PopupCartController{
 
     public void handleBuyButtonAction() throws Exception {
         boolean check = true;
-        for (Prodotto prodotto : list)
-            if (prodotto.getQuantita() > prodotto.getDisponibilita()) {
+        for (ProdottoEsteso prodotto : listext)
+            if (prodotto.getNumeroProdotti() > prodotto.getDisponibilita()) {
                 errorPageQuantita.start(new Stage());
                 ErrorPageQuantitaController controller=errorPageQuantita.getController();
                 controller.getTextError().setText("Quantit\u00E0 non disponibile");
@@ -146,15 +166,13 @@ public class  PopupCartController{
             check = false;
         }
         if (check) {
-
-            Calendar cal = Calendar.getInstance();
             Ordine ord = new Ordine();
             long millis = (ore.indexOf(choiceOra.getValue())+8)*3600000;
             LocalDate localDate = dataConsegna.getValue();
 
             Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
             Date date = Date.from(instant);
-            dataora = date.getTime()+millis;
+            long dataora = date.getTime() + millis;
             ord.setDataConsegna(dataora);
             ord.setData(new Date().getTime());
             List<ProdottoSemplificato> listprodsempl = new ArrayList<>();
@@ -170,7 +188,6 @@ public class  PopupCartController{
                 BigDecimal totale = new BigDecimal(tot.getText());
                 int punti = totale.round(new MathContext(1)).intValueExact();
                 int puntis = utente.getTesseraFedelta().getSaldoPunti() + punti;
-                //String id = utente.getTesseraFedelta().getId();
                 http.addTesseraPoint(utente.getTesseraFedelta().getId(), puntis);
 
                     list.clear();

@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="476.0" prefWidth="817.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AllOrderPopup">
+<AnchorPane prefHeight="476.0" prefWidth="797.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AllOrderPopup">
    <children>
-      <HBox prefHeight="476.0" prefWidth="817.0">
+      <HBox prefHeight="476.0" prefWidth="796.0">
          <children>
             <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="476.0" prefWidth="495.0" vbarPolicy="ALWAYS">
                <content>
@@ -18,15 +18,15 @@
                   </TilePane>
                </content>
             </ScrollPane>
-            <Pane prefHeight="476.0" prefWidth="283.0">
+            <Pane prefHeight="476.0" prefWidth="300.0">
                <children>
-                  <VBox prefHeight="476.0" prefWidth="323.0">
+                  <VBox prefHeight="476.0" prefWidth="300.0">
                      <children>
-                        <TableView fx:id="table" onMouseClicked="#handleSelectOrderButtonAction" prefHeight="355.0" prefWidth="314.0">
+                        <TableView fx:id="table" onMouseClicked="#handleSelectOrderButtonAction" prefHeight="355.0" prefWidth="286.0">
                           <columns>
-                            <TableColumn fx:id="col1" prefWidth="154.0" text="Data ordine" />
-                              <TableColumn fx:id="col2" prefWidth="167.0" text="Data Consegna" />
-                              <TableColumn fx:id="col4" minWidth="0.0" prefWidth="1.0" text="Id" visible="false" />
+                              <TableColumn fx:id="col2" prefWidth="163.0" text="Data Consegna" />
+                            <TableColumn fx:id="col1" prefWidth="136.0" text="Data ordine" />
+                              <TableColumn fx:id="col4" minWidth="0.0" prefWidth="0.0" text="Id" />
                           </columns>
                         </TableView>
                         <GridPane prefHeight="119.0" prefWidth="282.0">
