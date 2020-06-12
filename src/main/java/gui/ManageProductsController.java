@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import objects.Prodotto;
 import utils.HttpWrapper;
 import utils.Manager;
+import utils.StringsUtils;
 
 import java.net.URL;
 import java.util.*;
@@ -68,12 +69,11 @@ public class ManageProductsController implements Initializable {
     @FXML
     protected void handleListItemEvent(MouseEvent mouseEvent) {
         Prodotto prodotto = getPendingProduct();
-//        productDetailImage.setImage(new Image(ClassLoader.getSystemClassLoader().getResourceAsStream(prodotto.getImmagine())));
         productDetailImage.setImage(Manager.decodeImage(prodotto.getImmagine()));
         productDetailTitle.setText(prodotto.getNome());
         productDetailBrand.setText(prodotto.getMarca());
         productDetailAvailability.setText("Disponibilità: " + prodotto.getDisponibilita());
-        productDetailPrice.setText(Manager.EURO + prodotto.getPrezzo());
+        productDetailPrice.setText(StringsUtils.getPriceString(prodotto.getPrezzo()));
 
         addProductUnitButton.setDisable(false);
         removeProductUnitButton.setDisable(false);
