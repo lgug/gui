@@ -5,29 +5,32 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import objects.Ordine;
 import objects.Prodotto;
 import utils.HttpWrapper;
 import utils.Manager;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class AllOrderPopup extends Application {
+public class AllOrderPopup extends Application implements Initializable {
+
+    private Map<ProductLayoutOrderController, HBox> controllerMap;
+
     @FXML
     public Label statoOrdine;
     public TableView<Ordine> table;
@@ -35,7 +38,7 @@ public class AllOrderPopup extends Application {
     public TableColumn<Ordine,String>   col2;
     public TableColumn<Ordine,String>   col4;
     @FXML
-    private TilePane tilePane1;
+    private GridPane contentGridPane;
     @FXML
     private Label totaleLabel;
     @FXML
@@ -48,43 +51,41 @@ public class AllOrderPopup extends Application {
 
     @FXML
     public void handleSelectOrderButtonAction() {
+        controllerMap = new HashMap<>();
         ObservableList<Ordine> ordini = table.getSelectionModel().getSelectedItems();
         if (ordini.size()!=0) {
             Ordine ordine = ordini.get(0);
             clearPanel();
             BigDecimal sum = new BigDecimal("0.0");
             List<Prodotto> prodottoList = ordine.getProdotto();
-            int i = 0;
-            Iterator it = prodottoList.iterator();
-            while (it.hasNext()) {
-                Label lab1 = new Label(prodottoList.get(i).getNome());
-                lab1.setFont(Font.font(17));
-                lab1.setStyle("-fx-font-weight: bold");
+            for (Prodotto prodotto : prodottoList) {
+                FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("product_layout_order.fxml"));
+                try {
+                    HBox hBox = fxmlLoader.load();
+                    ProductLayoutOrderController productLayoutOrderController = fxmlLoader.getController();
+                    productLayoutOrderController.setProdotto(prodotto);
+                    productLayoutOrderController.setQuantity(prodotto.getQuantita()); //TODO quantita is the wrong datum
+                    controllerMap.put(productLayoutOrderController, hBox);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-                Label lab2 = new Label(prodottoList.get(i).getMarca());
-                lab2.setFont(Font.font(15));
-
-                Label prezzo = new Label(Manager.EURO + prodottoList.get(i).getPrezzo());
-                prezzo.setFont(Font.font(20));
-
-
-                Label quantita = new Label("Quantit\u00E0: " + prodottoList.get(i).getQuantita());
-
-                Image image = Manager.decodeImage(prodottoList.get(i).getImmagine());
-                ImageView img = new ImageView(image);
-                img.setFitHeight(80);
-                img.setFitWidth(80);
-
-                VBox vbox = new VBox(10, lab1, lab2, quantita, prezzo);
-                HBox hbox = new HBox(20, img, vbox);
-                tilePane1.getChildren().add(hbox);
-
-                BigDecimal prezzo2 = new BigDecimal(String.valueOf(prodottoList.get(i).getPrezzo()));
-                BigDecimal quantita2 = new BigDecimal(prodottoList.get(i).getQuantita());
+                BigDecimal prezzo2 = new BigDecimal(String.valueOf(prodotto.getPrezzo()));
+                BigDecimal quantita2 = new BigDecimal(prodotto.getQuantita()); //TODO quantita is the wrong datum
                 sum = sum.add(prezzo2.multiply(quantita2));
+            }
 
-                it.next();
-                i++;
+            int row = 0;
+            int col = 0;
+            for (ProductLayoutOrderController ploc: controllerMap.keySet()) {
+                ploc.generate();
+                contentGridPane.add(controllerMap.get(ploc), col, row);
+                if (col == 1) {
+                    col = 0;
+                    row++;
+                } else {
+                    col++;
+                }
             }
 
             orderID.setText("ID ORDINE: " + ordine.getID());
@@ -105,8 +106,9 @@ public class AllOrderPopup extends Application {
         }
     }
 
-    @FXML
-    private void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        controllerMap = new HashMap<>();
         List<Ordine> ordines = new ArrayList<>();
         HttpWrapper http = new HttpWrapper();
         List<Long> dates = http.getAllOrdersDate(Manager.getUIDFromFile());
@@ -126,11 +128,11 @@ public class AllOrderPopup extends Application {
         col1.setCellValueFactory(new PropertyValueFactory<>("acquistato"));
         col2.setCellValueFactory(new PropertyValueFactory<>("consegna"));
         table.setItems(obsOrdine);
-
     }
+
     @FXML
     private void clearPanel(){
-        tilePane1.getChildren().clear();
+        contentGridPane.getChildren().clear();
     }
 
     public static void main(String[] args) {
