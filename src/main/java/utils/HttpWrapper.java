@@ -607,4 +607,28 @@ public class HttpWrapper {
         }
         return "Error";
     }
+
+    public List<Long> getAllDeliveryDate(){
+        List<Long> dateList = new ArrayList<>();
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/getAllDeliveryDate");
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+            String jsonResponse = EntityUtils.toString(responseEntity);
+            JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
+            Iterator<JsonElement> it = list.iterator();
+            while (it.hasNext()) {
+                JsonArray orderElement = it.next().getAsJsonArray();
+                dateList.add(orderElement.get(0).getAsLong());
+            }
+            return dateList;
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
