@@ -2,30 +2,54 @@ package gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import objects.Indirizzo;
+import objects.Utente;
 import objects.UtenteCliente;
+import objects.UtenteResponsabile;
 import utils.HttpWrapper;
 import utils.Manager;
 
-public class ModificaProfiloController {
-    public TextField nome;
-    public TextField cognome;
-    public TextField telefono;
-    public TextField via;
-    public TextField civico;
-    public TextField cap;
-    public TextField citta;
-    public TextField provinicia;
-    public Button aggiornaDati;
-    private Stage primaryStage;
-    private UtenteCliente utente;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-    public void initialize(){
+public class ModificaProfiloController implements Initializable {
+
+    private Class<? extends Utente> userClass;
+    private Utente utente;
+    private Stage primaryStage;
+
+    @FXML
+    private TextField nome;
+    @FXML
+    private TextField cognome;
+    @FXML
+    private TextField telefono;
+    @FXML
+    private TextField via;
+    @FXML
+    private TextField civico;
+    @FXML
+    private TextField cap;
+    @FXML
+    private TextField citta;
+    @FXML
+    private TextField provinicia;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
+    public void fillFields() {
         HttpWrapper http = new HttpWrapper();
-        utente = (UtenteCliente) http.getUserByID(Manager.getUIDFromFile(), UtenteCliente.class);
+        if (userClass.equals(UtenteCliente.class)) {
+            utente = http.getUserByID(Manager.getUIDFromFile(), UtenteCliente.class);
+        } else {
+            utente = http.getUserByID(Manager.getUIDFromFile(), UtenteResponsabile.class);
+        }
 
         nome.setText(utente.getNome());
         cognome.setText(utente.getCognome());
@@ -35,7 +59,6 @@ public class ModificaProfiloController {
         cap.setText((utente.getIndirizzo().getCap()));
         citta.setText((utente.getIndirizzo().getLocalita()));
         provinicia.setText(utente.getIndirizzo().getProvincia());
-
     }
 
     @FXML
@@ -51,9 +74,17 @@ public class ModificaProfiloController {
         indirizzo.setProvincia(provinicia.getText());
         indirizzo.setLocalita(citta.getText());
         utente.setIndirizzo(indirizzo);
-        http.updateUserInfo(Manager.getUIDFromFile(),utente);
+
+        http.updateUserInfo(Manager.getUIDFromFile(), utente);
+        primaryStage.close();
     }
+
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
+
+    public void setUserClass(Class<? extends Utente> userClass) {
+        this.userClass = userClass;
+    }
+
 }

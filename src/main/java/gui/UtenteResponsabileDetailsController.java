@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import objects.Indirizzo;
-import objects.RuoloResponsabile;
 import objects.UtenteResponsabile;
 import utils.HttpWrapper;
 import utils.Manager;
@@ -57,10 +56,14 @@ public class UtenteResponsabileDetailsController implements Initializable {
         }
     }
 
-    //TODO to delete
-    private UtenteResponsabile metodoDiProva() {
-        return new UtenteResponsabile("UR-234567890", "Mario", "Rossi",
-                new Indirizzo("Verdi", "46b", "37120", "Verona", "Verona", "Italia"),
-                "+39467873773", "mario.rossi@gmail.com", "password12345", "1235742", RuoloResponsabile.ESERCENTE);
+    @FXML
+    protected void handleModificaProfiloButtonAction(ActionEvent actionEvent) {
+        ModificaProfilo modificaProfilo = new ModificaProfilo();
+        try {
+            modificaProfilo.start(new Stage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 }

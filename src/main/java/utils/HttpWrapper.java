@@ -590,7 +590,7 @@ public class HttpWrapper {
 
     }
 
-    public String updateUserInfo(String uid,UtenteCliente utente) {
+    public String updateUserInfo(String uid, Utente utente) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             URIBuilder uriBuilder = new URIBuilder(uri);
