@@ -3,6 +3,7 @@ package gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -36,7 +37,9 @@ public class  PopupCartController{
     private final TreeSet<Prodotto> ts1 = new TreeSet<>();
     private final TreeSet<ProdottoEsteso> ts2 = new TreeSet<>();
     private final ObservableList<String> ore =FXCollections.observableArrayList("08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00");
-    public DatePicker dataConsegna;
+    private List<String> orerest= Arrays.asList("08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00");
+    @FXML
+    private DatePicker dataConsegna;
     public ChoiceBox<String> choiceOra;
     private Stage primaryStage;
     public Label tot,caratteristiche,nome,marca,categoria,prezzo,pezzi;
@@ -50,6 +53,7 @@ public class  PopupCartController{
     ErrorPageQuantita errorPageQuantita = new ErrorPageQuantita();
     private final ArrayList<ProdottoSemplificato> listSempl= new ArrayList<>();
     public UtenteCliente utente;
+    private BigDecimal totale;
 
     public static class ProdottoEsteso extends Prodotto{
         public int numeroProdotti;
@@ -96,10 +100,11 @@ public class  PopupCartController{
                 BigDecimal prezzo = new BigDecimal(String.valueOf(prodottoEsteso.getPrezzo()));
                 BigDecimal quantita = new BigDecimal(prodottoEsteso.getNumeroProdotti());
                 sum =sum.add(prezzo.multiply(quantita));
+                totale=sum;
         }
         ts1.clear();
         ts2.clear();
-        tot.setText(String.valueOf(sum));
+        tot.setText(StringsUtils.getPriceString(totale));
         col1.setCellValueFactory(new PropertyValueFactory<>("id"));
         col2.setCellValueFactory(new PropertyValueFactory<>("nome"));
         col3.setCellValueFactory(new PropertyValueFactory<>("prezzo"));
@@ -112,12 +117,12 @@ public class  PopupCartController{
                         super.updateItem(item, empty);
                         if (item.isBefore(LocalDate.now())) { setStyle("-fx-background-color: #f08080;");setDisable(true);setTextFill(Color.web("#ff0000")); }
                         if (item.isAfter(LocalDate.now())) { setStyle("-fx-background-color: #90ee90;"); setTextFill(Color.web("#008080"));}
-                        if (item.equals(LocalDate.now())) { setStyle("-fx-background-color: #f08080;");setDisable(true);setTextFill(Color.web("#ff0000")); }
-                        if (item.equals(LocalDate.now().plusDays(1))) { setStyle("-fx-background-color: #f08080;");setDisable(true);setTextFill(Color.web("#ff0000")); }
-                        if (item.equals(LocalDate.now().plusDays(2))) { setStyle("-fx-background-color: #f08080;");setDisable(true);setTextFill(Color.web("#ff0000")); }
+                        if (item.equals(LocalDate.now())) { setStyle("-fx-background-color: #ff9999;");setDisable(true);setTextFill(Color.web("#ff0000")); }
+                        if (item.equals(LocalDate.now().plusDays(1))) { setStyle("-fx-background-color: #ff9999;");setDisable(true);setTextFill(Color.web("#ff0000")); }
+                        if (item.equals(LocalDate.now().plusDays(2))) { setStyle("-fx-background-color: #ff9999;");setDisable(true);setTextFill(Color.web("#ff0000")); }
 
                         for(Long date: http.getAllDeliveryDate()) {
-                            if (MonthDay.from(item).equals(MonthDay.from(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), ZoneId.systemDefault())))) {
+                            if (MonthDay.from(item).equals(MonthDay.from(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), ZoneId.systemDefault())))&& Year.from(item).equals(Year.from(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), ZoneId.systemDefault())))) {
                                 if(ore.size() == 0){
                                     setStyle("-fx-background-color: #f08080;");setDisable(true);setTextFill(Color.web("#ff0000"));
                                 }
@@ -131,7 +136,7 @@ public class  PopupCartController{
             }
         };
         dataConsegna.setDayCellFactory(dayCellFactory);
-        dataConsegna.setShowWeekNumbers(false);
+        dataConsegna.setShowWeekNumbers(true);
 
     }
 
@@ -152,9 +157,9 @@ public class  PopupCartController{
                 @Override
                 public void decrement(int steps) {
                     if ((prodotto.get(0).getNumeroProdotti() > 0) && (this.getValue() != 0)) {
-                        BigDecimal totale = new BigDecimal(tot.getText());
+                        totale = new BigDecimal(tot.getText());
                         totale = totale.add(new BigDecimal(String.valueOf(-prodotto.get(0).getPrezzo())));
-                        tot.setText(String.valueOf(totale));
+                        tot.setText(StringsUtils.getPriceString(totale));
                     }
                     this.setValue(this.getValue() - 1);
                     prodotto.get(0).setNumeroProdotti(this.getValue());
@@ -169,9 +174,9 @@ public class  PopupCartController{
                 @Override
                 public void increment(int steps) {
                     if (prodotto.get(0).getNumeroProdotti() < prodotto.get(0).getDisponibilita()) {
-                        BigDecimal totale = new BigDecimal(tot.getText());
+                        totale = new BigDecimal(tot.getText());
                         totale = totale.add(new BigDecimal(String.valueOf(prodotto.get(0).getPrezzo())));
-                        tot.setText(String.valueOf(totale));
+                        tot.setText(StringsUtils.getPriceString(totale));
                     }
                     this.setValue(this.getValue() + 1);
                     prodotto.get(0).setNumeroProdotti(this.getValue());
@@ -194,7 +199,7 @@ public class  PopupCartController{
                 check = false;
                 break;
             }
-        if (choiceOra.getValue() == null){
+        if (choiceOra.getValue() == null || choiceOra.getValue().equals("--:--")){
             errorPageQuantita.start(new Stage());
             ErrorPageQuantitaController controller = errorPageQuantita.getController();
             controller.getTextError().setText("Inserire orario di consegna");
@@ -239,18 +244,25 @@ public class  PopupCartController{
     }
 
     public void updateDelivery(ActionEvent actionEvent) {
-        HttpWrapper http = new HttpWrapper();
-        for(Long date: http.getAllDeliveryDate()){
-            String hm = String.format("%02d:%02d", ((date / (1000*60*60)) % 24),((date / (1000*60)) % 60) );
-            for(String hour: ore){
-                if(hm==hour){
-                    ore.get(ore.indexOf(hour)).replaceAll(hm,"--:--");
+        choiceOra.setDisable(false);
 
+        ore.setAll(orerest);
+        choiceOra.setItems(ore);
+        HttpWrapper http = new HttpWrapper();
+        for (Long date : http.getAllDeliveryDate()) {
+            LocalDate localDate = dataConsegna.getValue();
+            Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+            Date datepick = Date.from(instant);
+            for (String ora : ore) {
+                long datepickl = datepick.getTime() + (ore.indexOf(ora) + 8) * 3600000;
+                if (date == datepickl) {
+                    //ore.get(ore.indexOf(ora)).replaceAll(ora, "--:--");
+                    choiceOra.getItems().set(ore.indexOf(ora),"--:--");
+                    //ore.removeAll("09:00");
                 }
             }
-
         }
-        choiceOra.setDisable(false);
+
     }
 
     public void setPrimaryStage(Stage primaryStage) {
