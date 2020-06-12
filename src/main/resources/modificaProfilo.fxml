@@ -106,7 +106,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="59.0" prefWidth="414.0">
                      <children>
-                        <Button fx:id="aggiornaDati" mnemonicParsing="false" text="Aggiorna Dati" />
+                        <Button fx:id="aggiornaDati" mnemonicParsing="false" text="Aggiorna Dati" onAction="#aggiornaDatiHandle"/>
                      </children>
                   </VBox>
                </children></Pane>

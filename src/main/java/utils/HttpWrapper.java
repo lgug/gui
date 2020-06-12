@@ -589,4 +589,22 @@ public class HttpWrapper {
         return null;
 
     }
+
+    public String updateUserInfo(String uid,UtenteCliente utente) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/updateUserInfo/" + uid);
+
+            HttpPost httpPost = new HttpPost(uriBuilder.build());
+            HttpEntity httpEntity = new StringEntity(Manager.objectToJson(utente));
+            httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+            httpPost.setEntity(httpEntity);
+            CloseableHttpResponse response = httpClient.execute(httpPost);
+            return response.getStatusLine().getReasonPhrase();
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return "Error";
+    }
 }
