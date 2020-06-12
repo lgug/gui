@@ -20,6 +20,8 @@ import objects.Ordine;
 import objects.Prodotto;
 import utils.HttpWrapper;
 import utils.Manager;
+import utils.ProdottoSemplificato;
+import utils.StringsUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -57,6 +59,7 @@ public class AllOrderPopup extends Application implements Initializable {
             Ordine ordine = ordini.get(0);
             clearPanel();
             BigDecimal sum = new BigDecimal("0.0");
+            List<ProdottoSemplificato> prodottoSemplificatoList = ordine.getProdotti();
             List<Prodotto> prodottoList = ordine.getProdotto();
             for (Prodotto prodotto : prodottoList) {
                 FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("product_layout_order.fxml"));
@@ -89,7 +92,7 @@ public class AllOrderPopup extends Application implements Initializable {
             }
 
             orderID.setText("ID ORDINE: " + ordine.getID());
-            totaleLabel.setText("Totale: " + sum + Manager.EURO);
+            totaleLabel.setText("Totale: " + StringsUtils.getPriceString(sum));
             Date dates = new Date();
             if (ordine.getDataConsegna() > dates.getTime()) {
                 statoOrdine.setText("In preparazione");

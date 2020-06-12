@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import objects.Prodotto;
 import utils.Manager;
+import utils.StringsUtils;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class ProductDetailsController implements Initializable {
             productTag.setText(prodotto.getCaratteristiche().toString());
             productQuantity.setText(prodotto.getQuantita() + " pezzi");
             productAvailability.setText("Ancora " + prodotto.getDisponibilita());
-            productPrice.setText(Manager.EURO + prodotto.getPrezzo());
+            productPrice.setText(StringsUtils.getPriceString(prodotto.getPrezzo()));
 
             if (!Manager.isUserCliente()) {
                 addToCartButton.setManaged(false);

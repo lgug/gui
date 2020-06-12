@@ -8,6 +8,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import objects.Prodotto;
 import utils.Manager;
+import utils.StringsUtils;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,7 +43,7 @@ public class ProductLayoutOrderController implements Initializable {
             productName.setText(prodotto.getNome());
             productBrand.setText("Marca: " + prodotto.getMarca());
             productQuantity.setText("Quantità: " + quantity);
-            productPrice.setText(Manager.EURO + prodotto.getPrezzo());
+            productPrice.setText(StringsUtils.getPriceString(prodotto.getPrezzo()));
         }
     }
 

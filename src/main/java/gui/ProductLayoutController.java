@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import objects.Prodotto;
 import utils.Manager;
+import utils.StringsUtils;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class ProductLayoutController implements Initializable {
         marcaProdotto.setText(prodotto.getMarca());
         categoriaProdotto.setText(prodotto.getCategoria().toString());
         setDisponibilitaProperties(prodotto.getDisponibilita());
-        prezzoProdotto.setText(Manager.EURO + prodotto.getPrezzo());
+        prezzoProdotto.setText(StringsUtils.getPriceString(prodotto.getPrezzo()));
     }
 
     private void setDisponibilitaProperties(int disp) {
