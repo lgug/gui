@@ -5,7 +5,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import objects.*;
 import utils.HttpWrapper;
 import utils.Manager;
@@ -14,6 +16,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.MonthDay;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -93,6 +96,28 @@ public class  PopupCartController{
         col3.setCellValueFactory(new PropertyValueFactory<>("prezzo"));
         col4.setCellValueFactory(new PropertyValueFactory<>("numeroProdotti"));
         table.setItems(listext);
+
+        final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+                    @Override public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item.isBefore(LocalDate.now())) {
+                            setStyle("-fx-background-color: #f08080;");
+                            setDisable(true);
+                        }
+                        if (item.isAfter(LocalDate.now())) { setStyle("-fx-background-color: #90ee90;"); setTextFill(Color.web("#008080"));}
+                        if (item.equals(LocalDate.now())) { setDisable(true);setStyle("-fx-background-color: #ffffff;"); setTextFill(Color.web("#ff0000")); }
+                        if (item.equals(LocalDate.now().plusDays(1))) { setDisable(true);setStyle("-fx-background-color: #ffffff;"); setTextFill(Color.web("#ff0000")); }
+                        if (item.equals(LocalDate.now().plusDays(2))) { setDisable(true);setStyle("-fx-background-color: #ffffff;"); setTextFill(Color.web("#ff0000")); }
+                    }
+                };
+            }
+        };
+        dataConsegna.setDayCellFactory(dayCellFactory);
+        dataConsegna.setShowWeekNumbers(false);
+
+
     }
 
     public void handleSelectProductButtonAction() {
