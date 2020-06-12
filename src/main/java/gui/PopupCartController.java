@@ -2,9 +2,11 @@ package gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -19,10 +21,12 @@ import utils.StringsUtils;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.time.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 public class  PopupCartController{
@@ -31,7 +35,7 @@ public class  PopupCartController{
     private final ObservableList<ProdottoEsteso> listext = FXCollections.observableArrayList();
     private final TreeSet<Prodotto> ts1 = new TreeSet<>();
     private final TreeSet<ProdottoEsteso> ts2 = new TreeSet<>();
-    private final ObservableList<String> ore =FXCollections.observableArrayList("08:00", "09:00", "10:00", "11:00 ", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00");
+    private final ObservableList<String> ore =FXCollections.observableArrayList("08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00");
     public DatePicker dataConsegna;
     public ChoiceBox<String> choiceOra;
     private Stage primaryStage;
@@ -59,6 +63,7 @@ public class  PopupCartController{
     }
 
     public void initialize() {
+        choiceOra.setDisable(true);
         HttpWrapper http = new HttpWrapper();
         this.utente = (UtenteCliente) http.getUserByID(Manager.getUIDFromFile(), UtenteCliente.class);
         choiceOra.setItems(ore);
@@ -100,20 +105,27 @@ public class  PopupCartController{
         col3.setCellValueFactory(new PropertyValueFactory<>("prezzo"));
         col4.setCellValueFactory(new PropertyValueFactory<>("numeroProdotti"));
         table.setItems(listext);
-
-        final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+        Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
             public DateCell call(final DatePicker datePicker) {
                 return new DateCell() {
                     @Override public void updateItem(LocalDate item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (item.isBefore(LocalDate.now())) {
-                            setStyle("-fx-background-color: #f08080;");
-                            setDisable(true);
-                        }
+                        if (item.isBefore(LocalDate.now())) { setStyle("-fx-background-color: #f08080;");setDisable(true);setTextFill(Color.web("#ff0000")); }
                         if (item.isAfter(LocalDate.now())) { setStyle("-fx-background-color: #90ee90;"); setTextFill(Color.web("#008080"));}
-                        if (item.equals(LocalDate.now())) { setDisable(true);setStyle("-fx-background-color: #ffffff;"); setTextFill(Color.web("#ff0000")); }
-                        if (item.equals(LocalDate.now().plusDays(1))) { setDisable(true);setStyle("-fx-background-color: #ffffff;"); setTextFill(Color.web("#ff0000")); }
-                        if (item.equals(LocalDate.now().plusDays(2))) { setDisable(true);setStyle("-fx-background-color: #ffffff;"); setTextFill(Color.web("#ff0000")); }
+                        if (item.equals(LocalDate.now())) { setStyle("-fx-background-color: #f08080;");setDisable(true);setTextFill(Color.web("#ff0000")); }
+                        if (item.equals(LocalDate.now().plusDays(1))) { setStyle("-fx-background-color: #f08080;");setDisable(true);setTextFill(Color.web("#ff0000")); }
+                        if (item.equals(LocalDate.now().plusDays(2))) { setStyle("-fx-background-color: #f08080;");setDisable(true);setTextFill(Color.web("#ff0000")); }
+
+                        for(Long date: http.getAllDeliveryDate()) {
+                            if (MonthDay.from(item).equals(MonthDay.from(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), ZoneId.systemDefault())))) {
+                                if(ore.size() == 0){
+                                    setStyle("-fx-background-color: #f08080;");setDisable(true);setTextFill(Color.web("#ff0000"));
+                                }
+                                else{
+                                    setStyle("-fx-background-color: #ffff99;");setTextFill(Color.web("#ff0000"));
+                                }
+                            }
+                        }
                     }
                 };
             }
@@ -121,10 +133,12 @@ public class  PopupCartController{
         dataConsegna.setDayCellFactory(dayCellFactory);
         dataConsegna.setShowWeekNumbers(false);
 
-
     }
 
+
+
     public void handleSelectProductButtonAction() {
+
         ObservableList<ProdottoEsteso> prodotto = table.getSelectionModel().getSelectedItems();
         if(prodotto.size() !=0){
             nome.setText(prodotto.get(0).getNome());
@@ -196,7 +210,6 @@ public class  PopupCartController{
             Ordine ord = new Ordine();
             long millis = (ore.indexOf(choiceOra.getValue())+8)*3600000;
             LocalDate localDate = dataConsegna.getValue();
-
             Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
             Date date = Date.from(instant);
             long dataora = date.getTime() + millis;
@@ -224,6 +237,22 @@ public class  PopupCartController{
             }
         }
     }
+
+    public void updateDelivery(ActionEvent actionEvent) {
+        HttpWrapper http = new HttpWrapper();
+        for(Long date: http.getAllDeliveryDate()){
+            String hm = String.format("%02d:%02d", ((date / (1000*60*60)) % 24),((date / (1000*60)) % 60) );
+            for(String hour: ore){
+                if(hm==hour){
+                    ore.get(ore.indexOf(hour)).replaceAll(hm,"--:--");
+
+                }
+            }
+
+        }
+        choiceOra.setDisable(false);
+    }
+
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
