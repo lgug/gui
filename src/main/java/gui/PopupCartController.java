@@ -132,7 +132,7 @@ public class  PopupCartController{
         };
         dataConsegna.setDayCellFactory(dayCellFactory);
         dataConsegna.setShowWeekNumbers(false);
-
+        System.out.println("Ciao Zozrzi");
     }
 
 
