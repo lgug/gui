@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -23,11 +22,7 @@ import utils.StringsUtils;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.*;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 
 public class  PopupCartController{
@@ -53,7 +48,7 @@ public class  PopupCartController{
     ErrorPageQuantita errorPageQuantita = new ErrorPageQuantita();
     private final ArrayList<ProdottoSemplificato> listSempl= new ArrayList<>();
     public UtenteCliente utente;
-    private BigDecimal totale;
+    private BigDecimal totale = new BigDecimal(0);
 
     public static class ProdottoEsteso extends Prodotto{
         public int numeroProdotti;

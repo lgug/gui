@@ -2,14 +2,13 @@ package gui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import objects.FormaDiPagamento;
+import utils.FieldChecker;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -31,10 +30,6 @@ public class PaymentDataController implements Initializable {
     @FXML
     private TextField textField2;
     @FXML
-    private Button confermaDatiButton;
-    @FXML
-    private Button annullaDatiButton;
-    @FXML
     private ImageView iconDatiPagamento;
 
     public String getPaymentString() {
@@ -55,11 +50,31 @@ public class PaymentDataController implements Initializable {
 
     @FXML
     protected void handleConfermaDatiButtonEvent(MouseEvent event) {
-        //TODO to verify data
-        paymentString = textField1.getText() + ";" + textField2.getText();
-        confermaButton.setDisable(false);
-        paymentDataStatus.setImage(new Image(ClassLoader.getSystemClassLoader().getResourceAsStream("correct.png")));
-        if (paymentStage != null) paymentStage.close();
+        String label;
+        if (FieldChecker.validateNonEmptyString(textField1.getText())) {
+            if (FieldChecker.validateNonEmptyString(textField2.getText())) {
+                paymentString = textField1.getText() + ";" + textField2.getText();
+                confermaButton.setDisable(false);
+                paymentDataStatus.setImage(new Image(ClassLoader.getSystemClassLoader().getResourceAsStream("correct.png")));
+                if (paymentStage != null)
+                    paymentStage.close();
+                else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR,
+                            "Errore nell'acquisizione dei dati!", ButtonType.OK);
+                    alert.show();
+                }
+            } else {
+                label = label2.getText().replace(":", "").toUpperCase();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                        String.format(FieldChecker.emptyFieldMsg, label), ButtonType.OK);
+                alert.show();
+            }
+        } else {
+            label = label1.getText().replace(":", "").toUpperCase();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    String.format(FieldChecker.emptyFieldMsg, label), ButtonType.OK);
+            alert.show();
+        }
     }
 
     @FXML

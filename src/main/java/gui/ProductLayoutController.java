@@ -2,7 +2,9 @@ package gui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -93,6 +95,10 @@ public class ProductLayoutController implements Initializable {
         ArrayList<Prodotto> array = MainWindow.getArray();
         array.add(prodotto);
         MainWindow.setArray(array);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Prodotto aggiunto al carrello!", ButtonType.OK);
+        alert.show();
     }
 
     public Prodotto getProdotto() {

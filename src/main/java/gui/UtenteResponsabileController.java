@@ -33,6 +33,7 @@ public class UtenteResponsabileController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ruoloResponsabileBox.getItems().addAll(RuoloResponsabile.values());
+        ruoloResponsabileBox.setValue(RuoloResponsabile.DIPENDENTE);
         ruoloResponsabileBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
                 ruoloResponsabile = newValue);
     }

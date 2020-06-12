@@ -21,10 +21,13 @@
             <Label fx:id="marcaProdotto" text="Marca" textFill="#575757" />
             <Label fx:id="categoriaProdotto" text="Categoria" textFill="#575757" />
             <Label fx:id="disponibilitaProdotto" text="Disponibilità" textFill="#575757" />
-            <Label fx:id="prezzoProdotto" text="EUR 60,99">
+            <Label fx:id="prezzoProdotto" text="EUR 60,99" textFill="#51498a">
                <font>
-                  <Font size="20.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
+               <VBox.margin>
+                  <Insets top="8.0" />
+               </VBox.margin>
             </Label>
          </children>
          <HBox.margin>

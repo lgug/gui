@@ -6,9 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -73,22 +71,29 @@ public class SignUpPopup extends Application implements Initializable {
 
     @FXML
     protected void handleContinuaButtonAction(MouseEvent event) {
+
         if (FieldChecker.validateNonEmptyString(nomeField.getText())) {
             nome = nomeField.getText();
         } else {
-            //TODO error message: Il campo e' obbligatorio
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    String.format(FieldChecker.emptyFieldMsg, "NOME"), ButtonType.OK);
+            alert.show();
             return;
         }
         if (FieldChecker.validateNonEmptyString(cognomeField.getText())) {
             cognome = cognomeField.getText();
         } else {
-            //TODO error message: Il campo e' obbligatorio
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    String.format(FieldChecker.emptyFieldMsg, "COGNOME"), ButtonType.OK);
+            alert.show();
             return;
         }
         if (FieldChecker.validateNonEmptyString(telefonoField.getText())) {
             telefono = telefonoField.getText();
         } else {
-            //TODO error message: Il campo e' obbligatorio
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    String.format(FieldChecker.emptyFieldMsg, "TELEFONO"), ButtonType.OK);
+            alert.show();
             return;
         }
         if (FieldChecker.validateNonEmptyString(viaField.getText())) {
@@ -105,36 +110,50 @@ public class SignUpPopup extends Application implements Initializable {
                             ind.setPaese("Italia");
                             indirizzo = ind;
                         } else {
-                            //TODO error message: Il campo e' obbligatorio
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                                    String.format(FieldChecker.emptyFieldMsg, "PROVINCIA"), ButtonType.OK);
+                            alert.show();
                             return;
                         }
                     } else {
-                        //TODO error message: Il campo e' obbligatorio
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                                String.format(FieldChecker.emptyFieldMsg, "CITTÀ"), ButtonType.OK);
+                        alert.show();
                         return;
                     }
                 } else {
-                    //TODO error message: Il campo e' obbligatorio
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                            String.format(FieldChecker.emptyFieldMsg, "CAP"), ButtonType.OK);
+                    alert.show();
                     return;
                 }
             } else {
-                //TODO error message: Il campo e' obbligatorio
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                        String.format(FieldChecker.emptyFieldMsg, "CIVICO"), ButtonType.OK);
+                alert.show();
                 return;
             }
         } else {
-            //TODO error message: Il campo e' obbligatorio
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    String.format(FieldChecker.emptyFieldMsg, "VIA"), ButtonType.OK);
+            alert.show();
             return;
         }
         if (FieldChecker.validateEmail(emailField.getText())) {
             email = emailField.getText();
         } else {
-            //TODO error message: email non valida
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "L'email che hai inserito non è in un formato valido!", ButtonType.OK);
+            alert.show();
             return;
         }
         if (FieldChecker.validatePassword(passwordField.getText())) {
             password = passwordField.getText();
         } else {
-            //TODO error message: la password deve contenere almeno 8 caratteri tra cui
-            // una lettera maiuscola, minuscola, un numero e niente spazi.
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "La password inserita non rispetta i requisiti:\n· Minimo 8 caratteri\n" +
+                            "· Una lettera maiuscola\n· Una minuscola\n· Un numero\n· Nessuno spazo", ButtonType.OK);
+            alert.show();
             return;
         }
         FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("signup_popup_2.fxml"));
@@ -183,23 +202,35 @@ public class SignUpPopup extends Application implements Initializable {
             utenteCliente.setTesseraFedelta(tesseraFedelta);
             utente = utenteCliente;
         } else if (utenteResponsabileButton.isSelected()) {
-            UtenteResponsabile utenteResponsabile = new UtenteResponsabile();
-            utenteResponsabile.setId(KeyGenerator.generateUserKey(UtenteResponsabile.class));
-            utenteResponsabile.setNome(nome);
-            utenteResponsabile.setCognome(cognome);
-            utenteResponsabile.setIndirizzo(indirizzo);
-            utenteResponsabile.setTelefono(telefono);
-            utenteResponsabile.setEmail(email);
-            utenteResponsabile.setPassword(password);
-            utenteResponsabile.setRuolo(utenteResponsabileController.getRuoloResponsabile());
-            utenteResponsabile.setMatricola(utenteResponsabileController.getMatricola());
-            utente = utenteResponsabile;
+            if (FieldChecker.validateNonEmptyString(utenteResponsabileController.getMatricola())) {
+                UtenteResponsabile utenteResponsabile = new UtenteResponsabile();
+                utenteResponsabile.setId(KeyGenerator.generateUserKey(UtenteResponsabile.class));
+                utenteResponsabile.setNome(nome);
+                utenteResponsabile.setCognome(cognome);
+                utenteResponsabile.setIndirizzo(indirizzo);
+                utenteResponsabile.setTelefono(telefono);
+                utenteResponsabile.setEmail(email);
+                utenteResponsabile.setPassword(password);
+                utenteResponsabile.setRuolo(utenteResponsabileController.getRuoloResponsabile());
+                utenteResponsabile.setMatricola(utenteResponsabileController.getMatricola());
+                utente = utenteResponsabile;
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                        String.format(FieldChecker.emptyFieldMsg, "MATRICOLA"), ButtonType.OK);
+                alert.show();
+                return;
+            }
         } else return;
 
         HttpWrapper httpWrapper = new HttpWrapper();
         boolean operationResult = httpWrapper.sendNewUser(utente);
         if (operationResult)
             primaryStage.close();
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Errore durante la creazione dell'utente!", ButtonType.OK);
+            alert.show();
+        }
     }
 
     @Override

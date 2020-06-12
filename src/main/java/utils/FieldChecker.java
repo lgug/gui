@@ -4,6 +4,8 @@ import java.util.regex.Pattern;
 
 public class FieldChecker {
 
+    public static final String emptyFieldMsg = "Il campo %s non può essere vuoto!";
+
     private static Pattern numerablePattern = Pattern.compile("\\d+");
     private static Pattern emailPattern = Pattern.compile("[\\w.]+@\\w+\\.\\w+");
     private static Pattern passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$");
