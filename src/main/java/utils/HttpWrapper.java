@@ -195,6 +195,42 @@ public class HttpWrapper {
         return null;
     }
 
+    public Prodotto getProductsPerId(String Id) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/getProdById/" + Id);
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+            String jsonResponse = EntityUtils.toString(responseEntity);
+            Prodotto prodotto = new Prodotto();
+            if(jsonResponse.equalsIgnoreCase("PRODOTTO INESISTENTE")){
+                return prodotto;
+            }
+            else {
+                JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
+                for (JsonElement jsonElement : list) {
+                    JsonArray prodottoElement = jsonElement.getAsJsonArray();
+                    prodotto.setId(prodottoElement.get(0).getAsInt());
+                    prodotto.setNome(prodottoElement.get(1).getAsString());
+                    prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
+                    prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
+                    prodotto.setImmagine(prodottoElement.get(4).getAsString());
+                    prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
+                    prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
+                    prodotto.setMarca(prodottoElement.get(7).getAsString());
+                    prodotto.setQuantita(prodottoElement.get(8).getAsInt());
+                }
+                return prodotto;
+            }
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public List<Prodotto> tag(String id, CaratteristicheProdotto... tag) {
         StringBuilder categoriesString = new StringBuilder();
         Arrays.asList(tag).forEach(tags -> categoriesString.append(tags.realToString()).append(";"));

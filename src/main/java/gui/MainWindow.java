@@ -39,7 +39,7 @@ public class MainWindow extends Application implements Initializable {
     }
 
     public static ArrayList<Prodotto> array = new ArrayList<>();
-    public static ObservableList<Prodotto> list = FXCollections.observableArrayList();
+    private static ObservableList<Prodotto> list = FXCollections.observableArrayList();
     private Map<ProductLayoutController, Pane> productLayoutControllerMap;
 
     private HBox notLoggedHBox;

@@ -109,7 +109,7 @@ public class AllOrderPopup extends Application implements Initializable {
         }
     }
 
-    @Override
+    @FXML
     public void initialize(URL location, ResourceBundle resources) {
         controllerMap = new HashMap<>();
         List<Ordine> ordines = new ArrayList<>();

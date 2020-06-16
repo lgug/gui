@@ -152,7 +152,6 @@ public class  PopupCartController{
                 @Override
                 public void decrement(int steps) {
                     if ((prodotto.get(0).getNumeroProdotti() > 0) && (this.getValue() != 0)) {
-                        totale = new BigDecimal(tot.getText());
                         totale = totale.add(new BigDecimal(String.valueOf(-prodotto.get(0).getPrezzo())));
                         tot.setText(StringsUtils.getPriceString(totale));
                     }
@@ -169,7 +168,6 @@ public class  PopupCartController{
                 @Override
                 public void increment(int steps) {
                     if (prodotto.get(0).getNumeroProdotti() < prodotto.get(0).getDisponibilita()) {
-                        totale = new BigDecimal(tot.getText());
                         totale = totale.add(new BigDecimal(String.valueOf(prodotto.get(0).getPrezzo())));
                         tot.setText(StringsUtils.getPriceString(totale));
                     }
@@ -184,8 +182,9 @@ public class  PopupCartController{
 
     public void handleBuyButtonAction() throws Exception {
         boolean check = true;
+        HttpWrapper http = new HttpWrapper();
         for (ProdottoEsteso prodotto : listext)
-            if (prodotto.getNumeroProdotti() > prodotto.getDisponibilita()) {
+            if (prodotto.getNumeroProdotti() > http.getProductsPerId(String.valueOf(prodotto.getId())).getDisponibilita()) {
                 errorPageQuantita.start(new Stage());
                 ErrorPageQuantitaController controller=errorPageQuantita.getController();
                 controller.getTextError().setText("Quantit\u00E0 non disponibile");
@@ -222,19 +221,17 @@ public class  PopupCartController{
             ord.setProdotti(listprodsempl);
             Random rand = new Random();
             ord.setID(String.valueOf(rand.nextInt()));
-            HttpWrapper http = new HttpWrapper();
             String response = http.addOrdine(Manager.getUIDFromFile(), ord);
             if (response.equalsIgnoreCase("OK")) {
-                BigDecimal totale = new BigDecimal(tot.getText());
-                int punti = totale.round(new MathContext(1)).intValueExact();
-                int puntis = utente.getTesseraFedelta().getSaldoPunti() + punti;
-                http.addTesseraPoint(utente.getTesseraFedelta().getId(), puntis);
-
-                    list.clear();
-                    MainWindow.getInstance().resetWindow();
-                    primaryStage.close();
-
+                if(utente.getTesseraFedelta()!=null) {
+                    int punti = totale.round(new MathContext(1)).intValueExact();
+                    int puntis = utente.getTesseraFedelta().getSaldoPunti() + punti;
+                    http.addTesseraPoint(utente.getTesseraFedelta().getId(), puntis);
+                }
             }
+            list.clear();
+            MainWindow.getInstance().resetWindow();
+            primaryStage.close();
         }
     }
 
@@ -251,9 +248,7 @@ public class  PopupCartController{
             for (String ora : ore) {
                 long datepickl = datepick.getTime() + (ore.indexOf(ora) + 8) * 3600000;
                 if (date == datepickl) {
-                    //ore.get(ore.indexOf(ora)).replaceAll(ora, "--:--");
                     choiceOra.getItems().set(ore.indexOf(ora),"--:--");
-                    //ore.removeAll("09:00");
                 }
             }
         }

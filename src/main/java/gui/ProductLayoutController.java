@@ -93,12 +93,25 @@ public class ProductLayoutController implements Initializable {
     @FXML
     public void handleAddButtonAction(MouseEvent mouseEvent) {
         ArrayList<Prodotto> array = MainWindow.getArray();
-        array.add(prodotto);
-        MainWindow.setArray(array);
+        int cont = 0;
+        for (Prodotto prodottoar : array){
+            if (prodottoar == prodotto)
+                cont++;
+        }
+        if(prodotto.getDisponibilita()<=cont){
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    "Prodotto non disponibile!", ButtonType.OK);
+            alert.show();
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                "Prodotto aggiunto al carrello!", ButtonType.OK);
-        alert.show();
+        }
+        else{
+            array.add(prodotto);
+            MainWindow.setArray(array);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Prodotto aggiunto al carrello!", ButtonType.OK);
+            alert.show();
+        }
+
     }
 
     public Prodotto getProdotto() {
