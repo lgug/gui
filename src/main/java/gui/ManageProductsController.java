@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -118,7 +115,16 @@ public class ManageProductsController implements Initializable {
         String uid = Manager.getUIDFromFile();
         HttpWrapper httpWrapper = new HttpWrapper();
         if (getPendingProduct() != null) {
-            httpWrapper.remove(uid, getPendingProduct().getId());
+            boolean result = httpWrapper.remove(uid, getPendingProduct().getId());
+            Alert alert;
+            if (result) {
+                alert = new Alert(Alert.AlertType.CONFIRMATION,
+                        "Prodotto rimosso con successo!", ButtonType.OK);
+            } else {
+                alert = new Alert(Alert.AlertType.ERROR,
+                        "Errore: prodotto non rimosso!", ButtonType.OK);
+            }
+            alert.show();
         }
         productDetailsWrapper.setVisible(false);
         addProductUnitButton.setDisable(true);

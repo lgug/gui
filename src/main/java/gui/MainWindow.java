@@ -206,16 +206,16 @@ public class MainWindow extends Application implements Initializable {
 
     private List<Prodotto> getProdByBrand(String brandName) {
         HttpWrapper http = new HttpWrapper();
-        return http.getProductsPerBrand(brandName,Manager.getUIDFromFile());
+        return http.getProductsPerBrand(brandName);
     }
     private List<Prodotto> getProdByCat(Categoria... category) {
         HttpWrapper http = new HttpWrapper();
-        return http.getProductByCategory(Manager.getUIDFromFile(),category);
+        return http.getProductByCategory(category);
     }
 
     private List<Prodotto> getProdByTag(CaratteristicheProdotto... tag) {
         HttpWrapper http = new HttpWrapper();
-        return http.tag(Manager.getUIDFromFile(),tag);
+        return http.getProductByTag(tag);
     }
 
     public void setUserTypeLayout(String uid) {

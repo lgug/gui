@@ -98,20 +98,9 @@ public class HttpWrapper {
             String jsonResponse = EntityUtils.toString(responseEntity);
             List<Prodotto> prodottoList = new ArrayList<>();
             JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-            Iterator<JsonElement> it = list.iterator();
-            while (it.hasNext()) {
-                JsonArray prodottoElement = it.next().getAsJsonArray();
-                Prodotto prodotto = new Prodotto();
-                prodotto.setId(prodottoElement.get(0).getAsInt());
-                prodotto.setNome(prodottoElement.get(1).getAsString());
-                prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
-                prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
-                prodotto.setImmagine(prodottoElement.get(4).getAsString());
-                prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
-                prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
-                prodotto.setMarca(prodottoElement.get(7).getAsString());
-                prodotto.setQuantita(prodottoElement.get(8).getAsInt());
-
+            for (JsonElement jsonElement : list) {
+                JsonArray prodottoElement = jsonElement.getAsJsonArray();
+                Prodotto prodotto = Prodotto.getInstanceFromArray(prodottoElement);
                 prodottoList.add(prodotto);
             }
             return prodottoList;
@@ -132,34 +121,22 @@ public class HttpWrapper {
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
             List<Prodotto> prodottoList = new ArrayList<>();
-            if(jsonResponse.equalsIgnoreCase("PRODOTTO INESISTENTE")){
-                return prodottoList;
-            }
-            else {
+            if (!jsonResponse.equalsIgnoreCase("PRODOTTO INESISTENTE")) {
                 JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
                 for (JsonElement jsonElement : list) {
                     JsonArray prodottoElement = jsonElement.getAsJsonArray();
-                    Prodotto prodotto = new Prodotto();
-                    prodotto.setId(prodottoElement.get(0).getAsInt());
-                    prodotto.setNome(prodottoElement.get(1).getAsString());
-                    prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
-                    prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
-                    prodotto.setImmagine(prodottoElement.get(4).getAsString());
-                    prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
-                    prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
-                    prodotto.setMarca(prodottoElement.get(7).getAsString());
-                    prodotto.setQuantita(prodottoElement.get(8).getAsInt());
+                    Prodotto prodotto = Prodotto.getInstanceFromArray(prodottoElement);
                     prodottoList.add(prodotto);
                 }
-                return prodottoList;
             }
+            return prodottoList;
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public List<Prodotto> getProductByCategory(String userId, Categoria... categories) {
+    public List<Prodotto> getProductByCategory(Categoria... categories) {
         StringBuilder categoriesString = new StringBuilder();
         Arrays.asList(categories).forEach(categoria -> categoriesString.append(categoria.toRealString()).append(";"));
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -173,19 +150,9 @@ public class HttpWrapper {
             String jsonResponse = EntityUtils.toString(responseEntity);
             List<Prodotto> prodottoList = new ArrayList<>();
             JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-            Iterator<JsonElement> it = list.iterator();
-            while (it.hasNext()) {
-                JsonArray prodottoElement = it.next().getAsJsonArray();
-                Prodotto prodotto = new Prodotto();
-                prodotto.setId(prodottoElement.get(0).getAsInt());
-                prodotto.setNome(prodottoElement.get(1).getAsString());
-                prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
-                prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
-                prodotto.setImmagine(prodottoElement.get(4).getAsString());
-                prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
-                prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
-                prodotto.setMarca(prodottoElement.get(7).getAsString());
-                prodotto.setQuantita(prodottoElement.get(8).getAsInt());
+            for (JsonElement jsonElement : list) {
+                JsonArray prodottoElement = jsonElement.getAsJsonArray();
+                Prodotto prodotto = Prodotto.getInstanceFromArray(prodottoElement);
                 prodottoList.add(prodotto);
             }
             return prodottoList;
@@ -231,7 +198,7 @@ public class HttpWrapper {
         return null;
     }
 
-    public List<Prodotto> tag(String id, CaratteristicheProdotto... tag) {
+    public List<Prodotto> getProductByTag(CaratteristicheProdotto... tag) {
         StringBuilder categoriesString = new StringBuilder();
         Arrays.asList(tag).forEach(tags -> categoriesString.append(tags.realToString()).append(";"));
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -239,26 +206,15 @@ public class HttpWrapper {
             URIBuilder uriBuilder = new URIBuilder(uri);
             uriBuilder.setPath("/getProdByTag/" + categoriesString.toString());
 
-
             HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
             List<Prodotto> prodottoList = new ArrayList<>();
             JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-            Iterator<JsonElement> it = list.iterator();
-            while (it.hasNext()) {
-                JsonArray prodottoElement = it.next().getAsJsonArray();
-                Prodotto prodotto = new Prodotto();
-                prodotto.setId(prodottoElement.get(0).getAsInt());
-                prodotto.setNome(prodottoElement.get(1).getAsString());
-                prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
-                prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
-                prodotto.setImmagine(prodottoElement.get(4).getAsString());
-                prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
-                prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
-                prodotto.setMarca(prodottoElement.get(7).getAsString());
-                prodotto.setQuantita(prodottoElement.get(8).getAsInt());
+            for (JsonElement jsonElement : list) {
+                JsonArray prodottoElement = jsonElement.getAsJsonArray();
+                Prodotto prodotto = Prodotto.getInstanceFromArray(prodottoElement);
                 prodottoList.add(prodotto);
             }
             return prodottoList;
@@ -337,7 +293,7 @@ public class HttpWrapper {
         return false;
     }
 
-    public String remove(String uid, int pid) {
+    public boolean remove(String uid, int pid) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             URIBuilder uriBuilder = new URIBuilder(uri);
@@ -349,12 +305,12 @@ public class HttpWrapper {
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                return EntityUtils.toString(entity);
+                return EntityUtils.toString(entity).equalsIgnoreCase("OK");
             }
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
-        return "Error";
+        return false;
     }
 
     public List<Long> getAllOrdersDate(String userId) {
@@ -398,19 +354,9 @@ public class HttpWrapper {
             String jsonResponse = EntityUtils.toString(responseEntity);
             List<Prodotto> prodottoList = new ArrayList<>();
             JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-            Iterator<JsonElement> it = list.iterator();
-            while (it.hasNext()) {
-                JsonArray prodottoElement = it.next().getAsJsonArray();
-                Prodotto prodotto = new Prodotto();
-                prodotto.setId(prodottoElement.get(0).getAsInt());
-                prodotto.setNome(prodottoElement.get(1).getAsString());
-                prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
-                prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
-                prodotto.setImmagine(prodottoElement.get(4).getAsString());
-                prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
-                prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
-                prodotto.setMarca(prodottoElement.get(7).getAsString());
-                prodotto.setQuantita(prodottoElement.get(8).getAsInt());
+            for (JsonElement jsonElement : list) {
+                JsonArray prodottoElement = jsonElement.getAsJsonArray();
+                Prodotto prodotto = Prodotto.getInstanceFromArray(prodottoElement);
                 prodottoList.add(prodotto);
             }
             response.close();
@@ -431,6 +377,33 @@ public class HttpWrapper {
         return null;
     }
 
+    public Utente getUserByEmail(String email) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try {
+            URIBuilder uriBuilder = new URIBuilder(uri);
+            uriBuilder.setPath("/getUserByEmail/" + email);
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+            String jsonResponse = EntityUtils.toString(responseEntity);
+
+            JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
+            if (list.size() > 2) {
+                JsonArray utenteinfo = list.get(0).getAsJsonArray();
+
+                if (utenteinfo.get(0).getAsString().matches("UC-.*")) {
+                    return UtenteCliente.getInstanceFromArray(list);
+                } else if (utenteinfo.get(0).getAsString().matches("UR-.*")) {
+                    return UtenteResponsabile.getInstanceFromArray(list);
+                }
+            }
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public Utente getUserByID(String userId, Class<? extends Utente> utenteClass) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
@@ -443,60 +416,12 @@ public class HttpWrapper {
             String jsonResponse = EntityUtils.toString(responseEntity);
 
             JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-            JsonArray utenteinfo = list.get(0).getAsJsonArray();
-            JsonArray indirizzoinfo = list.get(1).getAsJsonArray();
-
-            if (utenteClass.equals(UtenteCliente.class)) {
-                UtenteCliente utente = new UtenteCliente();
-
-                if (list.size() == 3) {
-                    JsonArray tesserainfo = list.get(2).getAsJsonArray();
-                    TesseraFedelta tessera = new TesseraFedelta();
-                    tessera.setId(tesserainfo.get(0).getAsString());
-                    tessera.setDataEmissione(tesserainfo.get(1).getAsLong());
-                    tessera.setSaldoPunti(tesserainfo.get(2).getAsInt());
-                    utente.setTesseraFedelta(tessera);
+            if (list.size() > 2) {
+                if (utenteClass.equals(UtenteCliente.class)) {
+                    return UtenteCliente.getInstanceFromArray(list);
+                } else if (utenteClass.equals(UtenteResponsabile.class)) {
+                    return UtenteResponsabile.getInstanceFromArray(list);
                 }
-
-                utente.setId(utenteinfo.get(0).getAsString());
-                utente.setNome(utenteinfo.get(1).getAsString());
-                utente.setCognome(utenteinfo.get(2).getAsString());
-                utente.setTelefono(utenteinfo.get(3).getAsString());
-                utente.setPagamento(FormaDiPagamento.valueOf(utenteinfo.get(4).getAsString()));
-                utente.setDatiDelPagamento(utenteinfo.get(5).getAsString());
-                utente.setEmail(utenteinfo.get(6).getAsString());
-                utente.setPassword(utenteinfo.get(7).getAsString());
-
-                Indirizzo indirizzo = new Indirizzo();
-                indirizzo.setVia(indirizzoinfo.get(1).getAsString());
-                indirizzo.setCap(indirizzoinfo.get(2).getAsString());
-                indirizzo.setLocalita(indirizzoinfo.get(3).getAsString());
-                indirizzo.setProvincia(indirizzoinfo.get(4).getAsString());
-                indirizzo.setPaese(indirizzoinfo.get(5).getAsString());
-                indirizzo.setCivico(indirizzoinfo.get(6).getAsString());
-                utente.setIndirizzo(indirizzo);
-                return utente;
-            } else if (utenteClass.equals(UtenteResponsabile.class)) {
-                UtenteResponsabile utente = new UtenteResponsabile();
-
-                utente.setId(utenteinfo.get(0).getAsString());
-                utente.setNome(utenteinfo.get(1).getAsString());
-                utente.setCognome(utenteinfo.get(2).getAsString());
-                utente.setTelefono(utenteinfo.get(3).getAsString());
-                utente.setEmail(utenteinfo.get(6).getAsString());
-                utente.setPassword(utenteinfo.get(7).getAsString());
-                utente.setMatricola(utenteinfo.get(8).getAsString());
-                utente.setRuolo(RuoloResponsabile.valueOf(utenteinfo.get(10).getAsString()));
-
-                Indirizzo indirizzo = new Indirizzo();
-                indirizzo.setVia(indirizzoinfo.get(1).getAsString());
-                indirizzo.setCap(indirizzoinfo.get(2).getAsString());
-                indirizzo.setLocalita(indirizzoinfo.get(3).getAsString());
-                indirizzo.setProvincia(indirizzoinfo.get(4).getAsString());
-                indirizzo.setPaese(indirizzoinfo.get(5).getAsString());
-                indirizzo.setCivico(indirizzoinfo.get(6).getAsString());
-                utente.setIndirizzo(indirizzo);
-                return utente;
             }
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
@@ -505,7 +430,7 @@ public class HttpWrapper {
         return null;
     }
 
-    public List<Prodotto> getProductsPerBrand(String brandName, String uid) {
+    public List<Prodotto> getProductsPerBrand(String brandName) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             URIBuilder uriBuilder = new URIBuilder(uri);
@@ -517,29 +442,15 @@ public class HttpWrapper {
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
             List<Prodotto> prodottoList = new ArrayList<>();
-            if(jsonResponse.equalsIgnoreCase("MARCA INESISTENTE")){
-                return prodottoList;
-            }
-            else {
+            if (!jsonResponse.equalsIgnoreCase("MARCA INESISTENTE")) {
                 JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-                Iterator<JsonElement> it = list.iterator();
-                while (it.hasNext()) {
-                    JsonArray prodottoElement = it.next().getAsJsonArray();
-                    Prodotto prodotto = new Prodotto();
-                    prodotto.setId(prodottoElement.get(0).getAsInt());
-                    prodotto.setNome(prodottoElement.get(1).getAsString());
-                    prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
-                    prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
-                    prodotto.setImmagine(prodottoElement.get(4).getAsString());
-                    prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
-                    prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
-                    prodotto.setMarca(prodottoElement.get(7).getAsString());
-                    prodotto.setQuantita(prodottoElement.get(8).getAsInt());
+                for (JsonElement jsonElement : list) {
+                    JsonArray prodottoElement = jsonElement.getAsJsonArray();
+                    Prodotto prodotto = Prodotto.getInstanceFromArray(prodottoElement);
                     prodottoList.add(prodotto);
-
                 }
-                return prodottoList;
             }
+            return prodottoList;
 
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();

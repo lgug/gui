@@ -150,9 +150,7 @@ public class SignUpPopup extends Application implements Initializable {
         if (FieldChecker.validatePassword(passwordField.getText())) {
             password = passwordField.getText();
         } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                    "La password inserita non rispetta i requisiti:\n· Minimo 8 caratteri\n" +
-                            "· Una lettera maiuscola\n· Una minuscola\n· Un numero\n· Nessuno spazo", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, FieldChecker.passwordRequirements, ButtonType.OK);
             alert.show();
             return;
         }

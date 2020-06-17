@@ -25,7 +25,8 @@ import java.time.*;
 import java.util.*;
 
 
-public class  PopupCartController{
+public class PopupCartController {
+
     private final ObservableList<String> st =FXCollections.observableArrayList( FormaDiPagamento.CARTA_CREDITO.toString(), FormaDiPagamento.CONSEGNA.toString(),FormaDiPagamento.PAYPAL.toString());
     private final ObservableList<Prodotto> list = MainWindow.getList();
     private final ObservableList<ProdottoEsteso> listext = FXCollections.observableArrayList();
@@ -145,7 +146,7 @@ public class  PopupCartController{
             marca.setText(prodotto.get(0).getMarca());
             caratteristiche.setText(prodotto.get(0).getCaratteristiche().toString());
             categoria.setText(prodotto.get(0).getCategoria().toString());
-            prezzo.setText(String.valueOf(prodotto.get(0).getPrezzo()));
+            prezzo.setText(StringsUtils.getPriceString(prodotto.get(0).getPrezzo()));
             image.setImage(Manager.decodeImage(prodotto.get(0).getImmagine()));
             pezzi.setText(String.valueOf(prodotto.get(0).getQuantita()));
             SpinnerValueFactory<Integer> spinnerQuantity = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, prodotto.get(0).getDisponibilita(), prodotto.get(0).getNumeroProdotti()) {

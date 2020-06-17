@@ -39,7 +39,7 @@
                         <PasswordField fx:id="passwordField" promptText="Inserisci la tua password" />
                      </children>
                   </VBox>
-                  <Label fx:id="forgotPassword" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#handleForgotPasswordLabelEvent" prefHeight="16.0" prefWidth="525.0" text="Ho dimenticato la password" textAlignment="CENTER" textFill="#0015ff" underline="true" />
+                  <Hyperlink fx:id="forgotPassword" alignment="CENTER" onAction="#handleForgotPasswordEvent" prefHeight="24.0" prefWidth="353.0" text="Ho dimenticato la password" underline="true" />
                </children>
                <BorderPane.margin>
                   <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />

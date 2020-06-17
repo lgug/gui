@@ -1,5 +1,7 @@
 package objects;
 
+import com.google.gson.JsonArray;
+
 public class Prodotto implements Comparable<Prodotto> {
     private int id;
 
@@ -96,4 +98,26 @@ public class Prodotto implements Comparable<Prodotto> {
     }
 
     public CaratteristicheProdotto getTag() { return tag; }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Prodotto) {
+            return ((Prodotto) obj).getId() == getId();
+        }
+        return false;
+    }
+
+    public static Prodotto getInstanceFromArray(JsonArray jsonArray) {
+        Prodotto prodotto = new Prodotto();
+        prodotto.setId(jsonArray.get(0).getAsInt());
+        prodotto.setNome(jsonArray.get(1).getAsString());
+        prodotto.setDisponibilita(jsonArray.get(2).getAsInt());
+        prodotto.setPrezzo(jsonArray.get(3).getAsFloat());
+        prodotto.setImmagine(jsonArray.get(4).getAsString());
+        prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(jsonArray.get(5).getAsString()));
+        prodotto.setCategoria(Categoria.valueOf(jsonArray.get(6).getAsString()));
+        prodotto.setMarca(jsonArray.get(7).getAsString());
+        prodotto.setQuantita(jsonArray.get(8).getAsInt());
+        return prodotto;
+    }
 }

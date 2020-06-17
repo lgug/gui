@@ -1,11 +1,9 @@
 package gui;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import utils.HttpWrapper;
@@ -22,6 +20,8 @@ public class LoginPopupController implements Initializable {
     private TextField usernameField;
     @FXML
     private PasswordField passwordField;
+    @FXML
+    private Hyperlink forgotPassword;
 
     @FXML
     protected void handleAccediButtonEvent(MouseEvent event) {
@@ -49,8 +49,9 @@ public class LoginPopupController implements Initializable {
     }
 
     @FXML
-    protected void handleForgotPasswordLabelEvent(MouseEvent event) {
-        //TODO
+    protected void handleForgotPasswordEvent(ActionEvent actionEvent) {
+        ForgotPasswordPopup forgotPasswordPopup = new ForgotPasswordPopup();
+        forgotPasswordPopup.start(new Stage());
     }
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -59,6 +60,5 @@ public class LoginPopupController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
     }
 }

@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import objects.FormaDiPagamento;
 import objects.Indirizzo;
@@ -16,7 +15,6 @@ import utils.HttpWrapper;
 import utils.KeyGenerator;
 import utils.Manager;
 
-import javax.swing.*;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -81,11 +79,12 @@ public class UtenteClienteDetailsController implements Initializable {
             idFedeltaLabel.setText("ID: " + utente.getTesseraFedelta().getId());
             emissioneFedeltaLabel.setText("Creata il " + Manager.getDateFormat(new Date(utente.getTesseraFedelta().getDataEmissione())));
             puntiFedeltaLabel.setText(utente.getTesseraFedelta().getSaldoPunti() + " punti");
+            newTesseraButton.setManaged(false);
         } else {
             idFedeltaLabel.setText("Nessuna tessera fedeltà associata.");
             emissioneFedeltaLabel.visibleProperty().setValue(false);
             puntiFedeltaLabel.visibleProperty().setValue(false);
-            newTesseraButton.visibleProperty().setValue(true);
+            newTesseraButton.setManaged(true);
         }
     }
 
