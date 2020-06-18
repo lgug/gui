@@ -4,9 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -33,19 +35,19 @@ public class PopupCartController {
     private final TreeSet<Prodotto> ts1 = new TreeSet<>();
     private final TreeSet<ProdottoEsteso> ts2 = new TreeSet<>();
     private final ObservableList<String> ore =FXCollections.observableArrayList("08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00");
-    private List<String> orerest= Arrays.asList("08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00");
-    @FXML
-    private DatePicker dataConsegna;
-    public ChoiceBox<String> choiceOra;
-    private Stage primaryStage;
-    public Label tot,caratteristiche,nome,marca,categoria,prezzo,pezzi;
-    public TableView<ProdottoEsteso> table;
-    public TableColumn<Prodotto,String> col1,col2,col3,col4;
-    public Button Continua;
-    public ImageView image;
-    public Spinner<Integer> spinner;
-    public ChoiceBox<String> choicePagamento;
+    private final List<String> orerest= Arrays.asList("08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00");
+    @FXML private DatePicker dataConsegna;
+    @FXML private ChoiceBox<String> choiceOra;
+    @FXML private Stage primaryStage;
+    @FXML private Label tot,caratteristiche,nome,marca,categoria,prezzo,pezzi;
+    @FXML private TableView<ProdottoEsteso> table;
+    @FXML private TableColumn<Prodotto,String> col1,col2,col3,col4;
+    @FXML private ImageView image;
+    @FXML private Spinner<Integer> spinner;
+    @FXML private ChoiceBox<String> choicePagamento;
     private BigDecimal sum= new BigDecimal("0.0");
+    private PaymentDataController paymentDataController;
+    private UtenteClienteController utenteClienteController;
     ErrorPageQuantita errorPageQuantita = new ErrorPageQuantita();
     private final ArrayList<ProdottoSemplificato> listSempl= new ArrayList<>();
     public UtenteCliente utente;
@@ -136,10 +138,19 @@ public class PopupCartController {
 
     }
 
-
+    public void reset(){
+        nome.setText("");
+        marca.setText("");
+        caratteristiche.setText("");
+        categoria.setText("");
+        prezzo.setText("");
+        image.setImage(null);
+        pezzi.setText("");
+        spinner.setDisable(true);
+    }
 
     public void handleSelectProductButtonAction() {
-
+        spinner.setDisable(false);
         ObservableList<ProdottoEsteso> prodotto = table.getSelectionModel().getSelectedItems();
         if(prodotto.size() !=0){
             nome.setText(prodotto.get(0).getNome());
@@ -159,10 +170,15 @@ public class PopupCartController {
                     this.setValue(this.getValue() - 1);
                     prodotto.get(0).setNumeroProdotti(this.getValue());
                     table.refresh();
-                    if(prodotto.get(0).getNumeroProdotti()==0) {
+                    if(this.getValue()==0) {
                         list.remove(prodotto.get(0));
+                        listext.remove(prodotto.get(0));
 
-                        handleSelectProductButtonAction();
+                        table.refresh();
+                        if(listext.isEmpty())
+                            reset();
+                        else
+                            handleSelectProductButtonAction();
                     }
                 }
 
@@ -177,7 +193,12 @@ public class PopupCartController {
                     table.refresh();
                 }
             };
-            spinner.setValueFactory(spinnerQuantity);
+
+            if(listext.isEmpty())
+                spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,1,0));
+            else
+                spinner.setValueFactory(spinnerQuantity);
+
         }
     }
 
@@ -212,6 +233,7 @@ public class PopupCartController {
             LocalDate localDate = dataConsegna.getValue();
             Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
             Date date = Date.from(instant);
+            //checkPagamento();
             long dataora = date.getTime() + millis;
             ord.setDataConsegna(dataora);
             ord.setData(new Date().getTime());
@@ -235,6 +257,45 @@ public class PopupCartController {
             primaryStage.close();
         }
     }
+    //TODO
+/*
+    private void checkPagamento() {
+        st.remove(utente.getPagamento().toString());
+        if(choicePagamento.getValue().equals(st.get(0))){
+            if(st.get(0)== "PayPal" && utente.getPagamento().toString()!="PayPal"){
+                FXMLLoader fxmlLoader3 = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("dati_pagamento_popup.fxml"));
+
+                utenteClienteController.setPrimaryStage(primaryStage);
+
+                paymentDataController = fxmlLoader3.getController();
+                paymentDataController.setPaymentStage();
+
+                paymentDataController.setPaymentStage(paymentStage);
+                paymentDataController.selectScreen(formaDiPagamento);
+                paymentDataController.setPaymentDataStatus(paymentDataStatus);
+                paymentStage.show();
+            }
+            if(st.get(0)== "Alla consegna" && utente.getPagamento().toString()!="Alla consegna"){
+
+            }
+            if(st.get(0)== "Carta di credito" && utente.getPagamento().toString()!="Carta di credito"){
+
+            }
+        }
+        if(choicePagamento.getValue().equals(st.get(1))){
+            if(st.get(0)== "PayPal" && utente.getPagamento().toString()!="PayPal"){
+
+            }
+            if(st.get(0)== "Alla consegna" && utente.getPagamento().toString()!="Alla consegna"){
+
+            }
+            if(st.get(0)== "Carta di credito" && utente.getPagamento().toString()!="Carta di credito"){
+
+            }
+        }
+    }
+
+ */
 
     public void updateDelivery(ActionEvent actionEvent) {
         choiceOra.setDisable(false);

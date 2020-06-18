@@ -95,6 +95,7 @@ public class ProductLayoutController implements Initializable {
         ArrayList<Prodotto> array = MainWindow.getArray();
         int cont = 0;
         for (Prodotto prodottoar : array){
+            cont = 0;
             if (prodottoar == prodotto)
                 cont++;
         }

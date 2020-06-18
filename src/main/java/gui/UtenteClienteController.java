@@ -91,7 +91,7 @@ public class UtenteClienteController implements Initializable {
     }
 
     @FXML
-    protected void handleInserisciDatiPagamentoButtonEvent(MouseEvent event) {
+    protected void handleInserisciDatiPagamentoButtonEvent() {
         paymentDataController.setPaymentStage(paymentStage);
         paymentDataController.selectScreen(formaDiPagamento);
         paymentDataController.setPaymentDataStatus(paymentDataStatus);
