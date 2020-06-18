@@ -16,6 +16,8 @@ public class Ordine {
     private String consegna;
     private String acquistato;
     private String ora;
+    private String metodoPagamento;
+    private String datiPagamento;
 
 
     public Ordine(Long data, List<ProdottoSemplificato> prodotti, String ID, long dataConsegna) {
