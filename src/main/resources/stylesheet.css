@@ -1,0 +1,21 @@
+.button, .menu-button, .choice-box {
+    -fx-background-color: steelblue;
+    -fx-text-fill: white;
+}
+
+.button:hover, .menu-button:hover {
+    -fx-background-color: skyblue;
+}
+
+.button:pressed {
+    -fx-background-color: darkblue;
+}
+
+.radio-button {
+    -fx-dot-region: steelblue;
+}
+
+#greater {
+    -fx-background-color: mediumturquoise;
+    -fx-text-fill: white;
+}

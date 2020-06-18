@@ -1,0 +1,11 @@
+.choice-box {
+    -fx-background-color: linear-gradient(from 25% 25% to 100% 100%, skyblue, paleturquoise);
+}
+
+.radio-button {
+    -fx-color: paleturquoise
+}
+
+.radio-button:pressed {
+    -fx-color: mediumturquoise
+}

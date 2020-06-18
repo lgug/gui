@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainWindow">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: mintcream;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainWindow">
    <children>
       <BorderPane prefHeight="600.0" prefWidth="900.0">
          <top>
@@ -15,7 +15,7 @@
                      <children>
                         <VBox prefHeight="72.0" prefWidth="565.0" spacing="10.0">
                            <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="502.0" spacing="10.0">
+                              <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="502.0" spacing="10.0" stylesheets="@stylesheet.css">
                                  <children>
                                     <TextField fx:id="searchField" prefHeight="26.0" prefWidth="312.0" promptText="Cerca qui i tuoi prodotti" />
                                     <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleCercaButtonAction" prefHeight="26.0" prefWidth="77.0" text="Cerca" textAlignment="CENTER" />
@@ -25,7 +25,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="528.0" spacing="10.0">
+                              <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="528.0" spacing="10.0" stylesheets="@minor_layout.css">
                                  <children>
                                     <Label text="Cerca per:">
                                        <font>
@@ -83,7 +83,7 @@
          <center>
             <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <center>
-                  <ScrollPane prefHeight="-Infinity" prefWidth="-Infinity" BorderPane.alignment="TOP_CENTER">
+                  <ScrollPane prefHeight="-Infinity" prefWidth="-Infinity" stylesheets="@buttons.css" BorderPane.alignment="TOP_CENTER">
                      <content>
                         <GridPane fx:id="productsGridPane" alignment="CENTER" hgap="5" prefHeight="20.0" prefWidth="905.0" vgap="5">
                           <columnConstraints>
@@ -120,7 +120,7 @@
                               <Insets bottom="7.0" left="20.0" right="20.0" />
                            </VBox.margin>
                            <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="4.0" prefWidth="860.0" spacing="5.0">
+                              <HBox alignment="CENTER_LEFT" prefHeight="4.0" prefWidth="860.0" spacing="5.0" stylesheets="@minor_layout.css">
                                  <children>
                                     <Label text="Ordina per:">
                                        <font>
