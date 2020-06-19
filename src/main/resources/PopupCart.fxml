@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="420.0" prefWidth="464.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PopupCartController">
+<AnchorPane prefHeight="420.0" prefWidth="464.0" style="-fx-background-color: mintcream;" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PopupCartController">
     <VBox layoutX="271.0" layoutY="15.0" prefHeight="376.0" prefWidth="189.0" spacing="13.0">
         <VBox prefHeight="158.0" prefWidth="200.0">
             <HBox prefHeight="17.0" prefWidth="196.0">

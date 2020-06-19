@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox alignment="CENTER_RIGHT" prefHeight="75.0" prefWidth="300.0" spacing="10.0" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoggedUCLayoutController">
+<HBox alignment="CENTER_RIGHT" prefHeight="75.0" prefWidth="300.0" spacing="10.0" stylesheets="@user_buttons.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoggedUCLayoutController">
     <children>
         <Button fx:id="myProfileButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onMouseClicked="#handleMyProfileButtonEvent" textAlignment="CENTER">
          <graphic>

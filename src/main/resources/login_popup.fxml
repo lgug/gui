@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="350.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginPopupController">
    <children>
-      <BorderPane prefHeight="350.0" prefWidth="400.0">
+      <BorderPane prefHeight="350.0" prefWidth="400.0" style="-fx-background-color: mintcream;" stylesheets="@stylesheet.css">
          <top>
             <Label text="Accedi" BorderPane.alignment="CENTER">
                <font>

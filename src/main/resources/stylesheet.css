@@ -1,4 +1,4 @@
-.button, .menu-button, .choice-box {
+.button, .menu-button {
     -fx-background-color: #08457E;
     -fx-text-fill: white;
 }
@@ -13,9 +13,4 @@
 
 .radio-button {
     -fx-dot-region: steelblue;
-}
-
-#greater {
-    -fx-background-color: mediumturquoise;
-    -fx-text-fill: white;
 }

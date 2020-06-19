@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox fx:id="productWrapper" alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProductLayoutOrderController">
+<HBox fx:id="productWrapper" alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="250.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProductLayoutOrderController">
    <children>
       <ImageView fx:id="productImage" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
          <HBox.margin>

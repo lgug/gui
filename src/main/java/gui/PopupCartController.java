@@ -24,7 +24,6 @@ import utils.StringsUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.time.*;
 import java.util.*;
 
@@ -262,9 +261,7 @@ public class PopupCartController {
             String response = http.addOrdine(Manager.getUIDFromFile(), ord);
             if (response.equalsIgnoreCase("OK")) {
                 if(utente.getTesseraFedelta()!=null) {
-                    int punti = totale.round(new MathContext(1)).intValueExact();
-                    int puntis = utente.getTesseraFedelta().getSaldoPunti() + punti;
-                    http.addTesseraPoint(utente.getTesseraFedelta().getId(), puntis);
+                    http.addTesseraPoint(utente.getTesseraFedelta().getId(), totale.intValue());
                 }
             }
             list.clear();
