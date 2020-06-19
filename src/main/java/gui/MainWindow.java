@@ -170,6 +170,7 @@ public class MainWindow extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Manager.createIDFile("");
         instance = this;
         try {
             FXMLLoader notLogged = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("not_logged_layout.fxml"));

@@ -2,13 +2,18 @@ package utils;
 
 import com.google.gson.Gson;
 import javafx.scene.image.Image;
+import javafx.scene.input.Mnemonic;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Manager {
+
+    public static Path tempdir;
 
     public static String EURO = "\u20ac";
 
@@ -40,8 +45,9 @@ public class Manager {
 
     public static void createIDFile(String uid) {
         try {
+            tempdir = Files.createTempDirectory("ciao");
             BufferedWriter writer = new BufferedWriter(new FileWriter(
-                    new File(ClassLoader.getSystemClassLoader().getResource("id.txt").getFile())));
+                    new File(tempdir+"/id.txt")));
             writer.write(uid);
             writer.flush();
             writer.close();
@@ -51,20 +57,22 @@ public class Manager {
         }
     }
 
-    public static String getUIDFromFile(){
-        File myObj = new File(ClassLoader.getSystemClassLoader().getResource("id.txt").getFile());
+    public static String getUIDFromFile() {
+        InputStream myObj = null;
         try {
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                System.out.println(data);
-                return data;
-            }
-            myReader.close();
+            myObj = new FileInputStream(tempdir+"/id.txt");
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
             e.printStackTrace();
         }
+
+
+        Scanner myReader = new Scanner(myObj);
+        while (myReader.hasNextLine()) {
+            String data = myReader.nextLine();
+            System.out.println(data);
+            return data;
+        }
+        myReader.close();
         return "ERROR";
     }
 
@@ -87,7 +95,7 @@ public class Manager {
         return false;
     }
 
-    public static boolean isUserCliente() {
+    public static boolean isUserCliente()  {
         String uid = getUIDFromFile();
         return uid.matches("UC-[\\d]+");
     }
