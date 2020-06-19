@@ -22,6 +22,7 @@ import objects.CaratteristicheProdotto;
 import objects.Categoria;
 import objects.Prodotto;
 import objects.SortingType;
+import utils.FieldChecker;
 import utils.HttpWrapper;
 import utils.Manager;
 import utils.StringsUtils;
@@ -73,26 +74,34 @@ public class MainWindow extends Application implements Initializable {
 
     @FXML
     protected void handleCercaButtonAction(ActionEvent event) {
-        productsListTitle.setText("Risultati della ricerca");
         List<Prodotto> prodottoList = new ArrayList<>();
-        clearPanel();
-        productLayoutControllerMap = new HashMap<>();
         if(nomeButton.isSelected()){
-             prodottoList = getProdByName(searchField.getText());
+            if (FieldChecker.validateNonEmptyString(searchField.getText()))
+                prodottoList = getProdByName(searchField.getText());
+            else return;
         }
         else if (categoriaButton.isSelected()){
             Categoria cat = catChoiceBox.getValue();
-            prodottoList = getProdByCat(cat);
+            if (cat != null)
+                prodottoList = getProdByCat(cat);
+            else return;
         }
         else if(caratteristicaButton.isSelected()){
             CaratteristicheProdotto tag = tagChoiceBox.getValue();
-            prodottoList = getProdByTag(tag);
+            if (tag != null)
+                prodottoList = getProdByTag(tag);
+            else return;
         }
 
         else if(marcaButton.isSelected()){
-            prodottoList = getProdByBrand(searchField.getText());
+            if (FieldChecker.validateNonEmptyString(searchField.getText()))
+                prodottoList = getProdByBrand(searchField.getText());
+            else return;
         }
 
+        clearPanel();
+        productLayoutControllerMap = new HashMap<>();
+        productsListTitle.setText("Risultati della ricerca");
         if (prodottoList != null && prodottoList.size() > 0) {
             for (Prodotto prodotto : prodottoList) {
                 FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("products_layout.fxml"));

@@ -1,10 +1,8 @@
 package objects;
 
-import com.sun.javafx.collections.ElementObservableListDecorator;
-import utils.Manager;
+
 import utils.ProdottoSemplificato;
 
-import java.util.Date;
 import java.util.List;
 
 public class Ordine {
@@ -16,7 +14,7 @@ public class Ordine {
     private String consegna;
     private String acquistato;
     private String ora;
-    private String metodoPagamento;
+    private FormaDiPagamento metodoPagamento;
     private String datiPagamento;
 
 
@@ -59,4 +57,20 @@ public class Ordine {
     public String getConsegna() { return consegna; }
 
     public String getAcquistato() { return acquistato; }
+
+    public FormaDiPagamento getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public void setMetodoPagamento(FormaDiPagamento metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
+    }
+
+    public String getDatiPagamento() {
+        return datiPagamento;
+    }
+
+    public void setDatiPagamento(String datiPagamento) {
+        this.datiPagamento = datiPagamento;
+    }
 }

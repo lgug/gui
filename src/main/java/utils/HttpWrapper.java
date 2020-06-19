@@ -370,6 +370,8 @@ public class HttpWrapper {
             JsonArray listina = list2.get(0).getAsJsonArray();
             ordine.setID(listina.get(0).getAsString());
             ordine.setDataConsegna(listina.get(1).getAsLong());
+//            ordine.setMetodoPagamento(listina.get(2).getAsString());
+//            ordine.setDatiPagamento(listina.get(3).getAsString());
             return ordine;
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();

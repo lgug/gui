@@ -5,11 +5,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import objects.FormaDiPagamento;
@@ -21,6 +22,7 @@ import utils.Manager;
 import utils.ProdottoSemplificato;
 import utils.StringsUtils;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.*;
@@ -29,7 +31,7 @@ import java.util.*;
 
 public class PopupCartController {
 
-    private final ObservableList<String> st =FXCollections.observableArrayList( FormaDiPagamento.CARTA_CREDITO.toString(), FormaDiPagamento.CONSEGNA.toString(),FormaDiPagamento.PAYPAL.toString());
+    private final ObservableList<FormaDiPagamento> st =FXCollections.observableArrayList(FormaDiPagamento.CARTA_CREDITO, FormaDiPagamento.CONSEGNA, FormaDiPagamento.PAYPAL);
     private final ObservableList<Prodotto> list = MainWindow.getList();
     private final ObservableList<ProdottoEsteso> listext = FXCollections.observableArrayList();
     private final TreeSet<Prodotto> ts1 = new TreeSet<>();
@@ -44,7 +46,7 @@ public class PopupCartController {
     @FXML private TableColumn<Prodotto,String> col1,col2,col3,col4;
     @FXML private ImageView image;
     @FXML private Spinner<Integer> spinner;
-    @FXML private ChoiceBox<String> choicePagamento;
+    @FXML private ChoiceBox<FormaDiPagamento> choicePagamento;
     private BigDecimal sum= new BigDecimal("0.0");
     private PaymentDataController paymentDataController;
     private UtenteClienteController utenteClienteController;
@@ -70,7 +72,9 @@ public class PopupCartController {
         this.utente = (UtenteCliente) http.getUserByID(Manager.getUIDFromFile(), UtenteCliente.class);
         choiceOra.setItems(ore);
         choicePagamento.setItems(st);
-        choicePagamento.setValue(utente.getPagamento().toString());
+        choicePagamento.setValue(utente.getPagamento());
+        choicePagamento.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> checkPagamento());
 
         for(Prodotto prodotto:list){
             if(ts1.contains(prodotto)) {
@@ -203,6 +207,13 @@ public class PopupCartController {
     }
 
     public void handleBuyButtonAction() throws Exception {
+        if (!choicePagamento.getValue().equals(utente.getPagamento()) && paymentDataController.getPaymentString() == null) {
+            choicePagamento.setValue(utente.getPagamento());
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Mancano dei dati di pagamento...");
+            alert.show();
+            return;
+        }
+
         boolean check = true;
         HttpWrapper http = new HttpWrapper();
         for (ProdottoEsteso prodotto : listext)
@@ -233,7 +244,6 @@ public class PopupCartController {
             LocalDate localDate = dataConsegna.getValue();
             Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
             Date date = Date.from(instant);
-            //checkPagamento();
             long dataora = date.getTime() + millis;
             ord.setDataConsegna(dataora);
             ord.setData(new Date().getTime());
@@ -242,6 +252,11 @@ public class PopupCartController {
                 listprodsempl.add(new ProdottoSemplificato(prodotto.getId(), prodotto.getNumeroProdotti()));
             }
             ord.setProdotti(listprodsempl);
+            ord.setMetodoPagamento(choicePagamento.getValue());
+            if (!choicePagamento.getValue().equals(utente.getPagamento()))
+                ord.setDatiPagamento(paymentDataController.getPaymentString());
+            else
+                ord.setDatiPagamento(utente.getDatiDelPagamento());
             Random rand = new Random();
             ord.setID(String.valueOf(rand.nextInt()));
             String response = http.addOrdine(Manager.getUIDFromFile(), ord);
@@ -258,44 +273,33 @@ public class PopupCartController {
         }
     }
     //TODO
-/*
-    private void checkPagamento() {
-        st.remove(utente.getPagamento().toString());
-        if(choicePagamento.getValue().equals(st.get(0))){
-            if(st.get(0)== "PayPal" && utente.getPagamento().toString()!="PayPal"){
-                FXMLLoader fxmlLoader3 = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("dati_pagamento_popup.fxml"));
 
-                utenteClienteController.setPrimaryStage(primaryStage);
+    private void checkPagamento() {
+        if(!choicePagamento.getValue().equals(utente.getPagamento())){
+            FXMLLoader fxmlLoader3 = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("dati_pagamento_popup.fxml"));
+
+            try {
+                Scene paymentScene = new Scene(fxmlLoader3.load());
+                Stage paymentStage = new Stage();
+                paymentStage.setTitle("Forma di pagamento");
+                paymentStage.setScene(paymentScene);
+                paymentStage.initModality(Modality.WINDOW_MODAL);
+                paymentStage.initOwner(primaryStage);
 
                 paymentDataController = fxmlLoader3.getController();
-                paymentDataController.setPaymentStage();
-
                 paymentDataController.setPaymentStage(paymentStage);
-                paymentDataController.selectScreen(formaDiPagamento);
-                paymentDataController.setPaymentDataStatus(paymentDataStatus);
+
+                paymentDataController.selectScreen(choicePagamento.getValue());
+                paymentDataController.setPaymentDataStatus(null);
+                paymentDataController.setConfermaButton(null);
                 paymentStage.show();
-            }
-            if(st.get(0)== "Alla consegna" && utente.getPagamento().toString()!="Alla consegna"){
-
-            }
-            if(st.get(0)== "Carta di credito" && utente.getPagamento().toString()!="Carta di credito"){
-
-            }
-        }
-        if(choicePagamento.getValue().equals(st.get(1))){
-            if(st.get(0)== "PayPal" && utente.getPagamento().toString()!="PayPal"){
-
-            }
-            if(st.get(0)== "Alla consegna" && utente.getPagamento().toString()!="Alla consegna"){
-
-            }
-            if(st.get(0)== "Carta di credito" && utente.getPagamento().toString()!="Carta di credito"){
-
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
 
- */
+
 
     public void updateDelivery(ActionEvent actionEvent) {
         choiceOra.setDisable(false);

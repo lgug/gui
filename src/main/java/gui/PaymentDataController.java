@@ -54,8 +54,12 @@ public class PaymentDataController implements Initializable {
         if (FieldChecker.validateNonEmptyString(textField1.getText())) {
             if (FieldChecker.validateNonEmptyString(textField2.getText())) {
                 paymentString = textField1.getText() + ";" + textField2.getText();
-                confermaButton.setDisable(false);
-                paymentDataStatus.setImage(new Image(ClassLoader.getSystemClassLoader().getResourceAsStream("correct.png")));
+                if (confermaButton != null) {
+                    confermaButton.setDisable(false);
+                }
+                if (paymentDataStatus != null) {
+                    paymentDataStatus.setImage(new Image(ClassLoader.getSystemClassLoader().getResourceAsStream("correct.png")));
+                }
                 if (paymentStage != null)
                     paymentStage.close();
                 else {

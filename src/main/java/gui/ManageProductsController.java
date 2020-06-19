@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import objects.Prodotto;
+import utils.FieldChecker;
 import utils.HttpWrapper;
 import utils.Manager;
 import utils.StringsUtils;
@@ -50,33 +51,37 @@ public class ManageProductsController implements Initializable {
 
     @FXML
     protected void handleSearchProductButtonEvent(MouseEvent mouseEvent) {
-        pendingTextSearch = searchProductField.getText();
-        HttpWrapper httpWrapper = new HttpWrapper();
-        List<Prodotto> products = httpWrapper.getProductsPerName(pendingTextSearch);
-        List<String> stringList = new ArrayList<>();
-        products.forEach(prodotto -> {
-            String s = prodotto.getId() + "  ->  " + prodotto.getNome() + ", " + prodotto.getMarca();
-            pendingProductsMap.put(s, prodotto);
-            stringList.add(s);
-        });
-        observableList = FXCollections.observableList(stringList);
-        productsListView.setItems(observableList);
+        if (FieldChecker.validateNonEmptyString(searchProductField.getText())) {
+            pendingTextSearch = searchProductField.getText();
+            HttpWrapper httpWrapper = new HttpWrapper();
+            List<Prodotto> products = httpWrapper.getProductsPerName(pendingTextSearch);
+            List<String> stringList = new ArrayList<>();
+            products.forEach(prodotto -> {
+                String s = prodotto.getId() + "  ->  " + prodotto.getNome() + ", " + prodotto.getMarca();
+                pendingProductsMap.put(s, prodotto);
+                stringList.add(s);
+            });
+            observableList = FXCollections.observableList(stringList);
+            productsListView.setItems(observableList);
+        }
     }
 
     @FXML
     protected void handleListItemEvent(MouseEvent mouseEvent) {
         Prodotto prodotto = getPendingProduct();
-        productDetailImage.setImage(Manager.decodeImage(prodotto.getImmagine()));
-        productDetailTitle.setText(prodotto.getNome());
-        productDetailBrand.setText(prodotto.getMarca());
-        productDetailAvailability.setText("Disponibilità: " + prodotto.getDisponibilita());
-        productDetailPrice.setText(StringsUtils.getPriceString(prodotto.getPrezzo()));
+        if (prodotto != null) {
+            productDetailImage.setImage(Manager.decodeImage(prodotto.getImmagine()));
+            productDetailTitle.setText(prodotto.getNome());
+            productDetailBrand.setText(prodotto.getMarca());
+            productDetailAvailability.setText("Disponibilità: " + prodotto.getDisponibilita());
+            productDetailPrice.setText(StringsUtils.getPriceString(prodotto.getPrezzo()));
 
-        addProductUnitButton.setDisable(false);
-        removeProductUnitButton.setDisable(false);
-        removeProductButton.setDisable(false);
-        productMoreDetailButton.setDisable(false);
-        productDetailsWrapper.setVisible(true);
+            addProductUnitButton.setDisable(false);
+            removeProductUnitButton.setDisable(false);
+            removeProductButton.setDisable(false);
+            productMoreDetailButton.setDisable(false);
+            productDetailsWrapper.setVisible(true);
+        }
     }
 
     @FXML
@@ -150,7 +155,10 @@ public class ManageProductsController implements Initializable {
     }
 
     private Prodotto getPendingProduct() {
-        return pendingProductsMap.get(productsListView.getSelectionModel().getSelectedItem());
+        if (productsListView.getSelectionModel().getSelectedItem() != null) {
+            return pendingProductsMap.get(productsListView.getSelectionModel().getSelectedItem());
+        } else
+            return null;
     }
 
     private void resetDetailsButton() {

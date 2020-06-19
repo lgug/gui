@@ -3,6 +3,7 @@ package objects;
 import com.google.gson.JsonArray;
 
 public class UtenteResponsabile extends Utente {
+
     private String matricola;
     private RuoloResponsabile ruolo;
 
