@@ -1,11 +1,7 @@
 package gui;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import utils.Manager;
 
@@ -14,41 +10,34 @@ import java.util.ResourceBundle;
 
 public class LoggedURLayoutController implements Initializable {
 
-    @FXML
-    private Button myProfileButton;
-    @FXML
-    private Button myHistoryButton;
-    @FXML
-    private MenuButton optionsButton;
-    @FXML
-    private Button addButton;
+
 
     @FXML
-    protected void handleMyProfileButtonEvent(MouseEvent event) {
+    protected void handleMyProfileButtonEvent() {
         UtenteResponsabileDetails utenteResponsabileDetails = new UtenteResponsabileDetails();
         utenteResponsabileDetails.start(new Stage());
     }
 
     @FXML
-    protected void handleMyHistoryButtonEvent(MouseEvent event) throws Exception {
+    protected void handleMyHistoryButtonEvent() throws Exception {
         AllOrderUtenteResponsabile allorderPopup = new AllOrderUtenteResponsabile();
         allorderPopup.start(new Stage());
     }
 
     @FXML
-    protected void handleOptionsButtonEvent(MouseEvent event) {
+    protected void handleOptionsButtonEvent() {
         //TODO
     }
 
     @FXML
-    protected void handleEsciMenuEvent(ActionEvent event) {
+    protected void handleEsciMenuEvent() {
         Manager.createIDFile("");
         MainWindow.getInstance().setUserTypeLayout(Manager.getUIDFromFile());
         MainWindow.getInstance().resetWindow();
     }
 
     @FXML
-    protected void handleAddButtonAction(MouseEvent event) {
+    protected void handleAddButtonAction() {
         ManageProducts manageProducts = new ManageProducts();
         manageProducts.start(new Stage());
     }

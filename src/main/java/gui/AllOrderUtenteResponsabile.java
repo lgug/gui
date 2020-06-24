@@ -3,7 +3,6 @@ package gui;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,8 +14,6 @@ import objects.Ordine;
 import objects.Prodotto;
 import utils.HttpWrapper;
 import utils.Manager;
-
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,11 +21,11 @@ import java.util.List;
 
 public class AllOrderUtenteResponsabile extends Application {
     @FXML
-    private ListView userListView;
+    private ListView<String>  userListView;
     @FXML
-    private ListView productsListView;
+    private ListView<String>  productsListView;
     @FXML
-    private ListView dateListView;
+    private ListView<String>  dateListView;
     @FXML
     private Label orderidLabel;
     @FXML
@@ -76,12 +73,10 @@ public class AllOrderUtenteResponsabile extends Application {
     }
 
     @FXML
-    private void initialize() throws IOException {
+    private void initialize(){
         HttpWrapper http = new HttpWrapper();
         List<String> uderid = http.getAllUserID(Manager.getUIDFromFile());
-        for (String i:uderid){
-            userlist.add(i);
-        }
+        userlist.addAll(uderid);
         userListView.setItems(userlist);
 
     }

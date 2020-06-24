@@ -9,7 +9,7 @@ import objects.RuoloResponsabile;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UtenteResponsabileController implements Initializable {
+public class    UtenteResponsabileController implements Initializable {
 
     private RuoloResponsabile ruoloResponsabile;
 

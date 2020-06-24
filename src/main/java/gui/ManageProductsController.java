@@ -85,7 +85,7 @@ public class ManageProductsController implements Initializable {
     }
 
     @FXML
-    protected void handleMoreDetailButtonEvent(MouseEvent mouseEvent) {
+    protected void handleMoreDetailButtonEvent() {
         Prodotto prodotto = getPendingProduct();
         ProductDetails productDetails = new ProductDetails(prodotto);
         productDetails.start(new Stage());
@@ -139,7 +139,7 @@ public class ManageProductsController implements Initializable {
     }
 
     @FXML
-    protected void handleAddNewProductButtonEvent(MouseEvent mouseEvent) {
+    protected void handleAddNewProductButtonEvent() {
         InsertNewProduct insertNewProduct = new InsertNewProduct();
         insertNewProduct.start(new Stage());
     }
@@ -159,9 +159,5 @@ public class ManageProductsController implements Initializable {
             return pendingProductsMap.get(productsListView.getSelectionModel().getSelectedItem());
         } else
             return null;
-    }
-
-    private void resetDetailsButton() {
-
     }
 }

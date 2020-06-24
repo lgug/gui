@@ -1,11 +1,8 @@
 package gui;
 
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import utils.Manager;
 
@@ -14,21 +11,13 @@ import java.util.ResourceBundle;
 
 public class LoggedUCLayoutController implements Initializable {
 
-    @FXML
-    private Button myProfileButton;
-    @FXML
-    private Button myOrdersButton;
-    @FXML
-    private MenuButton optionsButton;
 
-    @FXML
-    protected void handleMyProfileButtonEvent(MouseEvent event) {
+    @FXML protected void handleMyProfileButtonEvent() {
         UtenteClienteDetails utenteClienteDetails = new UtenteClienteDetails();
         utenteClienteDetails.start(new Stage());
     }
 
-    @FXML
-    protected void handleMyOrdersButtonEvent(MouseEvent event) {
+    @FXML protected void handleMyOrdersButtonEvent() {
         AllOrderPopup allOrderPopup = new AllOrderPopup();
         try {
             allOrderPopup.start(new Stage());
@@ -37,20 +26,17 @@ public class LoggedUCLayoutController implements Initializable {
         }
     }
 
-    @FXML
-    protected void handleOptionsButtonEvent(MouseEvent event) {
+    @FXML protected void handleOptionsButtonEvent() {
         //TODO
     }
 
-    @FXML
-    protected void handleEsciMenuEvent(ActionEvent event) {
+    @FXML protected void handleEsciMenuEvent() {
         Manager.createIDFile("");
         MainWindow.getInstance().setUserTypeLayout(Manager.getUIDFromFile());
         MainWindow.getInstance().resetWindow();
     }
 
-    @FXML
-    protected void handleCartButtonAction(MouseEvent mouseEvent) {
+    @FXML protected void handleCartButtonAction() {
         MainWindow.getList().addAll(MainWindow.getArray());
 
         PopupCart popupCart = new PopupCart();
@@ -62,8 +48,7 @@ public class LoggedUCLayoutController implements Initializable {
         MainWindow.getArray().clear();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    @Override public void initialize(URL location, ResourceBundle resources) {
 
     }
 }

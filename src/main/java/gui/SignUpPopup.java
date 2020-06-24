@@ -7,7 +7,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -23,7 +22,6 @@ import java.util.ResourceBundle;
 public class SignUpPopup extends Application implements Initializable {
 
     private static Stage primaryStage;
-    private static Stage paymentStage;
     private Parent root;
     private Pane utenteClientePane;
     private Pane utenteResponsabilePane;
@@ -59,8 +57,6 @@ public class SignUpPopup extends Application implements Initializable {
     @FXML
     private TextField passwordField;
     @FXML
-    private Button continuaButton;
-    @FXML
     private ToggleButton utenteClienteButton;
     @FXML
     private ToggleButton utenteResponsabileButton;
@@ -70,7 +66,7 @@ public class SignUpPopup extends Application implements Initializable {
     private Button confermaButton;
 
     @FXML
-    protected void handleContinuaButtonAction(MouseEvent event) {
+    protected void handleContinuaButtonAction() {
 
         if (FieldChecker.validateNonEmptyString(nomeField.getText())) {
             nome = nomeField.getText();
@@ -164,7 +160,7 @@ public class SignUpPopup extends Application implements Initializable {
     }
 
     @FXML
-    protected void handleUtenteClienteToggleButtonEvent(MouseEvent event) throws IOException {
+    protected void handleUtenteClienteToggleButtonEvent(){
         tipoUtentePane.setCenter(utenteClientePane);
         confermaButton.setDisable(utenteClienteController.getFormaDiPagamento() == null ||
                 (!utenteClienteController.getFormaDiPagamento().equals(FormaDiPagamento.CONSEGNA) &&
@@ -172,12 +168,12 @@ public class SignUpPopup extends Application implements Initializable {
     }
 
     @FXML
-    protected void handleUtenteResponsabileToggleButtonEvent(MouseEvent event) throws IOException {
+    protected void handleUtenteResponsabileToggleButtonEvent(){
         tipoUtentePane.setCenter(utenteResponsabilePane);
         confermaButton.setDisable(false);
     }
 
-    @FXML protected void handleConfermaButtonAction(MouseEvent event) {
+    @FXML protected void handleConfermaButtonAction() {
         Utente utente;
         if (utenteClienteButton.isSelected()) {
             TesseraFedelta tesseraFedelta = null;

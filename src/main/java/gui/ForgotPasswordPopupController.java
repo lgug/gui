@@ -19,19 +19,14 @@ public class ForgotPasswordPopupController implements Initializable {
     private Stage stage;
     private Utente pendingUtente;
 
-    @FXML
-    private Label statusUser;
-    @FXML
-    private TextField emailField;
-    @FXML
-    private PasswordField newPassword;
-    @FXML
-    private HBox newPasswordHBox;
-    @FXML
-    private Button confirmButton;
+    @FXML private Label statusUser;
+    @FXML private TextField emailField;
+    @FXML private PasswordField newPassword;
+    @FXML private HBox newPasswordHBox;
+    @FXML private Button confirmButton;
 
     @FXML
-    protected void handleVerifyUserButtonEvent(MouseEvent mouseEvent) {
+    protected void handleVerifyUserButtonEvent() {
         HttpWrapper httpWrapper = new HttpWrapper();
         Utente u = httpWrapper.getUserByEmail(emailField.getText());
         if (u == null) {
@@ -50,7 +45,7 @@ public class ForgotPasswordPopupController implements Initializable {
     }
 
     @FXML
-    protected void handleConfirmUserButtonEvent(MouseEvent mouseEvent) {
+    protected void handleConfirmUserButtonEvent() {
         if (FieldChecker.validatePassword(newPassword.getText())) {
             HttpWrapper httpWrapper = new HttpWrapper();
             String s = httpWrapper.changePassword(pendingUtente.getId(), pendingUtente.getPassword(), newPassword.getText());

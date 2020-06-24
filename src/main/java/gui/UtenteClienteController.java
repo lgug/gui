@@ -8,7 +8,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -16,17 +15,16 @@ import javafx.stage.Stage;
 import objects.FormaDiPagamento;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class UtenteClienteController implements Initializable {
 
     private Button confermaButton;
     private FormaDiPagamento formaDiPagamento;
-    private String datiDiPagamento;
     private Stage primaryStage;
     private Stage paymentStage;
     private PaymentDataController paymentDataController;
-    private Pane paymentDataPane;
 
     @FXML
     private RadioButton siCartaFedelta;
@@ -42,7 +40,6 @@ public class UtenteClienteController implements Initializable {
     private ImageView paymentDataStatus;
 
     public void setPaymentDataPane(Pane paymentDataPane) {
-        this.paymentDataPane = paymentDataPane;
 
         Scene paymentScene = new Scene(paymentDataPane);
         paymentStage = new Stage();
@@ -54,10 +51,6 @@ public class UtenteClienteController implements Initializable {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
-    }
-
-    public void setPaymentStage(Stage paymentStage) {
-        this.paymentStage = paymentStage;
     }
 
     public void setPaymentDataController(PaymentDataController paymentDataController) {
@@ -73,9 +66,9 @@ public class UtenteClienteController implements Initializable {
     public void changeStatusPaymentButton(boolean ok) {
         Image image;
         if (ok) {
-            image = new Image(ClassLoader.getSystemClassLoader().getResourceAsStream("correct.png"));
+            image = new Image(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResourceAsStream("correct.png")));
         } else {
-            image = new Image(ClassLoader.getSystemClassLoader().getResourceAsStream("wrong.png"));
+            image = new Image(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResourceAsStream("wrong.png")));
         }
         paymentDataStatus.setImage(image);
     }
@@ -109,7 +102,6 @@ public class UtenteClienteController implements Initializable {
             changeStatusPaymentButton(newValue == FormaDiPagamento.CONSEGNA);
             datiPagamentoButton.setDisable(newValue != FormaDiPagamento.CARTA_CREDITO && newValue != FormaDiPagamento.PAYPAL);
             formaDiPagamento = newValue;
-            datiDiPagamento = null;
         });
     }
 }

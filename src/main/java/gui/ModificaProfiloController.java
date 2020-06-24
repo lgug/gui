@@ -1,6 +1,6 @@
 package gui;
 
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -65,7 +65,7 @@ public class ModificaProfiloController implements Initializable {
     }
 
     @FXML
-    public void aggiornaDatiHandle(ActionEvent action){
+    public void aggiornaDatiHandle(){
         HttpWrapper http = new HttpWrapper();
         if (FieldChecker.validateNonEmptyString(nome.getText()) &&
                 FieldChecker.validateNonEmptyString(cognome.getText()) &&

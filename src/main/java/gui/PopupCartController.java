@@ -2,7 +2,6 @@ package gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,7 +20,6 @@ import utils.HttpWrapper;
 import utils.Manager;
 import utils.ProdottoSemplificato;
 import utils.StringsUtils;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.*;
@@ -48,7 +46,6 @@ public class PopupCartController {
     @FXML private ChoiceBox<FormaDiPagamento> choicePagamento;
     private BigDecimal sum= new BigDecimal("0.0");
     private PaymentDataController paymentDataController;
-    private UtenteClienteController utenteClienteController;
     ErrorPageQuantita errorPageQuantita = new ErrorPageQuantita();
     private final ArrayList<ProdottoSemplificato> listSempl= new ArrayList<>();
     public UtenteCliente utente;
@@ -98,10 +95,10 @@ public class PopupCartController {
         }
         listext.addAll(ts2);
         for(ProdottoEsteso prodottoEsteso:listext){
-                BigDecimal prezzo = new BigDecimal(String.valueOf(prodottoEsteso.getPrezzo()));
-                BigDecimal quantita = new BigDecimal(prodottoEsteso.getNumeroProdotti());
-                sum =sum.add(prezzo.multiply(quantita));
-                totale=sum;
+            BigDecimal prezzo = new BigDecimal(String.valueOf(prodottoEsteso.getPrezzo()));
+            BigDecimal quantita = new BigDecimal(prodottoEsteso.getNumeroProdotti());
+            sum =sum.add(prezzo.multiply(quantita));
+            totale=sum;
         }
         ts1.clear();
         ts2.clear();
@@ -221,6 +218,8 @@ public class PopupCartController {
                 ErrorPageQuantitaController controller=errorPageQuantita.getController();
                 controller.getTextError().setText("Quantit\u00E0 non disponibile");
                 list.remove(prodotto);
+                listext.remove(prodotto);
+                reset();
                 initialize();
                 check = false;
                 break;
@@ -269,7 +268,6 @@ public class PopupCartController {
             primaryStage.close();
         }
     }
-    //TODO
 
     private void checkPagamento() {
         if(!choicePagamento.getValue().equals(utente.getPagamento())){
@@ -298,7 +296,7 @@ public class PopupCartController {
 
 
 
-    public void updateDelivery(ActionEvent actionEvent) {
+    public void updateDelivery() {
         choiceOra.setDisable(false);
 
         ore.setAll(orerest);

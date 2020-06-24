@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import objects.CaratteristicheProdotto;
@@ -42,7 +41,7 @@ public class InsertNewProductController implements Initializable {
     private Spinner<Integer> newProductAvailability;
 
     @FXML
-    protected void handleInsertNewProductButtonEvent(MouseEvent mouseEvent) {
+    protected void handleInsertNewProductButtonEvent() {
         Prodotto prodotto = new Prodotto();
         if (pendingFile != null) {
             prodotto.setId(KeyGenerator.generateProductKey());
@@ -115,7 +114,7 @@ public class InsertNewProductController implements Initializable {
     }
 
     @FXML
-    protected void handleChooseImageButtonEvent(MouseEvent mouseEvent) {
+    protected void handleChooseImageButtonEvent() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Scegli l'immagine per il tuo prodotto");
         pendingFile = fileChooser.showOpenDialog(stage);

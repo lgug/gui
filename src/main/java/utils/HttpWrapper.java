@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class HttpWrapper {
@@ -67,24 +66,6 @@ public class HttpWrapper {
         return false;
     }
 
-    public String availability(String id) {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        try {
-            URIBuilder uriBuilder = new URIBuilder(uri);
-            uriBuilder.setPath("/getFirstProducts/" + id);
-
-            HttpGet request = new HttpGet(uriBuilder.build());
-            request.addHeader(HttpHeaders.USER_AGENT, "JAVACLIENT");
-            CloseableHttpResponse response = httpClient.execute(request);
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                return EntityUtils.toString(entity);
-            }
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return "Error";
-    }
 
     public List<Prodotto> getFirst10Prod() {
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -230,7 +211,7 @@ public class HttpWrapper {
         return "false";
     }
 
-    public boolean addUnitOfProdotto(String userId, int pid) {
+    public void addUnitOfProdotto(String userId, int pid) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             URIBuilder uriBuilder = new URIBuilder(uri);
@@ -239,14 +220,13 @@ public class HttpWrapper {
 
             HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
+            response.getStatusLine().getReasonPhrase();
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
-    public boolean removeUnitOfProdotto(String userId, int pid) {
+    public void removeUnitOfProdotto(String userId, int pid) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             URIBuilder uriBuilder = new URIBuilder(uri);
@@ -255,11 +235,10 @@ public class HttpWrapper {
 
             HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
+            response.getStatusLine().getReasonPhrase();
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public boolean addProdotto(String userId, Prodotto prodotto) {
@@ -313,9 +292,8 @@ public class HttpWrapper {
             String jsonResponse = EntityUtils.toString(responseEntity);
             List<Long> orderDate = new ArrayList<>();
             JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-            Iterator<JsonElement> it = list.iterator();
-            while (it.hasNext()) {
-                JsonArray orderElement = it.next().getAsJsonArray();
+            for (JsonElement jsonElement : list) {
+                JsonArray orderElement = jsonElement.getAsJsonArray();
                 orderDate.add(orderElement.get(0).getAsLong());
             }
             return orderDate;
@@ -466,7 +444,7 @@ public class HttpWrapper {
         return "Error";
     }
 
-    public boolean addTesseraPoint(String idt,int punti) {
+    public void addTesseraPoint(String idt, int punti) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             URIBuilder uriBuilder = new URIBuilder(uri);
@@ -475,11 +453,10 @@ public class HttpWrapper {
 
             HttpGet httpGet = new HttpGet(uriBuilder.build());
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            return response.getStatusLine().getReasonPhrase().equalsIgnoreCase("OK");
+            response.getStatusLine().getReasonPhrase();
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public String changePassword(String uid, String oldPassw, String newPassw) {
@@ -514,9 +491,8 @@ public class HttpWrapper {
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
             JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-            Iterator<JsonElement> it = list.iterator();
-            while (it.hasNext()) {
-                JsonArray orderElement = it.next().getAsJsonArray();
+            for (JsonElement jsonElement : list) {
+                JsonArray orderElement = jsonElement.getAsJsonArray();
                 userList.add(orderElement.get(0).getAsString());
             }
             return userList;
@@ -527,7 +503,7 @@ public class HttpWrapper {
 
     }
 
-    public String updateUserInfo(String uid, Utente utente) {
+    public void updateUserInfo(String uid, Utente utente) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             URIBuilder uriBuilder = new URIBuilder(uri);
@@ -538,11 +514,10 @@ public class HttpWrapper {
             httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpPost.setEntity(httpEntity);
             CloseableHttpResponse response = httpClient.execute(httpPost);
-            return response.getStatusLine().getReasonPhrase();
+            response.getStatusLine().getReasonPhrase();
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
-        return "Error";
     }
 
     public List<Long> getAllDeliveryDate(){
@@ -557,9 +532,8 @@ public class HttpWrapper {
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
             JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-            Iterator<JsonElement> it = list.iterator();
-            while (it.hasNext()) {
-                JsonArray orderElement = it.next().getAsJsonArray();
+            for (JsonElement jsonElement : list) {
+                JsonArray orderElement = jsonElement.getAsJsonArray();
                 dateList.add(orderElement.get(0).getAsLong());
             }
             return dateList;

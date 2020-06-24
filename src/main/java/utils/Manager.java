@@ -2,14 +2,14 @@ package utils;
 
 import com.google.gson.Gson;
 import javafx.scene.image.Image;
-import javafx.scene.input.Mnemonic;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.Scanner;
 
 public class Manager {
 
@@ -19,16 +19,6 @@ public class Manager {
 
     public static String getDateFormat(Date date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-        return simpleDateFormat.format(date);
-    }
-
-    public static String getDateFormatWH(Date date){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        return simpleDateFormat.format(date);
-    }
-
-    public static String getSimpleDateFormat(Date date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return simpleDateFormat.format(date);
     }
 

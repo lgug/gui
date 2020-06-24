@@ -1,10 +1,9 @@
 package gui;
 
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import utils.HttpWrapper;
 import utils.Manager;
@@ -15,16 +14,12 @@ import java.util.ResourceBundle;
 public class LoginPopupController implements Initializable {
 
     private Stage primaryStage;
+    @FXML private TextField usernameField;
+    @FXML private PasswordField passwordField;
+
 
     @FXML
-    private TextField usernameField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private Hyperlink forgotPassword;
-
-    @FXML
-    protected void handleAccediButtonEvent(MouseEvent event) {
+    protected void handleAccediButtonEvent() {
         HttpWrapper httpWrapper = new HttpWrapper();
         String result = httpWrapper.login(usernameField.getText(), passwordField.getText());
         if (!(result.startsWith("UC") || result.startsWith("UR"))) {
@@ -39,7 +34,7 @@ public class LoginPopupController implements Initializable {
     }
 
     @FXML
-    protected void handleRegistratiButtonEvent(MouseEvent event) {
+    protected void handleRegistratiButtonEvent() {
         SignUpPopup signUpPopup = new SignUpPopup();
         try {
             signUpPopup.start(new Stage());
@@ -49,7 +44,7 @@ public class LoginPopupController implements Initializable {
     }
 
     @FXML
-    protected void handleForgotPasswordEvent(ActionEvent actionEvent) {
+    protected void handleForgotPasswordEvent() {
         ForgotPasswordPopup forgotPasswordPopup = new ForgotPasswordPopup();
         forgotPasswordPopup.start(new Stage());
     }

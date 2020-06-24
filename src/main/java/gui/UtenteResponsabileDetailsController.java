@@ -1,6 +1,5 @@
 package gui;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -47,7 +46,7 @@ public class UtenteResponsabileDetailsController implements Initializable {
     }
 
     @FXML
-    private void changePassword(ActionEvent event){
+    private void changePassword(){
         ChangepasswordPopup changepasswordPopup = new ChangepasswordPopup();
         try {
             changepasswordPopup.start(new Stage());
@@ -57,7 +56,7 @@ public class UtenteResponsabileDetailsController implements Initializable {
     }
 
     @FXML
-    protected void handleModificaProfiloButtonAction(ActionEvent actionEvent) {
+    protected void handleModificaProfiloButtonAction() {
         ModificaProfilo modificaProfilo = new ModificaProfilo();
         try {
             modificaProfilo.start(new Stage());

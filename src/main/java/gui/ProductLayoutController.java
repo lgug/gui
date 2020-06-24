@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -85,13 +84,13 @@ public class ProductLayoutController implements Initializable {
     }
 
     @FXML
-    protected void handleDetailsButtonEvent(MouseEvent event) {
+    protected void handleDetailsButtonEvent() {
         ProductDetails productDetails = new ProductDetails(prodotto);
         productDetails.start(new Stage());
     }
 
     @FXML
-    public void handleAddButtonAction(MouseEvent mouseEvent) {
+    public void handleAddButtonAction() {
         ArrayList<Prodotto> array = MainWindow.getArray();
         int cont = 0;
         for (Prodotto prodottoar : array){

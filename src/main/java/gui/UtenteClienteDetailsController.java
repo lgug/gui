@@ -1,6 +1,5 @@
 package gui;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -43,8 +42,7 @@ public class UtenteClienteDetailsController implements Initializable {
     private Label puntiFedeltaLabel;
     @FXML
     private Button newTesseraButton;
-    @FXML
-    private Button modificaProfilo;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -96,8 +94,8 @@ public class UtenteClienteDetailsController implements Initializable {
     }
 
     @FXML
-    private void aggiungiTesseraFedelta(ActionEvent event){
-        TesseraFedelta tesseraFedelta = null;
+    private void aggiungiTesseraFedelta(){
+        TesseraFedelta tesseraFedelta;
         tesseraFedelta = new TesseraFedelta();
         tesseraFedelta.setId(KeyGenerator.generateFidelityCardKey());
         tesseraFedelta.setDataEmissione(System.currentTimeMillis());
@@ -115,7 +113,7 @@ public class UtenteClienteDetailsController implements Initializable {
 
     }
     @FXML
-    private void changePassword(ActionEvent event){
+    private void changePassword(){
         ChangepasswordPopup changepasswordPopup = new ChangepasswordPopup();
         try {
             changepasswordPopup.start(new Stage());
@@ -130,7 +128,7 @@ public class UtenteClienteDetailsController implements Initializable {
     }
 
 
-    public void handleModificaProfiloButtonAction(ActionEvent actionEvent) {
+    public void handleModificaProfiloButtonAction() {
         ModificaProfilo modificaProfilo = new ModificaProfilo();
         try {
             modificaProfilo.start(new Stage());

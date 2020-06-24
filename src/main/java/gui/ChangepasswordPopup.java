@@ -1,7 +1,6 @@
 package gui;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,18 +14,13 @@ import utils.Manager;
 
 
 public class ChangepasswordPopup extends Application{
-    @FXML
-    private TextField oldPasswordField;
-    @FXML
-    private TextField newPasswordField;
-    @FXML
-    private Button changeButton;
-    @FXML
-    private Label responseLabel;
+    @FXML private TextField oldPasswordField;
+    @FXML private TextField newPasswordField;
+    @FXML private Label responseLabel;
 
 
     @FXML
-    private void changePassword(ActionEvent event){
+    private void changePassword(){
         if (!(oldPasswordField.getText().isEmpty()  && newPasswordField.getText().isEmpty())){
             HttpWrapper http = new HttpWrapper();
             if(FieldChecker.validatePassword(newPasswordField.getText())) {
@@ -48,8 +42,6 @@ public class ChangepasswordPopup extends Application{
             responseLabel.setTextFill(Paint.valueOf("red"));
         }
     }
-
-
 
     public static void main(String[] args) {
         launch(args);

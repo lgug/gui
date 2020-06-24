@@ -49,7 +49,7 @@ public class PaymentDataController implements Initializable {
     }
 
     @FXML
-    protected void handleConfermaDatiButtonEvent(MouseEvent event) {
+    protected void handleConfermaDatiButtonEvent() {
         String label;
         if (FieldChecker.validateNonEmptyString(textField1.getText())) {
             if (FieldChecker.validateNonEmptyString(textField2.getText())) {

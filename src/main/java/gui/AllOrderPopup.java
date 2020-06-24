@@ -20,7 +20,6 @@ import objects.Ordine;
 import objects.Prodotto;
 import utils.HttpWrapper;
 import utils.Manager;
-import utils.ProdottoSemplificato;
 import utils.StringsUtils;
 
 import java.io.IOException;
@@ -32,34 +31,26 @@ import java.util.*;
 public class AllOrderPopup extends Application implements Initializable {
 
     private Map<ProductLayoutOrderController, HBox> controllerMap;
-
-    @FXML
-    public Label statoOrdine;
-    public TableView<Ordine> table;
-    public TableColumn<Ordine,String>  col1;
-    public TableColumn<Ordine,String>   col2;
-    public TableColumn<Ordine,String>   col4;
-    @FXML
-    private GridPane contentGridPane;
-    @FXML
-    private Label totaleLabel;
-    @FXML
-    private Label orderID;
-
-
+    @FXML private Label statoOrdine;
+    @FXML private TableView<Ordine> table;
+    @FXML private TableColumn<Ordine,String>  col1;
+    @FXML private TableColumn<Ordine,String>   col2;
+    @FXML private TableColumn<Ordine,String>   col4;
+    @FXML private GridPane contentGridPane;
+    @FXML private Label totaleLabel;
+    @FXML private Label orderID;
 
     public AllOrderPopup() {
     }
 
     @FXML
-    public void handleSelectOrderButtonAction() {
+    private void handleSelectOrderButtonAction() {
         controllerMap = new HashMap<>();
         ObservableList<Ordine> ordini = table.getSelectionModel().getSelectedItems();
         if (ordini.size()!=0) {
             Ordine ordine = ordini.get(0);
             clearPanel();
             BigDecimal sum = new BigDecimal("0.0");
-            List<ProdottoSemplificato> prodottoSemplificatoList = ordine.getProdotti();
             List<Prodotto> prodottoList = ordine.getProdotto();
             for (Prodotto prodotto : prodottoList) {
                 FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("product_layout_order.fxml"));

@@ -1,6 +1,6 @@
 package gui;
 
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 public class NotLoggedLayoutController implements Initializable {
 
     @FXML
-    protected void handleAccediButtonAction(ActionEvent event) {
+    protected void handleAccediButtonAction() {
         LoginPopup loginPopup = new LoginPopup();
         try {
             loginPopup.start(new Stage());

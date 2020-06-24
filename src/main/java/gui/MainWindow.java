@@ -3,7 +3,6 @@ package gui;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,7 +11,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -26,7 +24,6 @@ import utils.FieldChecker;
 import utils.HttpWrapper;
 import utils.Manager;
 import utils.StringsUtils;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -73,7 +70,7 @@ public class MainWindow extends Application implements Initializable {
     private ChoiceBox<SortingType> sortTypeChoiceBox;
 
     @FXML
-    protected void handleCercaButtonAction(ActionEvent event) {
+    protected void handleCercaButtonAction() {
         List<Prodotto> prodottoList = new ArrayList<>();
         if(nomeButton.isSelected()){
             if (FieldChecker.validateNonEmptyString(searchField.getText()))
@@ -107,7 +104,7 @@ public class MainWindow extends Application implements Initializable {
                 FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("products_layout.fxml"));
                 HBox hBox;
                 try {
-                    hBox = fxmlLoader.<HBox>load();
+                    hBox = fxmlLoader.load();
                     ProductLayoutController productLayoutController = fxmlLoader.getController();
                     productLayoutController.setProdotto(prodotto);
                     productLayoutControllerMap.put(productLayoutController, hBox);
@@ -122,7 +119,7 @@ public class MainWindow extends Application implements Initializable {
     }
 
     @FXML
-    protected void handleSuggestButtonEvent(MouseEvent mouseEvent) {
+    protected void handleSuggestButtonEvent() {
         start10Prod();
     }
 
@@ -136,7 +133,7 @@ public class MainWindow extends Application implements Initializable {
                 FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("products_layout.fxml"));
                 HBox hBox;
                 try {
-                    hBox = fxmlLoader.<HBox>load();
+                    hBox = fxmlLoader.load();
                     ProductLayoutController productLayoutController = fxmlLoader.getController();
                     productLayoutController.setProdotto(prodotto);
                     productLayoutControllerMap.put(productLayoutController, hBox);
@@ -253,9 +250,6 @@ public class MainWindow extends Application implements Initializable {
         return list;
     }
 
-    public static void setList(ObservableList<Prodotto> list) {
-        MainWindow.list = list;
-    }
 
 
     public void resetWindow() {

@@ -5,7 +5,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import objects.Prodotto;
 import utils.Manager;
 import utils.StringsUtils;
@@ -51,15 +50,13 @@ public class ProductDetailsController implements Initializable {
             productQuantity.setText(prodotto.getQuantita() + " pezzi");
             productAvailability.setText("Ancora " + prodotto.getDisponibilita());
             productPrice.setText(StringsUtils.getPriceString(prodotto.getPrezzo()));
-
-            if (!Manager.isUserCliente()) {
+            if (!Manager.isUserCliente())
                 addToCartButton.setManaged(false);
-            }
         }
     }
 
     @FXML
-    protected void handleAddToCartButtonEvent(MouseEvent mouseEvent) {
+    protected void handleAddToCartButtonEvent() {
         ArrayList<Prodotto> array = MainWindow.getArray();
         array.add(prodotto);
         MainWindow.setArray(array);
