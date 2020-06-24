@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -12,17 +13,17 @@
                <children>
                   <Label alignment="CENTER" prefHeight="50.0" prefWidth="180.0" text="ID UTENTI">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER" prefHeight="50.0" prefWidth="180.0" text="DATE ORDINI" textAlignment="CENTER">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER" prefHeight="57.0" prefWidth="181.0" text="PRODOTTI">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                </children>
@@ -35,6 +36,9 @@
                </children>
             </HBox>
          </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" top="10.0" />
+         </padding>
       </VBox>
       <VBox layoutX="577.0" layoutY="51.0" prefHeight="195.0" prefWidth="196.0" spacing="5.0">
          <children>
@@ -43,7 +47,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Label fx:id="orderidLabel" layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="197.0">
+            <Label fx:id="orderidLabel" layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="197.0" textFill="#9e9e9e">
                <font>
                   <Font size="16.0" />
                </font>
@@ -53,12 +57,15 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Label fx:id="datadiconsegnaLabel" layoutX="10.0" layoutY="40.0" prefHeight="17.0" prefWidth="197.0">
+            <Label fx:id="datadiconsegnaLabel" layoutX="10.0" layoutY="40.0" prefHeight="17.0" prefWidth="197.0" textFill="#9e9e9e">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
          </children>
+         <padding>
+            <Insets right="10.0" />
+         </padding>
       </VBox>
    </children>
 </AnchorPane>

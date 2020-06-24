@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.InsertNewProductController">
+<AnchorPane prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: mintcream;" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.InsertNewProductController">
    <children>
       <BorderPane prefHeight="500.0" prefWidth="600.0">
          <bottom>
@@ -78,11 +78,11 @@
                         <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="211.0" text="Categoria:" GridPane.rowIndex="4" />
                         <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="224.0" text="Caratteristica:" GridPane.rowIndex="5" />
                         <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="242.0" text="Quantità nella confezione:" GridPane.rowIndex="6" />
-                        <Spinner fx:id="newProductQuantity" initialValue="1" amountToStepBy="1" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Spinner fx:id="newProductQuantity" amountToStepBy="1" initialValue="1" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                         <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="238.0" text="Disponibilità iniziale:" GridPane.rowIndex="7" />
-                        <Spinner fx:id="newProductAvailability" initialValue="0" amountToStepBy="1" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <ChoiceBox fx:id="newProductCategory" prefHeight="26.0" prefWidth="240.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <ChoiceBox fx:id="newProductTag" prefHeight="26.0" prefWidth="240.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Spinner fx:id="newProductAvailability" amountToStepBy="1" initialValue="0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <ChoiceBox fx:id="newProductCategory" prefHeight="26.0" prefWidth="240.0" stylesheets="@minor_layout.css" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <ChoiceBox fx:id="newProductTag" prefHeight="26.0" prefWidth="240.0" stylesheets="@minor_layout.css" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
                </children>

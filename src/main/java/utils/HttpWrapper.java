@@ -173,25 +173,13 @@ public class HttpWrapper {
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse = EntityUtils.toString(responseEntity);
             Prodotto prodotto = new Prodotto();
-            if(jsonResponse.equalsIgnoreCase("PRODOTTO INESISTENTE")){
-                return prodotto;
-            }
-            else {
+            if (!jsonResponse.equalsIgnoreCase("PRODOTTO INESISTENTE")) {
                 JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
                 for (JsonElement jsonElement : list) {
-                    JsonArray prodottoElement = jsonElement.getAsJsonArray();
-                    prodotto.setId(prodottoElement.get(0).getAsInt());
-                    prodotto.setNome(prodottoElement.get(1).getAsString());
-                    prodotto.setDisponibilita(prodottoElement.get(2).getAsInt());
-                    prodotto.setPrezzo(prodottoElement.get(3).getAsFloat());
-                    prodotto.setImmagine(prodottoElement.get(4).getAsString());
-                    prodotto.setCaratteristiche(CaratteristicheProdotto.valueOf(prodottoElement.get(5).getAsString()));
-                    prodotto.setCategoria(Categoria.valueOf(prodottoElement.get(6).getAsString()));
-                    prodotto.setMarca(prodottoElement.get(7).getAsString());
-                    prodotto.setQuantita(prodottoElement.get(8).getAsInt());
+                    prodotto = Prodotto.getInstanceFromArray(jsonElement.getAsJsonArray());
                 }
-                return prodotto;
             }
+            return prodotto;
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -391,7 +379,7 @@ public class HttpWrapper {
             String jsonResponse = EntityUtils.toString(responseEntity);
 
             JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-            if (list.size() > 2) {
+            if (list.size() >= 2) {
                 JsonArray utenteinfo = list.get(0).getAsJsonArray();
 
                 if (utenteinfo.get(0).getAsString().matches("UC-.*")) {
@@ -418,7 +406,7 @@ public class HttpWrapper {
             String jsonResponse = EntityUtils.toString(responseEntity);
 
             JsonArray list = JsonParser.parseString(jsonResponse).getAsJsonArray();
-            if (list.size() > 2) {
+            if (list.size() >= 2) {
                 if (utenteClass.equals(UtenteCliente.class)) {
                     return UtenteCliente.getInstanceFromArray(list);
                 } else if (utenteClass.equals(UtenteResponsabile.class)) {

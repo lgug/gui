@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="260.0" prefWidth="414.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ModificaProfiloController">
+<AnchorPane prefHeight="260.0" prefWidth="414.0" style="-fx-background-color: mintcream;" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ModificaProfiloController">
    <children>
       <BorderPane prefHeight="299.0" prefWidth="414.0">
          <top>
@@ -106,7 +106,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="59.0" prefWidth="414.0">
                      <children>
-                        <Button fx:id="aggiornaDati" mnemonicParsing="false" text="Aggiorna Dati" onAction="#aggiornaDatiHandle"/>
+                        <Button fx:id="aggiornaDati" mnemonicParsing="false" onAction="#aggiornaDatiHandle" text="Aggiorna Dati" />
                      </children>
                   </VBox>
                </children></Pane>

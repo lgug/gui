@@ -75,11 +75,11 @@
             <Label text="Scegliere la data di consegna:" />
             <DatePicker fx:id="dataConsegna" onAction="#updateDelivery" prefHeight="25.0" prefWidth="172.0" />
         </VBox>
-        <VBox prefHeight="31.0" prefWidth="189.0">
+        <VBox prefHeight="31.0" prefWidth="189.0" stylesheets="@minor_layout.css">
             <Label text="Scegliere ora di consegna:" />
             <ChoiceBox fx:id="choiceOra" prefHeight="25.0" prefWidth="172.0" />
         </VBox>
-        <VBox prefHeight="10.0" prefWidth="189.0">
+        <VBox prefHeight="10.0" prefWidth="189.0" stylesheets="@minor_layout.css">
             <Label text="Metodo di pagamento" />
             <ChoiceBox fx:id="choicePagamento" prefHeight="3.0" prefWidth="172.0" />
         </VBox>

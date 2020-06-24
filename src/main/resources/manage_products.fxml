@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ManageProductsController">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: mintcream;" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ManageProductsController">
    <children>
       <BorderPane prefHeight="600.0" prefWidth="600.0">
          <top>
@@ -66,7 +66,7 @@
                         <Insets left="10.0" right="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="93.0" prefWidth="580.0" spacing="20.0">
+                  <HBox alignment="CENTER" prefHeight="93.0" prefWidth="580.0" spacing="20.0" stylesheets="@user_buttons.css">
                      <children>
                         <Button fx:id="addProductUnitButton" contentDisplay="TOP" mnemonicParsing="false" onMouseClicked="#handleAddUnitButtonEvent" text="Aggiungi unità">
                            <graphic>
@@ -84,7 +84,7 @@
                                  </image></ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="removeProductButton" contentDisplay="TOP" mnemonicParsing="false" onMouseClicked="#handleRemoveProductButtonEvent" text="Rimuovi prodotto">
+                        <Button fx:id="removeProductButton" contentDisplay="TOP" mnemonicParsing="false" onMouseClicked="#handleRemoveProductButtonEvent" style="-fx-text-fill: black;" stylesheets="@user_buttons.css" text="Rimuovi prodotto">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

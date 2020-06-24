@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UtenteResponsabileController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: mintcream;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UtenteResponsabileController">
    <children>
-      <VBox prefHeight="200.0" prefWidth="600.0" spacing="20.0">
+      <VBox prefHeight="200.0" prefWidth="600.0" spacing="20.0" stylesheets="@minor_layout.css">
          <children>
             <VBox prefHeight="11.0" prefWidth="600.0">
                <children>

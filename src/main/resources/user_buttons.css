@@ -1,6 +1,6 @@
 .button, .menu-button {
     -fx-background-color: linear-gradient(from 25% 25% to 100% 100%, cornflowerblue, paleturquoise);
-    }
+    -fx-text-fill: black;
 }
 
 .button:hover, .menu-button:hover {
