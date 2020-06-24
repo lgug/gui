@@ -2,10 +2,27 @@
     -fx-background-color: linear-gradient(from 25% 25% to 100% 100%, skyblue, paleturquoise);
 }
 
-.radio-button {
+.choice-box:hover, .choice-box:pressed {
+    -fx-body-color:mediumturquoise
+}
+
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-body-color: paleturquoise;
+}
+
+.spinner .increment-arrow-button:hover:pressed,
+.spinner .decrement-arrow-button:hover:pressed,
+.spinner .increment-arrow-button:pressed,
+.spinner .decrement-arrow-button:pressed {
+    -fx-body-color: mediumturquoise
+}
+
+.radio-button .radio{
     -fx-color: paleturquoise
 }
 
-.radio-button:pressed {
+.radio-button .radio:hover,
+.radio_button .radio:pressed {
     -fx-color: mediumturquoise
 }

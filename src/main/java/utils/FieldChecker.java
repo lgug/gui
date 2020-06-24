@@ -8,7 +8,7 @@ public class FieldChecker {
     public static final String passwordRequirements = "La password inserita non rispetta i requisiti:\n" +
             "- Minimo 8 caratteri\n- Una lettera maiuscola\n- Una minuscola\n- Un numero\n- Nessuno spazo";
 
-    private static Pattern numerablePattern = Pattern.compile("\\d+");
+    private static Pattern numerablePattern = Pattern.compile("[\\d]+[.]?[\\d]*");
     private static Pattern emailPattern = Pattern.compile("[\\w.]+@\\w+\\.\\w+");
     private static Pattern passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$");
 

@@ -78,9 +78,9 @@
                         <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="211.0" text="Categoria:" GridPane.rowIndex="4" />
                         <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="224.0" text="Caratteristica:" GridPane.rowIndex="5" />
                         <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="242.0" text="Quantità nella confezione:" GridPane.rowIndex="6" />
-                        <Spinner fx:id="newProductQuantity" amountToStepBy="1" initialValue="1" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Spinner fx:id="newProductQuantity" amountToStepBy="1" initialValue="1" stylesheets="@minor_layout.css" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                         <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="238.0" text="Disponibilità iniziale:" GridPane.rowIndex="7" />
-                        <Spinner fx:id="newProductAvailability" amountToStepBy="1" initialValue="0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <Spinner fx:id="newProductAvailability" amountToStepBy="1" initialValue="0" stylesheets="@minor_layout.css" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                         <ChoiceBox fx:id="newProductCategory" prefHeight="26.0" prefWidth="240.0" stylesheets="@minor_layout.css" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <ChoiceBox fx:id="newProductTag" prefHeight="26.0" prefWidth="240.0" stylesheets="@minor_layout.css" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                      </children>

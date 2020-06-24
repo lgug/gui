@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="420.0" prefWidth="464.0" style="-fx-background-color: mintcream;" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PopupCartController">
+<AnchorPane prefHeight="420.0" prefWidth="464.0" style="-fx-background-color: mintcream;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PopupCartController">
     <VBox layoutX="271.0" layoutY="15.0" prefHeight="376.0" prefWidth="189.0" spacing="13.0">
         <VBox prefHeight="158.0" prefWidth="200.0">
             <HBox prefHeight="17.0" prefWidth="196.0">
@@ -65,7 +65,7 @@
                                 <Font name="System Bold" size="12.0" />
                             </font>
                         </Label>
-                        <Spinner fx:id="spinner" prefHeight="10.0" prefWidth="64.0" />
+                        <Spinner fx:id="spinner" prefHeight="10.0" prefWidth="64.0" stylesheets="@minor_layout.css" />
                     </VBox>
                     <ImageView fx:id="image" fitHeight="61.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
                 </HBox>
@@ -92,7 +92,7 @@
                 </Label>
                 <Label fx:id="tot" alignment="BASELINE_LEFT" prefHeight="17.0" prefWidth="80.0" text="0" />
             </HBox>
-            <Button fx:id="Continua" mnemonicParsing="false" onMouseClicked="#handleBuyButtonAction" text="Continua" />
+            <Button fx:id="Continua" mnemonicParsing="false" onMouseClicked="#handleBuyButtonAction" stylesheets="@stylesheet.css" text="Continua" />
         </HBox>
     </VBox>
     <TableView fx:id="table" layoutX="12.0" layoutY="13.0" onMouseClicked="#handleSelectProductButtonAction" prefHeight="391.0" prefWidth="239.0">

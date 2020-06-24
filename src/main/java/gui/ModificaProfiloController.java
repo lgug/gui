@@ -3,12 +3,15 @@ package gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import objects.Indirizzo;
 import objects.Utente;
 import objects.UtenteCliente;
 import objects.UtenteResponsabile;
+import utils.FieldChecker;
 import utils.HttpWrapper;
 import utils.Manager;
 
@@ -64,19 +67,31 @@ public class ModificaProfiloController implements Initializable {
     @FXML
     public void aggiornaDatiHandle(ActionEvent action){
         HttpWrapper http = new HttpWrapper();
-        utente.setNome(nome.getText());
-        utente.setCognome(cognome.getText());
-        utente.setTelefono(telefono.getText());
-        Indirizzo indirizzo = new Indirizzo();
-        indirizzo.setCap(cap.getText());
-        indirizzo.setCivico(civico.getText());
-        indirizzo.setVia(via.getText());
-        indirizzo.setProvincia(provinicia.getText());
-        indirizzo.setLocalita(citta.getText());
-        utente.setIndirizzo(indirizzo);
-
-        http.updateUserInfo(Manager.getUIDFromFile(), utente);
-        primaryStage.close();
+        if (FieldChecker.validateNonEmptyString(nome.getText()) &&
+                FieldChecker.validateNonEmptyString(cognome.getText()) &&
+                FieldChecker.validateNonEmptyString(telefono.getText()) &&
+                FieldChecker.validateNonEmptyString(cap.getText()) &&
+                FieldChecker.validateNonEmptyString(civico.getText()) &&
+                FieldChecker.validateNonEmptyString(via.getText()) &&
+                FieldChecker.validateNonEmptyString(provinicia.getText()) &&
+                FieldChecker.validateNonEmptyString(citta.getText())) {
+            utente.setNome(nome.getText());
+            utente.setCognome(cognome.getText());
+            utente.setTelefono(telefono.getText());
+            Indirizzo indirizzo = new Indirizzo();
+            indirizzo.setCap(cap.getText());
+            indirizzo.setCivico(civico.getText());
+            indirizzo.setVia(via.getText());
+            indirizzo.setProvincia(provinicia.getText());
+            indirizzo.setLocalita(citta.getText());
+            utente.setIndirizzo(indirizzo);
+            http.updateUserInfo(Manager.getUIDFromFile(), utente);
+            primaryStage.close();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    "I campi non possono essere lasciati vuoti", ButtonType.OK);
+            alert.show();
+        }
     }
 
     public void setPrimaryStage(Stage primaryStage) {

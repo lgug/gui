@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import objects.CaratteristicheProdotto;
 import objects.Categoria;
 import objects.Prodotto;
+import utils.FieldChecker;
 import utils.HttpWrapper;
 import utils.KeyGenerator;
 import utils.Manager;
@@ -44,31 +45,72 @@ public class InsertNewProductController implements Initializable {
     protected void handleInsertNewProductButtonEvent(MouseEvent mouseEvent) {
         Prodotto prodotto = new Prodotto();
         if (pendingFile != null) {
-            String imageBlob = Manager.encodeImage(pendingFile);
             prodotto.setId(KeyGenerator.generateProductKey());
-//            prodotto.setImmagine(pendingFile.getName());
+            String imageBlob = Manager.encodeImage(pendingFile);
             prodotto.setImmagine(imageBlob);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Nessun immagine inserita", ButtonType.OK);
+            alert.show();
+            return;
+        }
+
+        if (FieldChecker.validateNonEmptyString(newProductName.getText())) {
             prodotto.setNome(newProductName.getText());
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    String.format(FieldChecker.emptyFieldMsg, "NOME"), ButtonType.OK);
+            alert.show();
+            return;
+        }
+
+        if (FieldChecker.validateNonEmptyString(newProductBrand.getText())) {
             prodotto.setMarca(newProductBrand.getText());
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    String.format(FieldChecker.emptyFieldMsg, "MARCA"), ButtonType.OK);
+            alert.show();
+            return;
+        }
+
+        if (FieldChecker.validateNonEmptyString(newProductPrice.getText()) &&
+                FieldChecker.validateNumerableString(newProductPrice.getText())) {
             prodotto.setPrezzo(Float.valueOf(newProductPrice.getText()));
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    "Il prezzo inserito non è valido.", ButtonType.OK);
+            alert.show();
+            return;
+        }
+
+        if (newProductCategory.getValue() != null) {
             prodotto.setCategoria(newProductCategory.getValue());
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    String.format(FieldChecker.emptyFieldMsg, "CATEGORIA"), ButtonType.OK);
+            alert.show();
+            return;
+        }
+
+        if (newProductTag.getValue() != null) {
             prodotto.setCaratteristiche(newProductTag.getValue());
-            prodotto.setQuantita(newProductQuantity.getValue());
-            prodotto.setDisponibilita(newProductAvailability.getValue());
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    String.format(FieldChecker.emptyFieldMsg, "CARATTERISTICA"), ButtonType.OK);
+            alert.show();
+            return;
+        }
 
-//            boolean imageInserted = Manager.saveResource(pendingFile);
-//            if (imageInserted) {
-//                String uid = Manager.getUIDFromFile();
-//                HttpWrapper httpWrapper = new HttpWrapper();
-//                boolean result = httpWrapper.addProdotto(uid, prodotto);
-//                if (result) stage.close();
-//            }
+        prodotto.setQuantita(newProductQuantity.getValue());
+        prodotto.setDisponibilita(newProductAvailability.getValue());
 
-            String uid = Manager.getUIDFromFile();
-            HttpWrapper httpWrapper = new HttpWrapper();
-            boolean result = httpWrapper.addProdotto(uid, prodotto);
-            if (result) stage.close();
-            else; //TODO
+        String uid = Manager.getUIDFromFile();
+        HttpWrapper httpWrapper = new HttpWrapper();
+        boolean result = httpWrapper.addProdotto(uid, prodotto);
+        if (result) stage.close();
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Errore durante l'inserimento del prodotto", ButtonType.OK);
+            alert.show();
         }
     }
 
